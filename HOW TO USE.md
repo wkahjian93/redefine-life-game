@@ -2,6 +2,8 @@
 
 A game you play **with** people, not a presentation you give **at** them.
 
+**App link:** https://wkahjian93.github.io/redefine-life-game/
+
 ---
 
 ## Before your first game (one time, 2 minutes)
