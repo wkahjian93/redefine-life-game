@@ -14,7 +14,7 @@ A game you play **with** people, not a presentation you give **at** them.
 3. Leave the **illustrative assumptions** alone unless you can explain why you changed them.
 4. Tap **📚 Sources** once so you know where every number comes from. Prospects will ask.
 
-Top bar, on every screen: **⌂** home · **中文 / EN** switch language at any time · **🔊 / 🔇** sound.
+Top bar, on every screen: **⌂** home · **中文 / EN** switch language at any time · **🔊 / 🔇** all sound on/off. Background music starts on the first tap; turn just the music off in **⚙️ Settings → Background music** (handy in a quiet café).
 
 ---
 

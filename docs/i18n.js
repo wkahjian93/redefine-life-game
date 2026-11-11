@@ -111,6 +111,7 @@
     defaultMode: 'Default card mode', assumptions: 'Illustrative assumptions', assumpNote: 'These are not real-world facts. Change them only if you can explain why.',
     a_promo: 'Promotion pay rise (%)', a_saveRate: 'Savings return (% a year)', a_investRate: 'Investment return (% a year)', a_epfRate: 'EPF growth (% a year)',
     a_indepAge: 'Age a child becomes independent', a_ciYears: 'Years to recover from critical illness', a_parentYears: 'Years of parents’ support', a_retireAge: 'Retirement age',
+    music: 'Background music', on: 'On', off: 'Off', musicNote: 'Starts on the first tap. The 🔊 button in the top bar mutes everything.',
     resetDefaults: 'Reset to defaults', save: 'Save', sourcesSub: 'Every real figure used in the game, with its source and date.', openSource: 'Open source ↗',
     leaveQ: 'Leave this game?', newFullQ: 'Start a new game? This clears the current player’s answers.', clearQ: 'Clear this player’s answers and start a new game?'
   };
@@ -222,6 +223,7 @@
     defaultMode: '默认发卡方式', assumptions: '示意假设', assumpNote: '这些不是真实世界的事实。只有在你能解释原因时才更改。',
     a_promo: '升职加薪（%）', a_saveRate: '储蓄回报（每年 %）', a_investRate: '投资回报（每年 %）', a_epfRate: '公积金增长（每年 %）',
     a_indepAge: '孩子独立的年龄', a_ciYears: '危疾休养年数', a_parentYears: '供养父母的年数', a_retireAge: '退休年龄',
+    music: '背景音乐', on: '开', off: '关', musicNote: '第一次点屏幕时开始播放。顶部的 🔊 按钮可以关掉所有声音。',
     resetDefaults: '恢复默认', save: '保存', sourcesSub: '游戏里用到的每个真实数字，以及来源和日期。', openSource: '打开来源 ↗',
     leaveQ: '要离开这个游戏吗？', newFullQ: '开始新游戏？这会清除目前玩家的答案。', clearQ: '清除这位玩家的答案并开始新游戏？'
   };

@@ -326,6 +326,7 @@
     <label class="field"><span>${t('agentName')}</span><input id="s_name" value="${esc(settings.name)}"/></label>
     <label class="field"><span>${t('agentPhone')}</span><input id="s_phone" inputmode="tel" value="${esc(settings.phone)}"/></label>
     <label class="field"><span>${t('agency')}</span><input id="s_agency" value="${esc(settings.agency)}"/></label></div>
+    <div class="card"><h3>🎵 ${t('music')}</h3><div class="row2"><button class="btn ${S.musicOn ? 'hot' : ''}" data-act="music" data-on="1">${t('on')}</button><button class="btn ${S.musicOn ? '' : 'hot'}" data-act="music" data-on="0">${t('off')}</button></div><p class="small">${t('musicNote')}</p></div>
     <div class="card"><h3>${t('defaultMode')}</h3><div class="row2"><button class="btn ${settings.mode === 'whatif' ? 'hot' : ''}" data-act="sMode" data-m="whatif">🎴 ${t('whatif')}</button><button class="btn ${settings.mode === 'real' ? 'hot' : ''}" data-act="sMode" data-m="real">🎲 ${t('real')}</button></div></div>
     <div class="card"><h3>${t('assumptions')}</h3><p class="small">${t('assumpNote')}</p>${AKEYS.map(k => `<label class="field"><span>${t('a_' + k)}</span><input type="number" step="0.5" inputmode="decimal" id="a_${k}" value="${settings.A[k]}"/></label>`).join('')}
     <button class="btn ghost" data-act="resetA">${t('resetDefaults')}</button></div>
@@ -391,6 +392,7 @@
       saveSummary() { const r = results(); const c = window.RLG_CARDS.summary({ G, r, settings, lang, t, rm }); window.RLG_CARDS.download(c, 'REDEFINE-needs-summary.png'); },
       print() { window.print(); },
       newFull() { if (!confirm(t('clearQ'))) return; store.del('rlg.full'); G = null; newFull(); },
+      music() { S.setMusic(b.dataset.on === '1'); document.querySelectorAll('[data-act="music"]').forEach(x => x.classList.toggle('hot', x === b)); },
       sMode() { settings.mode = b.dataset.m; document.querySelectorAll('[data-act="sMode"]').forEach(x => x.classList.toggle('hot', x === b)); },
       resetA() { AKEYS.forEach(k => { document.getElementById('a_' + k).value = D.DEFAULT_ASSUMPTIONS[k]; }); },
       saveSettings() {
