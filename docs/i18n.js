@@ -133,7 +133,8 @@
     r_cancer: 'At the top end, cancer treatment can cost about as much as EPF’s basic retirement savings. Most cases cost less than the maximum.',
     r_baby: 'Close one! About RM42,715 (an estimate), just under the cheapest new Myvi.',
     guessedRight: 'Score {pts} · {n}/3 right', shareText: 'I scored {pts} as {type}! Can you beat me? 🎲 REDEFINE Life Game',
-    timer: 'Quick game timer', timerNote: '10 seconds per card, with bonus points for speed. Turn it off for a relaxed pace.'
+    timer: 'Quick game timer', timerNote: '10 seconds per card, with bonus points for speed. Turn it off for a relaxed pace.',
+    waChoose: 'Send with which app?', waNormal: 'WhatsApp', waBiz: 'WhatsApp Business', waChooseNote: 'If WhatsApp Business is not installed, it opens normal WhatsApp instead.'
   };
   const zh = {
     home: '主页', appShort: '人生游戏', sound: '声音', close: '关闭', title: 'REDEFINE 人生游戏',
@@ -264,7 +265,8 @@
     r_cancer: '最贵的癌症治疗，费用差不多等于公积金局的基本退休储蓄。大部分病例没到最高额。',
     r_baby: '很接近！约 RM42,715（估计数字），只比最便宜的全新 Myvi 少一点。',
     guessedRight: '得分 {pts} · 答对 {n}/3', shareText: '我是「{type}」，拿了 {pts} 分！你能赢我吗？🎲 REDEFINE 人生游戏',
-    timer: '快速游戏计时', timerNote: '每张卡 10 秒，答得快有加分。想轻松玩可以关掉。'
+    timer: '快速游戏计时', timerNote: '每张卡 10 秒，答得快有加分。想轻松玩可以关掉。',
+    waChoose: '用哪个应用发送？', waNormal: 'WhatsApp', waBiz: 'WhatsApp Business', waChooseNote: '如果没有安装 WhatsApp Business，会改用普通 WhatsApp 打开。'
   };
   root.RLG_I18N = { en, zh };
 })(this);

@@ -411,7 +411,14 @@
       guess() { answer(b.dataset.g); },
       next() { Q.phase = 'follow'; render(); },
       follow() { Q.answers[Q.i].follow = +b.dataset.k; if (Q.i < Q.qs.length - 1) { Q.i++; Q.phase = 'guess'; Q.deadline = Date.now() + ROUND_MS + 400; render(); } else { Q.result = { ...R.personality(Q.answers), score: Q.score }; go('quickResult'); } },
-      wa() { window.open(waLink(), '_blank'); },
+      wa() {
+        // Android can open a chosen app (WhatsApp or WhatsApp Business); other phones open whichever WhatsApp is installed.
+        if (!/Android/i.test(navigator.userAgent)) { window.open(waLink(), '_blank'); return; }
+        const link = waLink(), q = link.split('?')[1];
+        const biz = 'intent://send?phone=' + R.waNumber(settings.phone) + '&' + q + '#Intent;scheme=whatsapp;package=com.whatsapp.w4b;S.browser_fallback_url=' + encodeURIComponent(link) + ';end';
+        modal('<h3>' + t('waChoose') + '</h3><a class="btn wide hot" data-close href="' + esc(link) + '" target="_blank" rel="noopener">💬 ' + t('waNormal') + '</a>' +
+          '<a class="btn wide cool" data-close href="' + esc(biz) + '">💼 ' + t('waBiz') + '</a><p class="small">' + t('waChooseNote') + '</p>');
+      },
       saveCard() { window.RLG_CARDS.download(Q.canvas, 'REDEFINE-' + Q.result.type + '.png'); },
       shareCard() { window.RLG_CARDS.share(Q.canvas, 'REDEFINE-' + Q.result.type + '.png', t('shareText', { type: t('t_' + Q.result.type), pts: Q.result.score }) + (location.protocol === 'https:' ? ' ' + location.origin + location.pathname : '')); },
       toDreams() { step('dreams'); },
