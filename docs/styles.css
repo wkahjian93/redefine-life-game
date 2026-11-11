@@ -110,3 +110,20 @@ input:focus{outline:none;border-color:var(--teal)}
   .rhead{-webkit-print-color-adjust:exact;print-color-adjust:exact}.need{-webkit-print-color-adjust:exact;print-color-adjust:exact;padding:6px 10px;margin:4px 0}
   #app{max-width:none}
 }
+/* quick game: Higher or Lower */
+.qbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.score{background:var(--navy);color:#fff;border-radius:999px;padding:6px 14px;font-size:16px}.score b{color:var(--sun);font-size:19px}.streak{margin-left:4px}
+.hl-wrap{padding:6px 0}
+.hlcard{position:relative;background:#fff;border-radius:26px;padding:26px 16px 14px;text-align:center;box-shadow:0 8px 24px rgba(20,33,61,.14);touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab;border:4px solid transparent;transition:border-color .15s,background .15s}
+.hlcard.up{border-color:var(--green);background:#E3F6EC}.hlcard.down{border-color:var(--coral);background:#FFF0EC}
+.hl-a span,.hl-b span{display:block;font-size:46px;line-height:1.15}.hl-a b{font-size:21px;display:block;line-height:1.25}.hl-b b{font-size:18px;display:block;line-height:1.3}
+.hl-vs{margin:12px auto;display:inline-block;background:var(--sun);border-radius:999px;padding:5px 14px;font-weight:800;font-size:14px}
+.hl-hint{color:var(--muted);font-size:13px;margin-top:12px}
+.ring{--p:100%;position:absolute;top:10px;right:10px;width:48px;height:48px;border-radius:50%;background:conic-gradient(var(--teal) var(--p),rgba(20,33,61,.1) 0);display:grid;place-items:center}
+.ring span{background:#fff;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-weight:800}
+.ring.hurry{background:conic-gradient(var(--red) var(--p),rgba(20,33,61,.1) 0);animation:pulse .5s infinite}
+.hlbtns .btn{font-size:20px;min-height:64px;color:#fff}.btn.hi{background:var(--green);box-shadow:0 4px 0 #0f5e3c}.btn.lo{background:var(--coral);box-shadow:0 4px 0 #c94b30}
+.meter{margin:12px 0;text-align:left}.mrow{display:grid;grid-template-columns:32px 1fr auto;gap:8px;align-items:center;margin:8px 0;font-size:15px}.mrow span{font-size:24px}
+.mrow .bar{height:16px}.mrow .bar i{background:var(--coral);transition:width 1s cubic-bezier(.2,.8,.2,1)}.mrow .cmpbar i{background:var(--navy)}
+.pts{display:inline-block;background:var(--sun);border-radius:999px;padding:6px 16px;font-weight:800;font-size:18px}.pts.zero{background:#eee;color:var(--muted)}
+@keyframes pulse{50%{transform:scale(1.12)}}

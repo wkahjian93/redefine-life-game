@@ -41,7 +41,7 @@
     x.font = `800 36px ${FONT}`; x.fillText('👀 ' + t('watchOut'), 130, y2 + 30);
     x.font = `500 34px ${FONT}`; wrap(x, t('wo_' + res.type), 130, y2 + 78, W - 260, 44, 2);
     x.textAlign = 'center'; x.fillStyle = '#fff';
-    x.font = `700 40px ${FONT}`; x.fillText(t('guessedRight', { n: res.right }), W / 2, y + 410);
+    x.font = `700 40px ${FONT}`; x.fillText(t('guessedRight', { n: res.right, pts: res.score || 0 }), W / 2, y + 410);
     x.font = `500 30px ${FONT}`; x.globalAlpha = 0.9; x.fillText(t('playedWith', { name: settings.name }), W / 2, H - 70); x.globalAlpha = 1;
     return c;
   }

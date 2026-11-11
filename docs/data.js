@@ -39,7 +39,17 @@
       url: 'https://www.nst.com.my/amp/business/corporate/2024/12/1147195/epf-raises-basic-retirement-income-benchmark-62pct-rm390k-bttv' },
     F13: { firstYear: 42715, childcare: 670, en: 'New baby: about RM42,715 from pregnancy to first birthday; childcare RM670 a month', zh: '新生儿：怀孕到一岁约 RM42,715；托儿每月 RM670',
       src: 'iMoney estimate (both parents working); EPF Belanjawanku 2024/25 childcare', date: '2024–2025',
-      url: 'https://www.imoney.my/articles/malaysia-declining-birth-rate-2025-causes-costs-economic-impact' }
+      url: 'https://www.imoney.my/articles/malaysia-declining-birth-rate-2025-causes-costs-economic-impact' },
+    // Everyday comparison items for the Quick game (approved by the user on 2026-11-11)
+    C1: { min: 46500, max: 59900, en: 'New Perodua Myvi: RM46,500–RM59,900 on the road', zh: '全新 Perodua Myvi：上路价 RM46,500–RM59,900',
+      src: 'CarBase.my and paultan.org price listings (no official Perodua price list found)', date: 'mid-2026',
+      url: 'https://paultan.org/2026/06/22/perodua-myvi-price-specs-variants-and-the-next-gen/' },
+    C2: { rm: 5999, en: 'iPhone 17 Pro Max (256GB): RM5,999 at launch', zh: 'iPhone 17 Pro Max（256GB）：发售价 RM5,999',
+      src: 'Apple Malaysia launch pricing, reported by Malay Mail and SoyaCincau', date: 'Sep 2025',
+      url: 'https://www.malaymail.com/news/tech-gadgets/2025/09/10/iphone-17-and-iphone-17-pro-malaysia-heres-the-official-pricing-pre-order-opens-september-12/190591' },
+    C3: { malaysia: 7017, penang: 7386, en: 'Median monthly household income: Malaysia RM7,017 / Penang RM7,386', zh: '家庭月收入中位数：全国 RM7,017 / 槟城 RM7,386',
+      src: 'DOSM Household Income Survey 2024', date: 'Oct 2025',
+      url: 'https://www.dosm.gov.my/portal-main/release-content/household-income-survey-report--malaysia--states-2024' }
   };
 
   // Illustrative assumptions the agent can edit in Settings (not real-world facts).

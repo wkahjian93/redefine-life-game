@@ -34,3 +34,17 @@ Dreams: 🎓 Kids' education RM100k · 🌴 Retire comfortably RM390k · ✈️ 
 **Pain point check:** no slides. Daniel chose his own dreams and money splits, saw his own medical card work (an honest ✅), and then saw what 3 years without income does. He discovered the CI and income-protection gaps himself, with formulas he can check. The one-page summary gives him and the agent a reason to meet again.
 
 Also checked: **Real odds** mode (3 stages, all calm; chance shown 1.5–1.7% per stage), the Chinese screens, the summary as an image (EN + ZH) and as a PDF, and **offline**: the app reopened with the server switched off.
+
+## Quick Mode v2: Higher or Lower (11 Nov 2026, later the same day)
+
+The Quick game was rebuilt as a swipe game with a score. Rule checks: `node test.js` gave **49 passed, 0 failed** (including: every round's answer matches its sourced figures, and every game has 3 topics and at least one "Lower").
+
+| Step | What the player saw / did |
+|---|---|
+| Card 1 | 👶 "A baby's first year" vs 🚗 "The cheapest new Perodua Myvi (RM46,500)". Tapped **Lower** ✅ → "It's LOWER", about RM42,715, **+150 points** |
+| Follow-up | "Who counts on your income?" → *Me and my partner* |
+| Card 2 | 🐷 "Malaysians whose savings would last 3 months or less" vs "Half of us (50%)". **Swiped up** ✅ → 57%, **+175 points**, 🔥×2 streak |
+| Card 3 | 🏥 "One private hospital visit" vs "A typical household's monthly income (RM7,017)". Let the **timer run out** → ⏰ "Time's up!", real figure RM10,700 shown, no points, streak reset |
+| Result | **The Planner 🧭**, score **325**, 2/3 right (samples/quick-card-EN-v2.png) |
+
+**Pain point check:** the stranger is now playing (swiping, racing a timer, building a streak) rather than answering a quiz, and the score gives them a reason to challenge a friend.

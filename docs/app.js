@@ -7,7 +7,7 @@
     set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} },
     del(k) { try { localStorage.removeItem(k); } catch (e) {} }
   };
-  const DEFAULT_SETTINGS = { name: 'Wong Kah Jian', phone: '019-4783328', agency: 'REDEFINE · WONG KAH JIAN Agency', mode: 'whatif', A: { ...D.DEFAULT_ASSUMPTIONS } };
+  const DEFAULT_SETTINGS = { name: 'Wong Kah Jian', phone: '019-4783328', agency: 'REDEFINE · WONG KAH JIAN Agency', mode: 'whatif', timer: true, A: { ...D.DEFAULT_ASSUMPTIONS } };
   let settings = Object.assign({}, DEFAULT_SETTINGS, store.get('rlg.settings', {}));
   settings.A = Object.assign({}, D.DEFAULT_ASSUMPTIONS, settings.A || {});
   let lang = store.get('rlg.lang', (navigator.language || '').startsWith('zh') ? 'zh' : 'en');
@@ -31,6 +31,7 @@
   function go(s) { screen = s; render(); window.scrollTo(0, 0); }
   function render() {
     document.documentElement.lang = lang === 'zh' ? 'zh-Hans' : 'en';
+    clearInterval(tick); tick = null;
     const fn = SCREENS[screen] || SCREENS.home;
     $app.innerHTML = topbar() + `<main class="screen s-${screen}">${fn()}</main>`;
     const after = AFTER[screen]; if (after) after();
@@ -66,27 +67,72 @@
     ${G && G.step && G.step !== 'intro' ? `<button class="btn ghost wide" data-act="resume">↩ ${t('resume')}</button>` : ''}
     <nav class="links"><button data-act="settings">⚙️ ${t('settings')}</button><button data-act="sources">📚 ${t('sources')}</button></nav>`;
 
-  /* ---------- QUICK MODE ---------- */
-  function startQuick() { Q = { qs: R.pickQuick(), i: 0, phase: 'guess', answers: [] }; S.play('drum'); go('quick'); }
+  /* ---------- QUICK MODE: Higher or Lower ---------- */
+  let tick = null;
+  const ROUND_MS = 10000;
+  function startQuick() { Q = { qs: R.pickQuick(), i: 0, phase: 'guess', answers: [], score: 0, streak: 0, deadline: Date.now() + ROUND_MS + 400 }; S.play('drum'); go('quick'); }
+  const qFmt = (q, v) => q.unit === 'pct' ? Math.round(v) + '%' : rm(v);
+  function answer(g) {   // g = 'hi' | 'lo' | null (time ran out)
+    clearInterval(tick); tick = null;
+    const q = Q.qs[Q.i], correct = g === q.answer, left = settings.timer ? Math.max(0, Q.deadline - Date.now()) / 1000 : 0;
+    Q.streak = correct ? Q.streak + 1 : 0;
+    const pts = correct ? R.scoreRound(left, Q.streak, settings.timer) : 0; Q.score += pts;
+    Q.answers[Q.i] = { q, guess: g, correct, pts }; Q.phase = 'reveal';
+    S.play(correct ? 'good' : 'bad'); render(); if (correct) confetti(20);
+  }
   SCREENS.quick = () => {
     const q = Q.qs[Q.i], a = Q.answers[Q.i] || {};
     const dots = Q.qs.map((_, k) => `<i class="${k < Q.i || (k === Q.i && Q.phase !== 'guess') ? 'on' : ''}"></i>`).join('');
-    let body = `<div class="dots">${dots}</div><div class="qnum">${t('qOf', { n: Q.i + 1, of: Q.qs.length })}</div>`;
+    let body = `<div class="qbar"><div class="dots">${dots}</div><div class="score">⭐ <b>${Q.score}</b>${Q.streak > 1 ? ` <span class="streak">🔥×${Q.streak}</span>` : ''}</div></div>`;
     if (Q.phase === 'guess') {
-      body += `<h2 class="q pop">${t('q_' + q.id)}</h2><div class="opts">` +
-        q.opts.map((o, k) => `<button class="btn opt" data-act="guess" data-k="${k}">${esc(o)}</button>`).join('') + '</div>';
+      body += `<div class="hl-wrap"><div id="hlcard" class="hlcard pop">
+        ${settings.timer ? '<div class="ring" id="ring"><span id="ringn">10</span></div>' : ''}
+        <div class="hl-a"><span>${q.ea}</span><b>${t('qa_' + q.id)}</b></div>
+        <div class="hl-vs">${t(q.unit === 'pct' ? 'hlThanPct' : 'hlThan')}</div>
+        <div class="hl-b"><span>${q.eb}</span><b>${t('qb_' + q.id)}</b></div>
+        <div class="hl-hint">↕ ${t('swipeHint')}</div></div></div>
+        <div class="row2 hlbtns"><button class="btn hi" data-act="guess" data-g="hi">⬆️ ${t('higher')}</button><button class="btn lo" data-act="guess" data-g="lo">⬇️ ${t('lower')}</button></div>`;
     } else if (Q.phase === 'reveal') {
-      const ok = a.guess === q.answer;
-      body += `<div class="reveal pop ${ok ? 'ok' : 'miss'}"><div class="react">${ok ? '🎯' : (q.low.includes(a.guess) ? '😱' : '😮')}</div>
-        <div class="rtitle">${ok ? t('right') : (q.low.includes(a.guess) ? t('tooLow') : t('tooHigh'))}</div>
-        <div class="real">${t('realFig')}: <b>${esc(q.opts[q.answer])}</b></div>
-        <p>${t('r_' + q.id)}</p><div class="src">${t('source')}: ${esc(F[q.fig].src)} (${esc(F[q.fig].date)})${q.id === 'bypass' ? '; ' + esc(F.F10.src) : ''}</div></div>
+      const ok = a.correct, mx = Math.max(q.val, q.cmpVal);
+      const src = [F[q.fig], q.cmp ? F[q.cmp] : null, q.id === 'bypass' ? F.F10 : null].filter(Boolean).map(f => esc(f.src) + ' (' + esc(f.date) + ')').join('; ');
+      body += `<div class="reveal pop ${ok ? 'ok' : 'miss'}"><div class="react">${ok ? '🎯' : a.guess ? '😮' : '⏰'}</div>
+        <div class="rtitle">${t(q.answer === 'hi' ? 'itsHigher' : 'itsLower')}</div>
+        <div class="meter"><div class="mrow"><span>${q.ea}</span><div class="bar"><i id="barA" data-w="${Math.max(3, q.val / mx * 100)}" style="width:0"></i></div><b id="valA">…</b></div>
+          <div class="mrow"><span>${q.eb}</span><div class="bar cmpbar"><i style="width:${Math.max(3, q.cmpVal / mx * 100)}%"></i></div><b>${q.cs}</b></div></div>
+        <div class="pts ${ok ? '' : 'zero'}">${ok ? '+' + a.pts + ' ' + t('points') : t(a.guess ? 'noPoints' : 'timeUp')}</div>
+        <p>${t('r_' + q.id)}</p><div class="src">${t('source')}: ${src}</div></div>
         <button class="btn wide hot" data-act="next">${t('next')} →</button>`;
     } else {
-      body += `<h2 class="q pop">${t('f_' + q.id)}</h2><div class="opts">` +
-        q.follow.map((f, k) => `<button class="btn opt" data-act="follow" data-k="${k}">${t(f[1])}</button>`).join('') + '</div>';
+      const f = R.FOLLOW[q.grp];
+      body += `<h2 class="q pop">${t(f.q)}</h2><div class="opts">` +
+        f.opts.map((o, k) => `<button class="btn opt" data-act="follow" data-k="${k}">${t(o[1])}</button>`).join('') + '</div>';
     }
     return body;
+  };
+  AFTER.quick = () => {
+    const q = Q.qs[Q.i];
+    if (Q.phase === 'guess') {
+      const card = document.getElementById('hlcard'); let y0 = null;
+      const reset = () => { y0 = null; card.style.transform = ''; card.classList.remove('up', 'down'); };
+      card.addEventListener('pointerdown', e => { y0 = e.clientY; card.style.animation = 'none'; try { card.setPointerCapture(e.pointerId); } catch (x) {} });
+      card.addEventListener('pointermove', e => { if (y0 == null) return; const dy = e.clientY - y0;
+        card.style.transform = `translateY(${dy}px) rotate(${dy / 40}deg)`; card.classList.toggle('up', dy < -40); card.classList.toggle('down', dy > 40); });
+      card.addEventListener('pointerup', e => { if (y0 == null) return; const dy = e.clientY - y0; if (Math.abs(dy) > 70) { y0 = null; answer(dy < 0 ? 'hi' : 'lo'); } else reset(); });
+      card.addEventListener('pointercancel', reset);
+      if (settings.timer) {
+        const ring = document.getElementById('ring'), n = document.getElementById('ringn');
+        const upd = () => { const left = Math.max(0, Q.deadline - Date.now());
+          n.textContent = Math.min(ROUND_MS / 1000, Math.ceil(left / 1000)); ring.style.setProperty('--p', Math.min(100, left / ROUND_MS * 100) + '%'); ring.classList.toggle('hurry', left <= 3000);
+          if (!left) answer(null); };
+        upd(); if (Q.phase === 'guess') tick = setInterval(upd, 100);
+      }
+    } else if (Q.phase === 'reveal') {
+      const bar = document.getElementById('barA'), val = document.getElementById('valA'), t0 = Date.now(), ms = 900;
+      setTimeout(() => { bar.style.width = bar.dataset.w + '%'; }, 60);
+      const iv = setInterval(() => { const k = Math.min(1, (Date.now() - t0) / ms);
+        if (!val.isConnected) return clearInterval(iv);
+        if (k < 1) val.textContent = qFmt(q, q.val * (1 - Math.pow(1 - k, 3))); else { val.textContent = t('qs_' + q.id); clearInterval(iv); } }, 40);
+    }
   };
   SCREENS.quickResult = () => {
     const r = Q.result, ty = r.type;
@@ -327,6 +373,7 @@
     <label class="field"><span>${t('agentPhone')}</span><input id="s_phone" inputmode="tel" value="${esc(settings.phone)}"/></label>
     <label class="field"><span>${t('agency')}</span><input id="s_agency" value="${esc(settings.agency)}"/></label></div>
     <div class="card"><h3>🎵 ${t('music')}</h3><div class="row2"><button class="btn ${S.musicOn ? 'hot' : ''}" data-act="music" data-on="1">${t('on')}</button><button class="btn ${S.musicOn ? '' : 'hot'}" data-act="music" data-on="0">${t('off')}</button></div><p class="small">${t('musicNote')}</p></div>
+    <div class="card"><h3>⏱️ ${t('timer')}</h3><div class="row2"><button class="btn ${settings.timer ? 'hot' : ''}" data-act="qtimer" data-on="1">${t('on')}</button><button class="btn ${settings.timer ? '' : 'hot'}" data-act="qtimer" data-on="0">${t('off')}</button></div><p class="small">${t('timerNote')}</p></div>
     <div class="card"><h3>${t('defaultMode')}</h3><div class="row2"><button class="btn ${settings.mode === 'whatif' ? 'hot' : ''}" data-act="sMode" data-m="whatif">🎴 ${t('whatif')}</button><button class="btn ${settings.mode === 'real' ? 'hot' : ''}" data-act="sMode" data-m="real">🎲 ${t('real')}</button></div></div>
     <div class="card"><h3>${t('assumptions')}</h3><p class="small">${t('assumpNote')}</p>${AKEYS.map(k => `<label class="field"><span>${t('a_' + k)}</span><input type="number" step="0.5" inputmode="decimal" id="a_${k}" value="${settings.A[k]}"/></label>`).join('')}
     <button class="btn ghost" data-act="resetA">${t('resetDefaults')}</button></div>
@@ -361,12 +408,12 @@
       full() { if (G && G.step && G.step !== 'intro' && G.step !== 'summary' && !confirm(t('newFullQ'))) return; newFull(); },
       resume() { go(STEP_SCREEN[G.step]); },
       settings() { go('settings'); }, sources() { go('sources'); },
-      guess() { const k = +b.dataset.k, q = Q.qs[Q.i]; Q.answers[Q.i] = { q, guess: k }; Q.phase = 'reveal'; S.play(k === q.answer ? 'good' : 'bad'); render(); if (k === q.answer) confetti(20); },
+      guess() { answer(b.dataset.g); },
       next() { Q.phase = 'follow'; render(); },
-      follow() { Q.answers[Q.i].follow = +b.dataset.k; if (Q.i < Q.qs.length - 1) { Q.i++; Q.phase = 'guess'; render(); } else { Q.result = R.personality(Q.answers); go('quickResult'); } },
+      follow() { Q.answers[Q.i].follow = +b.dataset.k; if (Q.i < Q.qs.length - 1) { Q.i++; Q.phase = 'guess'; Q.deadline = Date.now() + ROUND_MS + 400; render(); } else { Q.result = { ...R.personality(Q.answers), score: Q.score }; go('quickResult'); } },
       wa() { window.open(waLink(), '_blank'); },
       saveCard() { window.RLG_CARDS.download(Q.canvas, 'REDEFINE-' + Q.result.type + '.png'); },
-      shareCard() { window.RLG_CARDS.share(Q.canvas, 'REDEFINE-' + Q.result.type + '.png', t('shareText', { type: t('t_' + Q.result.type) })); },
+      shareCard() { window.RLG_CARDS.share(Q.canvas, 'REDEFINE-' + Q.result.type + '.png', t('shareText', { type: t('t_' + Q.result.type), pts: Q.result.score }) + (location.protocol === 'https:' ? ' ' + location.origin + location.pathname : '')); },
       toDreams() { step('dreams'); },
       dream() { const id = b.dataset.id, k = G.dreams.findIndex(x => x.id === id);
         if (k >= 0) G.dreams.splice(k, 1); else if (G.dreams.length < 3) G.dreams.push({ id, target: id === 'retire' ? F.F12.basic : 0 }); saveG(); render(); },
@@ -393,6 +440,7 @@
       print() { window.print(); },
       newFull() { if (!confirm(t('clearQ'))) return; store.del('rlg.full'); G = null; newFull(); },
       music() { S.setMusic(b.dataset.on === '1'); document.querySelectorAll('[data-act="music"]').forEach(x => x.classList.toggle('hot', x === b)); },
+      qtimer() { settings.timer = b.dataset.on === '1'; store.set('rlg.settings', settings); document.querySelectorAll('[data-act="qtimer"]').forEach(x => x.classList.toggle('hot', x === b)); },
       sMode() { settings.mode = b.dataset.m; document.querySelectorAll('[data-act="sMode"]').forEach(x => x.classList.toggle('hot', x === b)); },
       resetA() { AKEYS.forEach(k => { document.getElementById('a_' + k).value = D.DEFAULT_ASSUMPTIONS[k]; }); },
       saveSettings() {

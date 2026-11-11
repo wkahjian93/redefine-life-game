@@ -4,43 +4,51 @@
   const D = typeof module !== 'undefined' ? require('./data.js') : root.RLG_DATA;
   const F = D.FIG;
 
-  /* ---------------- QUICK MODE ---------------- */
-  // Each question: 4 guesses (index `answer` is right), the real figure, then a "what would you do" tap that feeds the personality.
-  // `low` marks guesses below the real figure (an optimistic guess).
+  /* ---------------- QUICK MODE: Higher or Lower ---------------- */
+  // Each round compares a real cost (fig) with an everyday item (cmp). `answer` says whether the cost is higher ('hi') or lower ('lo').
+  // val / cmpVal are the numbers compared (the cautious end of any range); cs is the comparison's display value.
+  // After each round a "what would you do" tap (FOLLOW[grp]) feeds the personality.
   const QUICK = [
-    { id: 'bypass', fig: 'F1', answer: 2, low: [0, 1],
-      opts: ['RM8,000', 'RM25,000', 'RM70k – 120k', 'RM500,000'],
-      follow: [['guardian', 'q_bypass_f0'], ['planner', 'q_bypass_f1'], ['hustler', 'q_bypass_f2'], ['yolo', 'q_bypass_f3']] },
-    { id: 'months', fig: 'F2', answer: 2, low: [0, 1],
-      opts: ['2', '4', '6', '8'],
-      follow: [['yolo', 'q_months_f0'], ['optimist', 'q_months_f1'], ['hustler', 'q_months_f2'], ['planner', 'q_months_f3']] },
-    { id: 'family', fig: 'F3', answer: 2, low: [0, 1],
-      opts: ['RM3,000', 'RM5,000', 'RM7,440', 'RM12,000'],
-      follow: [['yolo', 'q_family_f0'], ['planner', 'q_family_f1'], ['provider', 'q_family_f2'], ['provider', 'q_family_f3']] },
-    { id: 'angio', fig: 'F6', answer: 1, low: [0],
-      opts: ['RM2,500', 'RM11,700', 'RM40,000', 'RM90,000'],
-      follow: [['guardian', 'q_bypass_f0'], ['planner', 'q_bypass_f1'], ['hustler', 'q_bypass_f2'], ['yolo', 'q_bypass_f3']] },
-    { id: 'retire', fig: 'F12', answer: 2, low: [0, 1],
-      opts: ['RM80,000', 'RM180,000', 'RM390,000', 'RM1.5 million'],
-      follow: [['planner', 'q_retire_f0'], ['hustler', 'q_retire_f1'], ['optimist', 'q_retire_f2'], ['yolo', 'q_retire_f3']] }
+    { id: 'bypass', fig: 'F1', cmp: 'C1', answer: 'hi', grp: 'med', ea: '🫀', eb: '🚗', val: F.F1.min, cmpVal: F.C1.max, cs: 'RM46.5k–59.9k' },
+    { id: 'angio', fig: 'F6', cmp: 'C2', answer: 'hi', grp: 'med', ea: '🩺', eb: '📱', val: F.F6.rm, cmpVal: F.C2.rm, cs: 'RM5,999' },
+    { id: 'stroke', fig: 'F8', cmp: 'C1', answer: 'lo', grp: 'med', ea: '🧠', eb: '🚗', val: F.F8.rm, cmpVal: F.C1.min, cs: 'RM46.5k–59.9k' },
+    { id: 'visit', fig: 'F5', cmp: 'C3', answer: 'hi', grp: 'med', ea: '🏥', eb: '💵', val: F.F5.rm, cmpVal: F.C3.malaysia, cs: 'RM7,017' },
+    { id: 'family', fig: 'F3', cmp: 'C3', answer: 'hi', grp: 'family', ea: '👨‍👩‍👧‍👦', eb: '💵', val: F.F3.rm, cmpVal: F.C3.malaysia, cs: 'RM7,017' },
+    { id: 'months', fig: 'F2', cmp: null, answer: 'hi', grp: 'months', ea: '🐷', eb: '➗', val: F.F2.le3m, cmpVal: 50, cs: '50%', unit: 'pct' },
+    { id: 'cancer', fig: 'F7', cmp: 'F12', answer: 'hi', grp: 'retire', ea: '🎗️', eb: '🌴', val: F.F7.rm, cmpVal: F.F12.basic, cs: 'RM390,000' },
+    { id: 'baby', fig: 'F13', cmp: 'C1', answer: 'lo', grp: 'family', ea: '👶', eb: '🚗', val: F.F13.firstYear, cmpVal: F.C1.min, cs: 'RM46,500' }
   ];
+  const FOLLOW = {
+    med: { q: 'f_bypass', opts: [['guardian', 'q_bypass_f0'], ['planner', 'q_bypass_f1'], ['hustler', 'q_bypass_f2'], ['yolo', 'q_bypass_f3']] },
+    months: { q: 'f_months', opts: [['yolo', 'q_months_f0'], ['optimist', 'q_months_f1'], ['hustler', 'q_months_f2'], ['planner', 'q_months_f3']] },
+    family: { q: 'f_family', opts: [['yolo', 'q_family_f0'], ['planner', 'q_family_f1'], ['provider', 'q_family_f2'], ['provider', 'q_family_f3']] },
+    retire: { q: 'f_retire', opts: [['planner', 'q_retire_f0'], ['hustler', 'q_retire_f1'], ['optimist', 'q_retire_f2'], ['yolo', 'q_retire_f3']] }
+  };
   const TYPES = ['provider', 'guardian', 'planner', 'hustler', 'optimist', 'yolo'];   // order = tie-break
   const TYPE_EMOJI = { provider: '💪', guardian: '🛡️', planner: '🧭', hustler: '🚀', optimist: '🌞', yolo: '👑' };
 
-  // Pick 3 of the 5 questions. Always one medical, one income, then one of family/retire.
+  // Pick 3 rounds: three different topics, always at least one "Lower" answer (so "always swipe up" doesn't win).
   function pickQuick(rnd = Math.random) {
-    const med = rnd() < 0.5 ? 'bypass' : 'angio', last = rnd() < 0.5 ? 'family' : 'retire';
-    return [med, 'months', last].map(id => QUICK.find(q => q.id === id));
+    const any = a => a[Math.floor(rnd() * a.length)];
+    const lo = any(QUICK.filter(q => q.answer === 'lo'));
+    const groups = [...new Set(QUICK.map(q => q.grp))].filter(g => g !== lo.grp).sort(() => rnd() - 0.5).slice(0, 2);
+    const rest = groups.map(g => any(QUICK.filter(q => q.grp === g && q.answer === 'hi')));
+    return [lo, ...rest].sort(() => rnd() - 0.5);
   }
 
-  // answers: [{q, guess, follow}] → { type, scores, right }
+  // Points for a correct answer: 100 + up to 50 for speed (timer on) + 25 for each answer already in the streak.
+  function scoreRound(secsLeft, streak, timerOn) {
+    return 100 + (timerOn ? Math.round(Math.min(10, Math.max(0, secsLeft)) * 5) : 0) + Math.max(0, streak - 1) * 25;
+  }
+
+  // answers: [{q, guess:'hi'|'lo'|null, correct, follow}] → { type, scores, right }
   function personality(answers) {
     const s = Object.fromEntries(TYPES.map(t => [t, 0]));
     let right = 0;
     answers.forEach(a => {
-      if (a.guess === a.q.answer) right++;
-      else if (a.q.low.includes(a.guess)) s.optimist += 0.5;   // guessed the cost too low
-      if (a.follow != null) s[a.q.follow[a.follow][0]] += 1;
+      if (a.correct) right++;
+      else if (a.q.answer === 'hi' && a.guess === 'lo') s.optimist += 0.5;   // guessed the cost too low
+      if (a.follow != null) s[FOLLOW[a.q.grp].opts[a.follow][0]] += 1;
     });
     const type = TYPES.reduce((best, t) => (s[t] > s[best] ? t : best), TYPES[0]);
     return { type, scores: s, right };
@@ -162,6 +170,6 @@
     return { card: rnd() < pStage ? 'ci' : 'smooth', chance: pStage };
   }
 
-  const api = { QUICK, TYPES, TYPE_EMOJI, pickQuick, personality, waNumber, DREAMS, DREAM_EMOJI, CARDS, CARD_EMOJI, stages, simulate, fundDreams, needs, realOddsCard };
+  const api = { QUICK, FOLLOW, scoreRound, TYPES, TYPE_EMOJI, pickQuick, personality, waNumber, DREAMS, DREAM_EMOJI, CARDS, CARD_EMOJI, stages, simulate, fundDreams, needs, realOddsCard };
   if (typeof module !== 'undefined') module.exports = api; else root.RLG_RULES = api;
 })(this);

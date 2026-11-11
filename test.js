@@ -4,15 +4,23 @@ const I = require('./docs/i18n.js').RLG_I18N;
 let pass = 0, fail = 0;
 const ok = (c, m) => { if (c) pass++; else { fail++; console.log('FAIL', m); } };
 
-// Quick mode
+// Quick mode (Higher or Lower)
 ok(R.waNumber('019-4783328') === '60194783328', 'WhatsApp number');
-ok(R.pickQuick().length === 3, '3 questions');
-const qs = ['bypass', 'months', 'family'].map(id => R.QUICK.find(q => q.id === id));
-ok(R.personality([{ q: qs[0], guess: 2, follow: 0 }, { q: qs[1], guess: 2, follow: 3 }, { q: qs[2], guess: 2, follow: 2 }]).right === 3, '3 right');
-ok(R.personality([{ q: qs[0], guess: 0, follow: 3 }, { q: qs[1], guess: 0, follow: 0 }, { q: qs[2], guess: 0, follow: 0 }]).type === 'yolo', 'YOLO');
-ok(R.personality([{ q: qs[0], guess: 2, follow: 1 }, { q: qs[1], guess: 2, follow: 3 }, { q: qs[2], guess: 2, follow: 1 }]).type === 'planner', 'Planner');
-ok(R.personality([{ q: qs[0], guess: 2, follow: 0 }, { q: qs[1], guess: 2, follow: 2 }, { q: qs[2], guess: 2, follow: 2 }]).type === 'provider', 'Provider wins tie');
-R.QUICK.forEach(q => ok(D.FIG[q.fig], 'question has a figure ' + q.id));
+let picksOk = true;
+for (let i = 0; i < 500; i++) { const qs = R.pickQuick(); if (qs.length !== 3 || !qs.some(q => q.answer === 'lo') || new Set(qs.map(q => q.grp)).size !== 3 || new Set(qs).size !== 3) picksOk = false; }
+ok(picksOk, 'every game: 3 rounds, 3 topics, at least one Lower');
+R.QUICK.forEach(q => {
+  ok(D.FIG[q.fig] && (!q.cmp || D.FIG[q.cmp]), 'round has sourced figures ' + q.id);
+  ok((q.val > q.cmpVal) === (q.answer === 'hi') && q.val !== q.cmpVal, 'answer matches the figures ' + q.id);
+  ok(R.FOLLOW[q.grp], 'round has a follow-up ' + q.id);
+});
+ok(R.scoreRound(10, 1, true) === 150 && R.scoreRound(0, 1, true) === 100 && R.scoreRound(8, 3, false) === 150, 'scoring');
+const Qd = id => R.QUICK.find(x => x.id === id), mk = (id, guess, follow) => ({ q: Qd(id), guess, correct: guess === Qd(id).answer, follow });
+ok(R.personality([mk('bypass', 'hi', 3), mk('months', 'hi', 0), mk('family', 'hi', 0)]).type === 'yolo', 'YOLO');
+const pl = R.personality([mk('bypass', 'lo', 1), mk('months', 'lo', 3), mk('cancer', 'hi', 0)]);
+ok(pl.type === 'planner' && pl.scores.optimist === 1 && pl.right === 1, 'Planner; low guesses lean Optimist');
+ok(R.personality([mk('bypass', 'hi', 0), mk('months', 'hi', 2), mk('family', 'hi', 2)]).type === 'provider', 'Provider wins tie');
+ok(R.personality([mk('stroke', null, 0), mk('baby', 'hi', 2), mk('months', 'hi', 1)]).right === 1, 'timeout and wrong Lower score nothing');
 
 // Full mode
 const p = { age: 32, income: 6000, spend: 4500, savings: 20000, investments: 10000, epf: 80000, epfMonthly: 1300, debt: 300000, kids: 1, youngest: 2, parents: 500, life: 100000, ci: 0, med: 50000, premiums: 300 };

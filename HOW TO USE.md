@@ -23,15 +23,18 @@ Top bar, on every screen: **⌂** home · **中文 / EN** switch language at any
 **When:** campus booths, events, cafés, roadshows, cold approaches. Anywhere you need a fun reason for someone to stop.
 
 **Opening line (pick one):**
-- "Quick game, 60 seconds: can you guess what a heart bypass costs in Malaysia? Most people get it wrong 😄"
-- "我们在做一个 60 秒的小游戏：猜猜在马来西亚做心脏搭桥要多少钱？大部分人都猜错 😄"
+- "Quick game, 60 seconds: heart bypass or a new Myvi, which costs more? Swipe to guess 😄"
+- "60 秒小游戏：心脏搭桥和一辆全新 Myvi，哪个比较贵？滑一下来猜 😄"
 
-**How it runs:**
+**How it runs (Higher or Lower):**
 1. Tap **Quick Game** and hand them the phone (it works one-handed).
-2. 3 questions. Each one is a guess, then the real figure with its source, then a quick "what would you do?" tap.
-3. They get a **money personality card** (The Provider, The Guardian, The Planner, The Hustler, The Optimist or The YOLO King).
-4. Ask them to **Save image** or **Share** it. It's made to be posted.
-5. Point at the big button: **"WhatsApp me for your full result and a free 5-minute check."** WhatsApp opens with the message already typed, and **they press send themselves**.
+2. 3 cards. Each card puts a real cost next to something everyday (a Myvi, an iPhone, a typical family's monthly income). They **swipe up for Higher, down for Lower**, or tap the big buttons.
+3. Each card has a **10-second timer**. A right answer scores 100 points, plus up to 50 for speed and a bonus for a 🔥 streak. Not every answer is "Higher": every game has at least one "Lower".
+4. After each card the real figure is revealed with its source, then one quick "what would you do?" tap.
+5. They get a **money personality card with their score**. Ask them to **Save image** or **Share**: the share message says "Can you beat me?" with the game link.
+6. Point at the big button: **"WhatsApp me for your full result and a free 5-minute check."** WhatsApp opens with the message already typed, and **they press send themselves**.
+
+**Tip:** for older or slower-paced prospects, turn the timer off in **⚙️ Settings → Quick game timer**.
 
 **Your follow-up when the WhatsApp arrives:** reply the same day, mention their personality type, and offer the 5-minute check, or a Full Mode game over coffee.
 

@@ -113,7 +113,27 @@
     a_indepAge: 'Age a child becomes independent', a_ciYears: 'Years to recover from critical illness', a_parentYears: 'Years of parents’ support', a_retireAge: 'Retirement age',
     music: 'Background music', on: 'On', off: 'Off', musicNote: 'Starts on the first tap. The 🔊 button in the top bar mutes everything.',
     resetDefaults: 'Reset to defaults', save: 'Save', sourcesSub: 'Every real figure used in the game, with its source and date.', openSource: 'Open source ↗',
-    leaveQ: 'Leave this game?', newFullQ: 'Start a new game? This clears the current player’s answers.', clearQ: 'Clear this player’s answers and start a new game?'
+    leaveQ: 'Leave this game?', newFullQ: 'Start a new game? This clears the current player’s answers.', clearQ: 'Clear this player’s answers and start a new game?',
+    // quick game v2: Higher or Lower (later keys replace earlier ones of the same name)
+    hlThan: 'costs HIGHER or LOWER than', hlThanPct: 'is HIGHER or LOWER than', higher: 'Higher', lower: 'Lower', swipeHint: 'Swipe up or down, or tap a button',
+    itsHigher: 'It’s HIGHER ⬆️', itsLower: 'It’s LOWER ⬇️', points: 'points', noPoints: 'No points this round', timeUp: 'Time’s up!',
+    qa_bypass: 'A heart bypass at a private hospital', qb_bypass: 'A new Perodua Myvi (RM46.5k–59.9k)', qs_bypass: 'RM70k–120k',
+    qa_angio: 'An angiogram (heart check) at a private hospital', qb_angio: 'A new iPhone 17 Pro Max (RM5,999)', qs_angio: 'RM11,700',
+    qa_stroke: 'A stroke stay at a private hospital (average)', qb_stroke: 'A new Perodua Myvi (RM46.5k–59.9k)', qs_stroke: 'RM15,671',
+    qa_visit: 'One private hospital visit (average)', qb_visit: 'A typical (median) household’s monthly income (RM7,017)', qs_visit: 'RM10,700',
+    qa_family: 'Monthly costs for a couple with 2 kids in the Klang Valley', qb_family: 'A typical (median) household’s monthly income (RM7,017)', qs_family: 'RM7,440',
+    qa_months: 'Malaysians whose savings would last 3 months or less without income', qb_months: 'Half of us (50%)', qs_months: '57%',
+    qa_cancer: 'Cancer treatment at its most expensive', qb_cancer: 'EPF’s basic retirement savings at 60 (RM390,000)', qs_cancer: 'Up to RM395,000',
+    qa_baby: 'A baby’s first year, from pregnancy to first birthday', qb_baby: 'The cheapest new Perodua Myvi (RM46,500)', qs_baby: 'About RM42,715',
+    r_bypass: 'One operation can cost as much as two Myvis. Heart disease is Malaysia’s No. 1 cause of death (13% of certified deaths).',
+    r_angio: 'About two iPhones, just for the check, not the treatment. That’s the median, so half of patients pay more.',
+    r_stroke: 'Good news: the hospital stay itself averages RM15,671, well below a Myvi. Rehab and time off work come on top.',
+    r_visit: 'One average private hospital visit costs more than a typical household earns in a month.',
+    r_family: 'RM7,440 a month for a family of four, more than the typical household income of RM7,017. In Penang, the average household spends RM5,850.',
+    r_cancer: 'At the top end, cancer treatment can cost about as much as EPF’s basic retirement savings. Most cases cost less than the maximum.',
+    r_baby: 'Close one! About RM42,715 (an estimate), just under the cheapest new Myvi.',
+    guessedRight: 'Score {pts} · {n}/3 right', shareText: 'I scored {pts} as {type}! Can you beat me? 🎲 REDEFINE Life Game',
+    timer: 'Quick game timer', timerNote: '10 seconds per card, with bonus points for speed. Turn it off for a relaxed pace.'
   };
   const zh = {
     home: '主页', appShort: '人生游戏', sound: '声音', close: '关闭', title: 'REDEFINE 人生游戏',
@@ -225,7 +245,26 @@
     a_indepAge: '孩子独立的年龄', a_ciYears: '危疾休养年数', a_parentYears: '供养父母的年数', a_retireAge: '退休年龄',
     music: '背景音乐', on: '开', off: '关', musicNote: '第一次点屏幕时开始播放。顶部的 🔊 按钮可以关掉所有声音。',
     resetDefaults: '恢复默认', save: '保存', sourcesSub: '游戏里用到的每个真实数字，以及来源和日期。', openSource: '打开来源 ↗',
-    leaveQ: '要离开这个游戏吗？', newFullQ: '开始新游戏？这会清除目前玩家的答案。', clearQ: '清除这位玩家的答案并开始新游戏？'
+    leaveQ: '要离开这个游戏吗？', newFullQ: '开始新游戏？这会清除目前玩家的答案。', clearQ: '清除这位玩家的答案并开始新游戏？',
+    hlThan: '比它更贵还是更便宜？', hlThanPct: '比它更多还是更少？', higher: '更高', lower: '更低', swipeHint: '上滑或下滑，或点按钮',
+    itsHigher: '答案是：更高 ⬆️', itsLower: '答案是：更低 ⬇️', points: '分', noPoints: '这一题没有分', timeUp: '时间到！',
+    qa_bypass: '私立医院心脏搭桥手术', qb_bypass: '一辆全新 Perodua Myvi（RM46.5k–59.9k）', qs_bypass: 'RM70k–120k',
+    qa_angio: '私立医院心血管造影检查', qb_angio: '一部全新 iPhone 17 Pro Max（RM5,999）', qs_angio: 'RM11,700',
+    qa_stroke: '私立医院中风住院（平均）', qb_stroke: '一辆全新 Perodua Myvi（RM46.5k–59.9k）', qs_stroke: 'RM15,671',
+    qa_visit: '私立医院住院一次（平均）', qb_visit: '一般家庭（中位数）一个月的收入（RM7,017）', qs_visit: 'RM10,700',
+    qa_family: '巴生谷夫妇加 2 个孩子的每月开销', qb_family: '一般家庭（中位数）一个月的收入（RM7,017）', qs_family: 'RM7,440',
+    qa_months: '没收入后储蓄撑不过 3 个月的马来西亚人', qb_months: '我们当中的一半（50%）', qs_months: '57%',
+    qa_cancer: '最贵的癌症治疗', qb_cancer: '公积金局的 60 岁基本退休储蓄（RM390,000）', qs_cancer: '可高达 RM395,000',
+    qa_baby: '宝宝的第一年（从怀孕到一岁）', qb_baby: '最便宜的全新 Perodua Myvi（RM46,500）', qs_baby: '约 RM42,715',
+    r_bypass: '一次手术可以贵过两辆 Myvi。心脏病是马来西亚头号死因（占医学认证死亡的 13%）。',
+    r_angio: '大约两部 iPhone，而且只是检查，不是治疗。这是中位数，一半病人付得更多。',
+    r_stroke: '好消息：住院本身平均 RM15,671，比一辆 Myvi 便宜很多。复健和停工的损失另外算。',
+    r_visit: '平均住一次私立医院，就超过一般家庭一个月的收入。',
+    r_family: '四口之家每月 RM7,440，比一般家庭收入 RM7,017 还高。槟城家庭平均每月开销 RM5,850。',
+    r_cancer: '最贵的癌症治疗，费用差不多等于公积金局的基本退休储蓄。大部分病例没到最高额。',
+    r_baby: '很接近！约 RM42,715（估计数字），只比最便宜的全新 Myvi 少一点。',
+    guessedRight: '得分 {pts} · 答对 {n}/3', shareText: '我是「{type}」，拿了 {pts} 分！你能赢我吗？🎲 REDEFINE 人生游戏',
+    timer: '快速游戏计时', timerNote: '每张卡 10 秒，答得快有加分。想轻松玩可以关掉。'
   };
   root.RLG_I18N = { en, zh };
 })(this);
