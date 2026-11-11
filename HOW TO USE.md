@@ -32,15 +32,17 @@ Top bar, on every screen: **⌂** home · **中文 / EN** switch language at any
 3. Each card has a **10-second timer**. A right answer scores 100 points, plus up to 50 for speed and a bonus for a 🔥 streak. Not every answer is "Higher": every game has at least one "Lower".
 4. After each card the real figure is revealed with its source, then one quick "what would you do?" tap.
 5. They get a **money personality card with their score**. Ask them to **Save image** or **Share**: the share message says "Can you beat me?" with the game link.
-6. Point at the big button: **"WhatsApp me for your full result and a free 5-minute check."** WhatsApp opens with the message already typed, and **they press send themselves**.
+6. Hand the iPad back to the form under the card: **they type their first name and WhatsApp number and tick the consent box** themselves. Tap **WhatsApp my result**: *your* WhatsApp opens a chat to *their* number with their personality, score and an invitation to a free 5-minute check. **You press send.**
+   A chooser appears: **WhatsApp**, **WhatsApp Business**, or **Copy message** (paste into any app). On iPhone/iPad, if WhatsApp Business does not open, the message is copied for you to paste into a new chat there.
 
 **Tip:** for older or slower-paced prospects, turn the timer off in **⚙️ Settings → Quick game timer**.
 
-**Your follow-up when the WhatsApp arrives:** reply the same day, mention their personality type, and offer the 5-minute check, or a Full Mode game over coffee.
+**Your follow-up:** when they reply YES, answer the same day, mention their personality type, and offer the 5-minute check, or a Full Mode game over coffee. Send the card image too (Save image, then attach it in the chat).
 
 **Rules:**
-- Never take the phone back and type their number. The app stores no contact details, by design.
-- If they don't want to send it, that's fine. They still keep the card with your name on it.
+- **Let the prospect type their own number and tick the box themselves.** That tick is their consent to be contacted; never tick it for them.
+- The app does not save the number. It is cleared from the screen the moment WhatsApp opens; the chat lives only in your WhatsApp.
+- If they don't want to share their number, that's fine. They can still AirDrop or share the card to their own phone.
 
 ---
 

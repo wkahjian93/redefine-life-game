@@ -6,6 +6,9 @@ const ok = (c, m) => { if (c) pass++; else { fail++; console.log('FAIL', m); } }
 
 // Quick mode (Higher or Lower)
 ok(R.waNumber('019-4783328') === '60194783328', 'WhatsApp number');
+ok(R.prospectNumber('012-345 6789') === '60123456789' && R.prospectNumber('+60 11-2345 6789') === '601123456789' && R.prospectNumber('123456789') === '60123456789', 'prospect number formats');
+ok(R.prospectNumber('') === null && R.prospectNumber('12345') === null && R.prospectNumber('03-1234 5678') === null, 'bad prospect numbers rejected');
+ok(R.prospectNumber('+65 9123 4567') === '6591234567', 'overseas number with +');
 let picksOk = true;
 for (let i = 0; i < 500; i++) { const qs = R.pickQuick(); if (qs.length !== 3 || !qs.some(q => q.answer === 'lo') || new Set(qs.map(q => q.grp)).size !== 3 || new Set(qs).size !== 3) picksOk = false; }
 ok(picksOk, 'every game: 3 rounds, 3 topics, at least one Lower');

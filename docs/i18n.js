@@ -134,7 +134,12 @@
     r_baby: 'Close one! About RM42,715 (an estimate), just under the cheapest new Myvi.',
     guessedRight: 'Score {pts} · {n}/3 right', shareText: 'I scored {pts} as {type}! Can you beat me? 🎲 REDEFINE Life Game',
     timer: 'Quick game timer', timerNote: '10 seconds per card, with bonus points for speed. Turn it off for a relaxed pace.',
-    waChoose: 'Send with which app?', waNormal: 'WhatsApp', waBiz: 'WhatsApp Business', waChooseNote: 'If WhatsApp Business is not installed, it opens normal WhatsApp instead.'
+    waChoose: 'Send with which app?', waNormal: 'WhatsApp', waBiz: 'WhatsApp Business', waChooseNote: 'If WhatsApp Business is not installed, it opens normal WhatsApp instead.',
+    sendTitle: 'Get your full result on WhatsApp', pName: 'Your first name', pPhone: 'Your WhatsApp number', pPhoneErr: 'Please check the number, e.g. 012-345 6789',
+    pConsent: 'I agree that {name} may WhatsApp me my result and follow up with me.', sendBtn: 'WhatsApp my result',
+    pPrivacy: 'Your number is only used to open this chat. It is not saved in the app.',
+    sendMsg: 'Hi{pname}! This is {agent} from REDEFINE 👋 Thanks for playing REDEFINE Life Game.\n\nYour money personality: {type} {emoji}\nScore: {pts} ({n}/3 right)\nWatch out: {wo}\n\nReply YES and I’ll share your full result plus a free 5-minute check. (Education only, not financial advice.)',
+    waCopy: 'Copy message (for any app)', waBizIosNote: 'WhatsApp Business: if it doesn’t open, the message is copied so you can paste it into a new chat there.', waCopied: 'Message copied. Open WhatsApp Business, start a chat with {num} and paste.', waBizFail: 'WhatsApp Business didn’t open from here. The message is copied: open WhatsApp Business, start a chat with {num} and paste.'
   };
   const zh = {
     home: '主页', appShort: '人生游戏', sound: '声音', close: '关闭', title: 'REDEFINE 人生游戏',
@@ -266,7 +271,12 @@
     r_baby: '很接近！约 RM42,715（估计数字），只比最便宜的全新 Myvi 少一点。',
     guessedRight: '得分 {pts} · 答对 {n}/3', shareText: '我是「{type}」，拿了 {pts} 分！你能赢我吗？🎲 REDEFINE 人生游戏',
     timer: '快速游戏计时', timerNote: '每张卡 10 秒，答得快有加分。想轻松玩可以关掉。',
-    waChoose: '用哪个应用发送？', waNormal: 'WhatsApp', waBiz: 'WhatsApp Business', waChooseNote: '如果没有安装 WhatsApp Business，会改用普通 WhatsApp 打开。'
+    waChoose: '用哪个应用发送？', waNormal: 'WhatsApp', waBiz: 'WhatsApp Business', waChooseNote: '如果没有安装 WhatsApp Business，会改用普通 WhatsApp 打开。',
+    sendTitle: '用 WhatsApp 拿完整结果', pName: '你的名字', pPhone: '你的 WhatsApp 号码', pPhoneErr: '请检查号码，例如 012-345 6789',
+    pConsent: '我同意 {name} 用 WhatsApp 发送我的结果并跟进。', sendBtn: 'WhatsApp 我的结果',
+    pPrivacy: '你的号码只用来打开这个聊天，不会保存在应用里。',
+    sendMsg: '你好{pname}！我是 REDEFINE 的 {agent} 👋 谢谢你玩 REDEFINE 人生游戏。\n\n你的金钱性格：「{type}」{emoji}\n得分：{pts}（答对 {n}/3）\n要留意：{wo}\n\n回复「YES」，我会发你完整结果和免费 5 分钟检查。（仅供教育用途，不是理财建议。）',
+    waCopy: '复制信息（任何应用都能用）', waBizIosNote: 'WhatsApp Business：如果打不开，信息会自动复制，你可以在那里开新聊天并粘贴。', waCopied: '信息已复制。打开 WhatsApp Business，和 {num} 开聊天并粘贴。', waBizFail: '这里打不开 WhatsApp Business。信息已复制：打开 WhatsApp Business，和 {num} 开聊天并粘贴。'
   };
   root.RLG_I18N = { en, zh };
 })(this);

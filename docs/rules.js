@@ -54,6 +54,15 @@
     return { type, scores: s, right };
   }
 
+  // Prospect's number typed on the agent's device → WhatsApp number, or null if it doesn't look valid.
+  // Malaysian mobiles (01x…, 601x…, +601x…) or any +country number. Never stored.
+  function prospectNumber(raw) {
+    const s = String(raw || '').trim(), intl = s.startsWith('+') || s.startsWith('00');
+    let d = s.replace(/\D/g, ''); if (d.startsWith('00')) d = d.slice(2);
+    if (!intl) { if (d.startsWith('0')) d = '6' + d; else if (d.startsWith('1')) d = '60' + d; }
+    if (d.startsWith('60')) return /^601\d{8,9}$/.test(d) ? d : null;
+    return intl && d.length >= 8 && d.length <= 15 ? d : null;
+  }
   function waNumber(phone) {   // "019-4783328" → "60194783328"
     let d = String(phone || '').replace(/\D/g, '');
     if (d.startsWith('0')) d = '6' + d;
@@ -170,6 +179,6 @@
     return { card: rnd() < pStage ? 'ci' : 'smooth', chance: pStage };
   }
 
-  const api = { QUICK, FOLLOW, scoreRound, TYPES, TYPE_EMOJI, pickQuick, personality, waNumber, DREAMS, DREAM_EMOJI, CARDS, CARD_EMOJI, stages, simulate, fundDreams, needs, realOddsCard };
+  const api = { prospectNumber, QUICK, FOLLOW, scoreRound, TYPES, TYPE_EMOJI, pickQuick, personality, waNumber, DREAMS, DREAM_EMOJI, CARDS, CARD_EMOJI, stages, simulate, fundDreams, needs, realOddsCard };
   if (typeof module !== 'undefined') module.exports = api; else root.RLG_RULES = api;
 })(this);

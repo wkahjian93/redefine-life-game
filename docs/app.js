@@ -40,7 +40,7 @@
     const m = document.createElement('div'); m.className = 'modal';
     m.innerHTML = `<div class="sheet pop">${html}<button class="btn wide" data-close>${t('close')}</button></div>`;
     m.addEventListener('click', e => { if (e.target === m || e.target.hasAttribute('data-close')) m.remove(); });
-    document.body.appendChild(m);
+    document.body.appendChild(m); return m;
   }
   function confetti(n = 40) {
     const box = document.createElement('div'); box.className = 'confetti';
@@ -138,19 +138,29 @@
     const r = Q.result, ty = r.type;
     return `<div class="center"><div class="sub">${t('youAre')}</div>
       <img id="pcard" class="pcard pop" alt="${t('t_' + ty)}"/>
-      <button class="btn wide hot" data-act="wa">💬 ${t('waBtn', { name: esc(settings.name) })}</button>
+      <div class="card sendbox"><h3>💬 ${t('sendTitle')}</h3>
+        <label class="field"><span>${t('pName')}</span><input id="qname" type="text" autocomplete="off" maxlength="30" placeholder="${t('optional')}"/></label>
+        <label class="field"><span>${t('pPhone')}</span><input id="qphone" type="tel" inputmode="tel" autocomplete="off" placeholder="012-345 6789"/><small id="qphoneErr" class="err" hidden>${t('pPhoneErr')}</small></label>
+        <label class="consent"><input id="qconsent" type="checkbox"/><span>${t('pConsent', { name: esc(settings.name) })}</span></label>
+        <button class="btn wide hot" data-act="wa" id="qsend" disabled>💬 ${t('sendBtn')}</button>
+        <p class="small">🔒 ${t('pPrivacy')}</p></div>
       <div class="row2"><button class="btn" data-act="saveCard">⬇️ ${t('saveImg')}</button><button class="btn" data-act="shareCard">📤 ${t('share')}</button></div>
-      <p class="small">${t('waNote')}</p>
       <button class="btn ghost wide" data-act="quick">🔁 ${t('playAgain')}</button></div>`;
   };
   AFTER.quickResult = () => {
     const c = window.RLG_CARDS.personality(Q.result, lang, settings, t);
     Q.canvas = c; document.getElementById('pcard').src = c.toDataURL('image/png');
+    const ph = document.getElementById('qphone'), ok = document.getElementById('qconsent'), btn = document.getElementById('qsend'), err = document.getElementById('qphoneErr');
+    const check = () => { const n = R.prospectNumber(ph.value); btn.disabled = !(n && ok.checked); err.hidden = !ph.value.trim() || !!n || document.activeElement === ph; };
+    ph.addEventListener('input', check); ph.addEventListener('blur', check); ok.addEventListener('change', check);
     confetti(); S.play('cheer');
   };
-  function waLink() {
-    const msg = t('waMsg', { name: settings.name, type: t('t_' + Q.result.type), emoji: R.TYPE_EMOJI[Q.result.type] });
-    return 'https://wa.me/' + R.waNumber(settings.phone) + '?text=' + encodeURIComponent(msg);
+  // Opens the agent's WhatsApp with a chat to the prospect's number. The number is read from the box and never saved.
+  function waLink(num, pname) {
+    const ty = Q.result.type;
+    const msg = t('sendMsg', { pname: pname ? ' ' + pname : '', agent: settings.name, type: t('t_' + ty), emoji: R.TYPE_EMOJI[ty],
+      pts: Q.result.score || 0, n: Q.result.right, wo: t('wo_' + ty) });
+    return 'https://wa.me/' + num + '?text=' + encodeURIComponent(msg);
   }
 
   /* ---------- FULL MODE ---------- */
@@ -413,11 +423,31 @@
       follow() { Q.answers[Q.i].follow = +b.dataset.k; if (Q.i < Q.qs.length - 1) { Q.i++; Q.phase = 'guess'; Q.deadline = Date.now() + ROUND_MS + 400; render(); } else { Q.result = { ...R.personality(Q.answers), score: Q.score }; go('quickResult'); } },
       wa() {
         // Android can open a chosen app (WhatsApp or WhatsApp Business); other phones open whichever WhatsApp is installed.
-        if (!/Android/i.test(navigator.userAgent)) { window.open(waLink(), '_blank'); return; }
-        const link = waLink(), q = link.split('?')[1];
-        const biz = 'intent://send?phone=' + R.waNumber(settings.phone) + '&' + q + '#Intent;scheme=whatsapp;package=com.whatsapp.w4b;S.browser_fallback_url=' + encodeURIComponent(link) + ';end';
-        modal('<h3>' + t('waChoose') + '</h3><a class="btn wide hot" data-close href="' + esc(link) + '" target="_blank" rel="noopener">💬 ' + t('waNormal') + '</a>' +
-          '<a class="btn wide cool" data-close href="' + esc(biz) + '">💼 ' + t('waBiz') + '</a><p class="small">' + t('waChooseNote') + '</p>');
+        const num = R.prospectNumber(document.getElementById('qphone').value);
+        if (!num || !document.getElementById('qconsent').checked) return;
+        const link = waLink(num, document.getElementById('qname').value.trim().slice(0, 30));
+        // clear the prospect's details from the screen straight away (nothing is stored)
+        ['qphone', 'qname'].forEach(id => { document.getElementById(id).value = ''; }); document.getElementById('qconsent').checked = false; document.getElementById('qsend').disabled = true; document.getElementById('qphoneErr').hidden = true;
+        // Chooser on every device: WhatsApp, WhatsApp Business, or copy the message (works with any app).
+        const ua = navigator.userAgent, android = /Android/i.test(ua), ios = /iPad|iPhone|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+        const q = link.split('?')[1], msg = decodeURIComponent(q.replace(/^text=/, ''));
+        const bizAndroid = 'intent://send?phone=' + num + '&' + q + '#Intent;scheme=whatsapp;package=com.whatsapp.w4b;S.browser_fallback_url=' + encodeURIComponent(link) + ';end';
+        modal('<h3>' + t('waChoose') + '</h3><div class="small">📞 +' + esc(num) + '</div>' +
+          '<a class="btn wide hot" data-close href="' + esc(link) + '" target="_blank" rel="noopener">💬 ' + t('waNormal') + '</a>' +
+          (android ? '<a class="btn wide cool" data-close href="' + esc(bizAndroid) + '">💼 ' + t('waBiz') + '</a>'
+                   : '<button class="btn wide cool" id="waBizBtn">💼 ' + t('waBiz') + '</button>') +
+          '<button class="btn wide ghost" id="waCopyBtn">📋 ' + t('waCopy') + '</button><p class="small" id="waMsgNote">' + t(android ? 'waChooseNote' : 'waBizIosNote') + '</p>');
+        const box = document.querySelectorAll('.modal')[document.querySelectorAll('.modal').length - 1], note = box.querySelector('#waMsgNote');
+        const copy = () => { const txt = msg + '\n\n(+' + num + ')';
+          (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).then(() => { note.textContent = '✅ ' + t('waCopied', { num: '+' + num }); S.play('coin'); })
+            .catch(() => { note.textContent = txt; }); };
+        box.querySelector('#waCopyBtn').addEventListener('click', copy);
+        const bizBtn = box.querySelector('#waBizBtn');
+        if (bizBtn) bizBtn.addEventListener('click', () => {
+          // iPhone / iPad: try WhatsApp Business directly; if it doesn't open, copy the message so it can be pasted there.
+          const t0 = Date.now(); location.href = 'whatsapp-business://send?phone=' + num + '&' + q;
+          setTimeout(() => { if (!document.hidden && Date.now() - t0 < 3000) { copy(); note.textContent = '⚠️ ' + t('waBizFail', { num: '+' + num }); } }, 1600);
+        });
       },
       saveCard() { window.RLG_CARDS.download(Q.canvas, 'REDEFINE-' + Q.result.type + '.png'); },
       shareCard() { window.RLG_CARDS.share(Q.canvas, 'REDEFINE-' + Q.result.type + '.png', t('shareText', { type: t('t_' + Q.result.type), pts: Q.result.score }) + (location.protocol === 'https:' ? ' ' + location.origin + location.pathname : '')); },
