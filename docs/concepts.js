@@ -71,7 +71,7 @@
       i1_value: 'What you’d really be selling', i1_formula: '{inc} × 12 months × {yrs} years to age {ret}',
       i1_sa: 'Now check your policies. If Mr. TPD came today, how much would you be paid?',
       i1_free: 'FREE GIVEAWAY 🎁', i1_freeT: 'With no cover, Mr. TPD takes your earning power for free.',
-      i1_sale: 'SALE: {off}% OFF', i1_saleT: 'You’re selling {v} of earning power for {sa}.', i1_fair: 'FAIR PRICE ✅', i1_fairT: 'Your cover is close to what your earning power is worth. Well protected!',
+      i1_sale: 'SALE: {off}% OFF', m2_top: 'RM120k = top of the range', i1_saleT: 'You’re selling {v} of earning power for {sa}.', i1_fair: 'FAIR PRICE ✅', i1_fairT: 'Your cover is close to what your earning power is worth. Well protected!',
       i1_feel: 'You would never sell it for {a}, so why is your sum assured {b}? Don’t sell something precious at a discount.',
       i1_close: 'If you had to put a price on your ability to earn, what’s a fair amount to protect?',
       // I2
@@ -156,7 +156,7 @@
       i1_value: '你真正卖掉的是', i1_formula: '{inc} × 12 个月 × 到 {ret} 岁的 {yrs} 年',
       i1_sa: '现在打开你的保单。如果残废先生今天来，你会拿到多少？',
       i1_free: '免费送 🎁', i1_freeT: '没有保障，残废先生就免费拿走你的赚钱能力。',
-      i1_sale: '大减价：{off}% OFF', i1_saleT: '你把价值 {v} 的赚钱能力，以 {sa} 贱卖了。', i1_fair: '价钱合理 ✅', i1_fairT: '你的保额接近你赚钱能力的价值，保护得很好！',
+      i1_sale: '大减价：便宜 {off}%', m2_top: 'RM120k = 最高价', i1_saleT: '你把价值 {v} 的赚钱能力，以 {sa} 贱卖了。', i1_fair: '价钱合理 ✅', i1_fairT: '你的保额接近你赚钱能力的价值，保护得很好！',
       i1_feel: '你自己说 {a} 都不卖，那为什么你的保额只有 {b}？珍贵的东西，不要贱卖。',
       i1_close: '如果要给你的赚钱能力定一个价，你觉得该保护多少？',
       i2_warm: '先问一个问题', i2_w1: '你的手机有保修吗？', i2_w2: '你的车有保修吗？', i2_w3: '你的「薪水」有保修吗？',
@@ -172,7 +172,7 @@
       s1_intro: '每个月你的储蓄掉进罐子里。诱惑会来抢，快点「抵抗」！',
       s1_roundA: '第 1 回合：ATM 罐（盖子开着，很容易拿）', s1_roundB: '第 2 回合：上锁的罐（先存，再花）',
       s1_resist: '抵抗 💪', s1_spend: '买 🛍️', s1_took: '被拿走 6 个月的储蓄！', s1_saved: '守住了！💪',
-      s1_t: ['大减价 50% OFF！', '新手机出了！', '周末和朋友去旅行？', '换一辆新车', '11.11 网购', '演唱会门票！', '装修厨房', '犒赏自己，你值得', '新电子产品', '每个星期吃大餐'],
+      s1_t: ['大减价，半价！', '新手机出了！', '周末和朋友去旅行？', '换一辆新车', '11.11 网购', '演唱会门票！', '装修厨房', '犒赏自己，你值得', '新电子产品', '每个星期吃大餐'],
       s1_yearN: '第 {n} 年', s1_jarA: '10 年后的 ATM 罐', s1_jarB: '10 年后的上锁罐', s1_bounce: '诱惑被锁弹开了 🔒',
       s1_mum: 'Kah Jian 的妈妈：「哪里只赚 20 多千，我赚了 70 多千，因为如果不存起来，早就被你爸爸花掉了。」',
       s1_feel: '收入 − 储蓄 = 开销，而不是收入 − 开销 = 储蓄。先存，剩下的才花。',
@@ -209,7 +209,7 @@
       en: ['Risk is based on value. The more precious, the more it needs protecting.', 'Mr Death / TPD / CI wants to buy your ability to work, which means everything you could earn. What would you sell it for? RM100m? Priceless?', 'Now open your policy: what’s the sum assured? If it’s RM50k, isn’t that selling it cheap?', 'With no cover, you’re giving it away for free. Income protection: if not RM100m, at least don’t sell at a discount.'] },
     i2: { zh: ['门前的一棵大树，因为雨水长年累月的灌溉而茂盛，开花结果。', '我们的人生就像这棵树：努力赚钱，买车买房，建立家庭。我们买医药卡保护这些结果。', '可是人们忘了，财富不断成长，是因为有个珍贵的薪水不断灌溉着。人们只记得保护结果，忘了保护根源。', '为什么手机、车、电视都要 warranty？因为珍贵。你的薪水比较珍贵还是手机？如果薪水坏了，需要 warranty 几年？'],
       en: ['A tree flourishes because rain waters it year after year.', 'Our life is like this tree: we work, buy a car and a house, build a family, and we buy a medical card to protect all that fruit.', 'But we forget the wealth grows because a precious salary keeps watering it. We protect the fruit and forget the root.', 'Why do phones, cars and TVs have warranties? Because they’re precious. What about your salary? If it breaks, how many years of warranty would you want?'] },
-    s1: { zh: ['Do not save what is left after spending, spend what is left after savings. 收入 − 储蓄 = 开销。', '很多年轻人把钱存在 spending account（ATM），容易拿，花钱的欲望高。', '存一下花一下：其实我们都有存钱，只不过存一下花一下，所以到了今天都没存到钱。', '我妈：「我赚了 70 多千，因为如果不存起来，早就被你爸爸花掉了。」把会不小心花掉的钱存起来，你就赚了 100%。'],
+    s1: { zh: ['不是花剩的钱才存，而是存剩的钱才花。收入 − 储蓄 = 开销。', '很多年轻人把钱存在 spending account（随时可以提款的户口），容易拿，花钱的欲望高。', '存一下花一下：其实我们都有存钱，只不过存一下花一下，所以到了今天都没存到钱。', '我妈：「我赚了 70 多千，因为如果不存起来，早就被你爸爸花掉了。」把会不小心花掉的钱存起来，你就赚了 100%。'],
       en: ['Don’t save what’s left after spending; spend what’s left after saving.', 'Many young people keep savings in a spending account (ATM): easy to take, easy to spend.', 'We all save, but we save a bit and spend a bit, so today there’s nothing left.', 'My mum: “I gained 70k, because if I hadn’t saved it, your dad would have spent it.” Save what you would have wasted and you gain 100%.'] },
     s2: { zh: ['两个和尚每天下山打水。三年后，和尚 A 没下山，原来他每天花五分钟挖井，三年后就有了一口井。', '当别人持续花钱时，我们默默持续存钱。时间久了大家才发现我们过得比较好，那时他们已经太迟了。', '每个月存 1000，6% 利息，30 年后就是百万富翁。关键是哪个？1000？6%？还是 30 年不间断？', '唯有 30 年不间断存钱，哪怕利息少，到最后肯定不会失望。'],
       en: ['Two monks fetch water daily. Three years later Monk A stops coming down: he dug 5 minutes a day and now has a well.', 'While others keep spending, we quietly keep saving. By the time they notice, it’s too late to catch up.', 'RM1,000 a month at 6% for 30 years makes a millionaire. What’s the key: the 1,000, the 6%, or 30 years without stopping?', 'Only 30 years without stopping, even at a low rate, won’t disappoint you.'] },
@@ -222,6 +222,7 @@
   root.RLG_CONCEPTS = function (H) {
     const { t, esc, rm, rmShort, go, render, modal, confetti, countUp, S, F } = H;
     const sh = () => H.settings, L = () => H.lang;
+    const fsrc = f => (H.lang === 'zh' && f.srcZh) || f.src;
     // the customer's numbers, kept in memory only while the app is open
     let cust = { age: 30, income: 5000, spend: 4000, savings: 20000, med: 100000, sa: 100000, cover: 0, monthly: 500, assets: 1000000 };
     let C = null, timer = null;
@@ -260,7 +261,7 @@
             <div class="q q1">${cell(1, 0)}<small>${t('m1_likely')} · ${t('m1_small')}</small></div><div class="q q2">${cell(1, 1)}<small>${t('m1_likely')} · ${t('m1_huge')}</small></div>
             <div class="q q3">${cell(0, 0)}<small>${t('m1_rare')} · ${t('m1_small')}</small></div><div class="q q4 hot">${cell(0, 1)}<small>${t('m1_rare')} · ${t('m1_huge')}</small></div>
             <div class="ax x">${t('m1_huge')} →</div></div><p class="small legend"><i class="pay"></i>${t('m1_pay')} <i class="lose"></i>${t('m1_lose')}</p>` +
-            feel(t('m1_feel'), t('m1_feel2')) + `<p class="src">${t('source')}: ${esc(F.F1.src)}; ${esc(F.F7.src)}; ${esc(F.F8.src)}; ${esc(F.F9.src)}</p>` + nextBtn(); },
+            feel(t('m1_feel'), t('m1_feel2')) + `<p class="src">${t('source')}: ${esc(fsrc(F.F1))}; ${esc(fsrc(F.F7))}; ${esc(fsrc(F.F8))}; ${esc(fsrc(F.F9))}</p>` + nextBtn(); },
         end
       ]
     };
@@ -282,7 +283,7 @@
         () => `<p class="cgintro">${t('m2_real')}</p><div class="card">${field('med')}<button class="btn" data-act="cgRefresh">${t('update')}</button></div>
           <div class="card"><h3>${t('m2_bills')}</h3>${bills().map(([k, v]) => { const gap = Math.max(0, v - cust.med);
             return `<div class="ln"><span>${t(k)}<small> ${k === 'm1c_stroke' ? t('cgAvg') : t('cgUpTo')} ${rm(v)}</small></span><b class="${gap ? 'bad' : 'good'}">${gap ? t('m2_cardShort', { a: rm(gap) }) : t('m2_cardOk')}</b></div>`; }).join('')}
-            <p class="src">${t('source')}: ${esc(F.F8.src)}; ${esc(F.F1.src)} (RM120k = top of the range); ${esc(F.F7.src)}</p></div>` + feel(t('m2_feel')) + nextBtn(t('m2_bonus')),
+            <p class="src">${t('source')}: ${esc(fsrc(F.F8))}; ${esc(fsrc(F.F1))} (${t('m2_top')}); ${esc(fsrc(F.F7))}</p></div>` + feel(t('m2_feel')) + nextBtn(t('m2_bonus')),
         () => C.bonus == null ? `<h3>${t('m2_bonus')}</h3><button class="btn big redk" data-act="m2Btn" data-v="red">${t('m2_red')}</button><button class="btn big whitek" data-act="m2Btn" data-v="white">${t('m2_white')}</button>`
           : `<div class="feel pop"><span>${C.bonus === 'red' ? '🔴' : C.bonus === 'win' ? '🎉' : '😱'}</span><p>${t(C.bonus === 'red' ? 'm2_redR' : C.bonus === 'win' ? 'm2_whiteW' : 'm2_whiteL')}</p></div>` + (C.bonus !== 'red' ? `<p class="cgintro">${t('m2_redR')}</p>` : '') + nextBtn(),
         end
@@ -434,7 +435,7 @@
       const card = document.getElementById('swc'); if (card) { let x0 = null;
         card.addEventListener('pointerdown', e => { x0 = e.clientX; card.style.animation = 'none'; try { card.setPointerCapture(e.pointerId); } catch (x) {} });
         card.addEventListener('pointermove', e => { if (x0 == null) return; const dx = e.clientX - x0; card.style.transform = `translateX(${dx}px) rotate(${dx / 20}deg)`; card.classList.toggle('up', dx > 40); card.classList.toggle('down', dx < -40); });
-        card.addEventListener('pointerup', e => { if (x0 == null) return; const dx = e.clientX - x0; x0 = null; if (Math.abs(dx) > 70) actions.m1Pick({ dataset: { v: dx > 0 ? 'pay' : 'lose' } }); else { card.style.transform = ''; card.classList.remove('up', 'down'); } }); }
+        card.addEventListener('pointerup', e => { if (x0 == null) return; const dx = e.clientX - x0; x0 = null; if (Math.abs(dx) > 70) { S.play('swoosh'); } if (Math.abs(dx) > 70) actions.m1Pick({ dataset: { v: dx > 0 ? 'pay' : 'lose' } }); else { card.style.transform = ''; card.classList.remove('up', 'down'); } }); }
     };
     actions.concepts = () => { stop(); go('concepts'); };
     actions.cgGo = b => { stop(); C = { g: b.dataset.g, step: 0, ...G[b.dataset.g].init() }; S.play('drum'); go('cg'); };

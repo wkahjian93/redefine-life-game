@@ -173,3 +173,4 @@ a.btn{text-decoration:none;text-align:center;display:flex;align-items:center;jus
 .pan{background:#fff;border-radius:12px;padding:10px;width:48%}.pan span{font-size:30px;display:block}.pan b{font-size:20px;display:block}.pan small{color:var(--muted)}.post{color:var(--navy);font-size:26px;line-height:1}
 .scriptline{background:#F3F0FF;border-radius:12px;padding:10px;margin:8px 0;font-size:16px}.scriptline.zh{background:#f7f7f7}
 @media (min-width:700px){.cgtiles{grid-template-columns:1fr 1fr 1fr}}
+.ic.off{opacity:.45}

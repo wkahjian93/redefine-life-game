@@ -18,7 +18,8 @@
     flip: () => { tone(400, 0, 0.06, 'square', 0.05); tone(800, 0.06, 0.08, 'square', 0.05); },
     coin: () => { tone(988, 0, 0.08, 'square', 0.06); tone(1319, 0.08, 0.2, 'square', 0.06); },
     cheer: () => [523, 659, 784, 1047].forEach((f, i) => tone(f, i * 0.09, 0.35, 'triangle', 0.14)),
-    drum: () => { for (let i = 0; i < 6; i++) tone(120 + i * 15, i * 0.08, 0.07, 'square', 0.05); }
+    drum: () => { for (let i = 0; i < 6; i++) tone(120 + i * 15, i * 0.08, 0.07, 'square', 0.05); },
+    swoosh: () => { tone(500, 0, 0.12, 'sine', 0.08); tone(900, 0.05, 0.12, 'sine', 0.06); }
   };
 
   /* ---- background music: a light, cheerful loop (C – G – Am – F), 104 bpm ---- */
@@ -52,8 +53,18 @@
     if (bus && ctx) { bus.gain.cancelScheduledValues(ctx.currentTime); bus.gain.setValueAtTime(bus.gain.value, ctx.currentTime); bus.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.4); }
   }
   // browsers only allow sound after a tap, so music starts on the first tap; it pauses when the app is in the background
-  document.addEventListener('pointerdown', () => startMusic(), { once: true });
-  document.addEventListener('visibilitychange', () => { if (document.hidden) stopMusic(); else if (ctx) startMusic(); });
+  // iPad/iPhone: play even when the device is on silent, and keep retrying the unlock on taps until sound is running
+  try { if (navigator.audioSession) navigator.audioSession.type = 'playback'; } catch (e) {}
+  function unlock() {
+    const c = ac(); if (!c) return;
+    if (!c._warm) { try { const b = c.createBuffer(1, 1, 22050), src = c.createBufferSource(); src.buffer = b; src.connect(c.destination); src.start(0); c._warm = true; } catch (e) {} }
+    startMusic();
+    if (c.state === 'running') ['pointerdown', 'touchend', 'click'].forEach(ev => document.removeEventListener(ev, unlock, true));
+  }
+  ['pointerdown', 'touchend', 'click'].forEach(ev => document.addEventListener(ev, unlock, true));
+  // tap sound for buttons that are not game actions (pop-up buttons, checkboxes)
+  document.addEventListener('click', e => { const el = e.target.closest('button:not([data-act]), input[type=checkbox], .chip'); if (el && !el.closest('[data-act]')) root.SFX.play('tap'); }, true);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) stopMusic(); else if (ctx) { if (ctx.state !== 'running') ctx.resume(); startMusic(); } });
 
   root.SFX = {
     play(name) { if (!muted && SOUNDS[name]) try { SOUNDS[name](); } catch (e) {} },

@@ -20,13 +20,14 @@
   const figText = id => F[id][lang] || F[id].en;
   const saveG = () => store.set('rlg.full', G);
   const S = window.SFX;
+  const fsrc = f => (lang === 'zh' && f.srcZh) || f.src, fdate = f => (lang === 'zh' && f.dateZh) || f.date;
 
   /* ---------- shell ---------- */
   function topbar() {
     return `<header class="top"><button class="ic" data-act="home" aria-label="${t('home')}">⌂</button>
       <div class="brand">REDEFINE <b>${t('appShort')}</b></div>
       <button class="ic pill" data-act="lang">${lang === 'en' ? '中文' : 'EN'}</button>
-      <button class="ic" data-act="mute" aria-label="${t('sound')}">${S.muted ? '🔇' : '🔊'}</button></header>`;
+      <button class="ic ${S.musicOn && !S.muted ? '' : 'off'}" data-act="musicBar" aria-label="${t('music')}">🎵</button><button class="ic" data-act="mute" aria-label="${t('sound')}">${S.muted ? '🔇' : '🔊'}</button></header>`;
   }
   function go(s) { screen = s; render(); window.scrollTo(0, 0); }
   function render() {
@@ -95,7 +96,7 @@
         <div class="row2 hlbtns"><button class="btn hi" data-act="guess" data-g="hi">⬆️ ${t('higher')}</button><button class="btn lo" data-act="guess" data-g="lo">⬇️ ${t('lower')}</button></div>`;
     } else if (Q.phase === 'reveal') {
       const ok = a.correct, mx = Math.max(q.val, q.cmpVal);
-      const src = [F[q.fig], q.cmp ? F[q.cmp] : null, q.id === 'bypass' ? F.F10 : null].filter(Boolean).map(f => esc(f.src) + ' (' + esc(f.date) + ')').join('; ');
+      const src = [F[q.fig], q.cmp ? F[q.cmp] : null, q.id === 'bypass' ? F.F10 : null].filter(Boolean).map(f => esc(fsrc(f)) + ' (' + esc(fdate(f)) + ')').join('; ');
       body += `<div class="reveal pop ${ok ? 'ok' : 'miss'}"><div class="react">${ok ? '🎯' : a.guess ? '😮' : '⏰'}</div>
         <div class="rtitle">${t(q.answer === 'hi' ? 'itsHigher' : 'itsLower')}</div>
         <div class="meter"><div class="mrow"><span>${q.ea}</span><div class="bar"><i id="barA" data-w="${Math.max(3, q.val / mx * 100)}" style="width:0"></i></div><b id="valA">…</b></div>
@@ -118,7 +119,7 @@
       card.addEventListener('pointerdown', e => { y0 = e.clientY; card.style.animation = 'none'; try { card.setPointerCapture(e.pointerId); } catch (x) {} });
       card.addEventListener('pointermove', e => { if (y0 == null) return; const dy = e.clientY - y0;
         card.style.transform = `translateY(${dy}px) rotate(${dy / 40}deg)`; card.classList.toggle('up', dy < -40); card.classList.toggle('down', dy > 40); });
-      card.addEventListener('pointerup', e => { if (y0 == null) return; const dy = e.clientY - y0; if (Math.abs(dy) > 70) { y0 = null; answer(dy < 0 ? 'hi' : 'lo'); } else reset(); });
+      card.addEventListener('pointerup', e => { if (y0 == null) return; const dy = e.clientY - y0; if (Math.abs(dy) > 70) { y0 = null; S.play('swoosh'); answer(dy < 0 ? 'hi' : 'lo'); } else reset(); });
       card.addEventListener('pointercancel', reset);
       if (settings.timer) {
         const ring = document.getElementById('ring'), n = document.getElementById('ringn');
@@ -277,7 +278,7 @@
     S.play(c === 'promo' || c === 'smooth' ? 'good' : c === 'baby' ? 'coin' : 'bad'); if (c === 'promo') confetti(25); };
   function cardSource(c) {
     const m = { baby: 'F13', hospital: 'F5', ci: 'F1' }[c];
-    if (m) return t('source') + ': ' + esc(F[m].src);
+    if (m) return t('source') + ': ' + esc(fsrc(F[m]));
     if (c === 'promo') return t('assumption', { what: t('al_promo', { p: settings.A.promo }) });
     if (c === 'stop2' || c === 'stopall') return t('stopSrc');
     return '';
@@ -368,7 +369,7 @@
       ${n.noDeps ? `<p class="small">${t('noDeps')}</p>` : ''}`;
     if (k === 'ci') h += `<p class="fx-line">${t('fx_ci')}</p><div class="calc">${P.years} × ${rm(P.income)} × 12 = ${rm(P.years * P.income * 12)}<br/>
       + ${t('treatNet', { a: rm(F.F1.mid), b: rm(G.p.med) })} = ${rm(P.ciTreat)}<br/><b>${t('need')} = ${rm(n.need)}</b><br/>− ${t('p_ci')} ${rm(P.ci)} − ${t('liquid')} ${rm(P.liquid)}<br/><b>${t('gapLabel')} = ${rm(n.gap)}</b></div>
-      <p class="small">${t('source')}: F1 ${esc(F.F1.src)}</p>`;
+      <p class="small">${t('source')}: F1 ${esc(fsrc(F.F1))}</p>`;
     if (k === 'med') h += `<p class="fx-line">${t('fx_med')}</p><div class="calc">${rm(P.max)} − ${rm(P.limit)} = <b>${rm(n.gap)}</b></div>
       <p class="small">${figText('F1')}. ${figText('F7')}. ${figText('F11')}.</p>`;
     if (k === 'retire') h += `<p class="fx-line">${t('fx_retire', { a: A.retireAge })}</p><div class="calc">${rm(n.need)} − ${rm(P.projected)} = <b>${rm(n.gap)}</b></div>
@@ -390,7 +391,7 @@
     <button class="btn ghost" data-act="resetA">${t('resetDefaults')}</button></div>
     <button class="btn wide hot" data-act="saveSettings">💾 ${t('save')}</button>`;
   SCREENS.sources = () => `<h2>📚 ${t('sources')}</h2><p class="sub">${t('sourcesSub')}</p>` + Object.keys(F).map(k =>
-    `<div class="card srcrow"><b>${k}</b> ${esc(figText(k))}<small>${esc(F[k].src)} · ${esc(F[k].date)}<br/><a href="${esc(F[k].url)}" target="_blank" rel="noopener">${t('openSource')}</a></small></div>`).join('') +
+    `<div class="card srcrow"><b>${k}</b> ${esc(figText(k))}<small>${esc(fsrc(F[k]))} · ${esc(fdate(F[k]))}<br/><a href="${esc(F[k].url)}" target="_blank" rel="noopener">${t('openSource')}</a></small></div>`).join('') +
     `<div class="card"><h3>${t('assumptions')}</h3><p class="small">${t('assumpNote')}</p></div>`;
 
   /* ---------- concept games (concepts.js) ---------- */
@@ -422,6 +423,7 @@
       home() { if ((screen.startsWith('f') && G && G.step !== 'summary') || screen === 'quick') { if (!confirm(t('leaveQ'))) return; } go('home'); },
       lang() { lang = lang === 'en' ? 'zh' : 'en'; store.set('rlg.lang', lang); if (screen === 'fSetup') readSetup(); render(); },
       mute() { S.toggle(); render(); },
+      musicBar() { if (S.muted) S.toggle(); else S.setMusic(!S.musicOn); render(); },
       quick: startQuick,
       full() { if (G && G.step && G.step !== 'intro' && G.step !== 'summary' && !confirm(t('newFullQ'))) return; newFull(); },
       resume() { go(STEP_SCREEN[G.step]); },
