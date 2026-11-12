@@ -64,6 +64,7 @@
     <div class="licence">ⓘ ${t('licence', { name: esc(settings.name), agency: esc(settings.agency) })}</div>
     <button class="btn big hot" data-act="quick">⚡ ${t('quickBtn')}<small>${t('quickSub')}</small></button>
     <button class="btn big cool" data-act="full">🧬 ${t('fullBtn')}<small>${t('fullSub')}</small></button>
+    ${EXT.concepts ? `<button class="btn big sun" data-act="concepts">🎯 ${t('cgBtn')}<small>${t('cgSub')}</small></button>` : ''}
     ${G && G.step && G.step !== 'intro' ? `<button class="btn ghost wide" data-act="resume">↩ ${t('resume')}</button>` : ''}
     <nav class="links"><button data-act="settings">⚙️ ${t('settings')}</button><button data-act="sources">📚 ${t('sources')}</button></nav>`;
 
@@ -392,6 +393,13 @@
     `<div class="card srcrow"><b>${k}</b> ${esc(figText(k))}<small>${esc(F[k].src)} · ${esc(F[k].date)}<br/><a href="${esc(F[k].url)}" target="_blank" rel="noopener">${t('openSource')}</a></small></div>`).join('') +
     `<div class="card"><h3>${t('assumptions')}</h3><p class="small">${t('assumpNote')}</p></div>`;
 
+  /* ---------- concept games (concepts.js) ---------- */
+  let EXT = {};
+  if (window.RLG_CONCEPTS) {
+    const X = window.RLG_CONCEPTS({ t, esc, rm, rmShort, go, render, modal, confetti, countUp, S, F, R, get settings() { return settings; }, get lang() { return lang; } });
+    Object.assign(SCREENS, X.screens); Object.assign(AFTER, X.after); EXT = X.actions;
+  }
+
   /* ---------- events ---------- */
   function readSetup() {
     document.querySelectorAll('[data-p]').forEach(el => { const k = el.dataset.p; G.p[k] = el.type === 'text' ? el.value.trim().slice(0, 30) : Math.max(0, Number(el.value) || 0); });
@@ -488,7 +496,7 @@
         store.set('rlg.settings', settings); S.play('good'); go('home');
       }
     };
-    if (A[a]) A[a]();
+    if (A[a]) A[a](); else if (EXT[a]) EXT[a](b, e);
   });
 
   // test hook (used by the test run only)

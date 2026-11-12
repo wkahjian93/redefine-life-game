@@ -65,4 +65,15 @@ ok(calmCount > 1700, 'real odds mostly calm (' + calmCount + '/2000)');
 const en = Object.keys(I.en), missing = en.filter(k => !(k in I.zh));
 ok(missing.length === 0, 'Chinese missing: ' + missing.join(','));
 
+// Concept games maths
+const CG = require('./docs/concepts.js');
+ok(CG.earningValue(5000, 30, 60) === 1800000, 'earning power = income x 12 x years to retirement');
+ok(CG.saleTag(0, 1800000).kind === 'free' && CG.saleTag(180000, 1800000).off === 90 && CG.saleTag(1500000, 1800000).kind === 'fair', 'price tag: free / 90% off / fair');
+ok(CG.monthsLast(20000, 0, 4000) === 5 && CG.monthsLast(20000, 124000, 4000) === 36, 'money tree months');
+ok(Math.abs(CG.fv(1000, 6, 30) - 1004515) < 5, 'RM1,000 x 30 years at 6% ~ RM1.0m');
+ok(CG.grow(CG.fv(1000, 6, 15), 6, 15) < CG.fv(1000, 6, 30) && CG.fv(1000, 6, 15) < CG.grow(CG.fv(1000, 6, 15), 6, 15), 'stopping or starting late gives less');
+ok(CG.jar(500, 10, 3).open === 51000 && CG.jar(500, 10, 3).locked === 60000, 'temptation jar');
+const LG = CG.legacy(1000000, [{ cost: 100000 }, { cost: 200000 }], [true, false], 150000, 1000000);
+ok(LG.noPlan.kids === 900000 && LG.plan.kids === 1550000 && LG.plan.me === 300000, 'legacy with and without a plan');
+
 console.log(`${pass} passed, ${fail} failed`); process.exit(fail ? 1 : 0);

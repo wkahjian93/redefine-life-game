@@ -89,3 +89,26 @@ Sit **side by side**. Let **them** tap. You are the game host, not the presenter
 **"Where do these numbers come from?"** Tap 📚 Sources: DOSM, EPF, the National Cancer Registry, LIAM/MTA/PIAM, RinggitPlus and others, each with its date.
 **"Why is my retirement covered?"** The projection uses illustrative returns and is **not adjusted for inflation**, so treat a ✅ there as a good sign, not a guarantee.
 **No internet?** Once opened (or added to the Home screen) it works offline. WhatsApp sending needs signal.
+
+---
+
+## 🎯 Concept Games: deliver the concept while they play (3–5 minutes each)
+
+**When:** in a presentation, after the fact-find, or any time a slide would feel like selling. Pick the game that fits the concept you're delivering. Tap **🎤 Agent script** at any time to see the lines from our portal lessons (English and 中文).
+
+| Concept | Game | What the customer does | The moment to pause on |
+|---|---|---|---|
+| Medical | 🧯 **Insure it or not?** | Swipes 7 bills (flu, phone screen… heart bypass, cancer) into "I can pay this" / "I can't afford this", then sees them on a likely-vs-serious board | 不是因为可能性高，而是因为后果严重 |
+| Medical | 🦹 **The Organ Robber** | Refuses to sell their liver and eyes; the robber takes them and sells them back; they enter their medical card limit and see real bills. Bonus: red or white button | "Do you already have this money ready?" |
+| Income | 🔨 **Sell your earning power** | Says NO to Mr. TPD's rising bids, sees what their earning power is really worth, enters their sum assured | The price tag: **SALE x% OFF** / **FREE GIVEAWAY** / **FAIR PRICE ✅** |
+| Income | 🌳 **The Money Tree** | Warranty warm-up, grows the tree with salary rain, you pick what stops the rain, fruit falls; replay with a "water tank" (their lump-sum cover) | 保护了结果，忘了保护根源 |
+| Savings | 🫙 **Temptation Jar** | Taps RESIST or Spend as temptations fly in (3 seconds each); then the locked jar | 收入 − 储蓄 = 开销 + your mum's 70k story |
+| Savings | ⛏️ **The Monk's Well** | Digs the well, sees the drought, answers "RM1,000, 6% or 30 years?" | 关键是 30 年不间断 |
+| Legacy | 🎁 **Spend it or leave it?** | Picks dreams, sees each one take from the kids' share; then you enter the plan cost and legacy amount and both sides are full | 把后顾之忧拿掉 · 两边不耽误 |
+
+**Rules:**
+- The customer's numbers are used for the game only and are **not saved**; they're gone when the app closes.
+- **Legacy:** enter the plan cost and legacy amount **only from the latest approved benefit illustration**. The game never invents them. If the numbers don't work out, the game says so.
+- **Medical & income:** if the customer is already well covered, the game says ✅. Say it out loud too.
+- The games name no product and quote no premium. Product talk comes after, with approved documents.
+- Every game ends with a closing question and a button into the **Full Life Game** for their full needs summary.
