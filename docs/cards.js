@@ -1,6 +1,8 @@
 // Draws the shareable images with <canvas> (no libraries, works offline):
 // personality card (Quick Mode) and needs summary (Full Mode).
 (function (root) {
+  const MARK = (typeof Image !== 'undefined') ? Object.assign(new Image(), { src: 'logo-mark.png' }) : null;
+  const mark = (x, cx, top, h) => { if (MARK && MARK.complete && MARK.naturalWidth) { const w = h * MARK.naturalWidth / MARK.naturalHeight; x.drawImage(MARK, cx - w / 2, top, w, h); return true; } return false; };
   const FONT = '"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans SC","Helvetica Neue",Arial,sans-serif';
   const THEMES = {
     provider: ['#FF6B4A', '#C2185B'], guardian: ['#2EC4B6', '#14213D'], planner: ['#7B61FF', '#14213D'],
@@ -28,9 +30,9 @@
     x.globalAlpha = 0.12; x.fillStyle = '#fff';
     [[900, 180, 220], [120, 1180, 260], [980, 1100, 120], [160, 260, 90]].forEach(([cx, cy, r]) => { x.beginPath(); x.arc(cx, cy, r, 0, 7); x.fill(); });
     x.globalAlpha = 1; x.textAlign = 'center'; x.fillStyle = '#fff';
-    x.font = `700 40px ${FONT}`; x.fillText('REDEFINE LIFE GAME', W / 2, 110);
-    x.font = `500 38px ${FONT}`; x.globalAlpha = 0.9; x.fillText(t('myMoneyType'), W / 2, 200); x.globalAlpha = 1;
-    x.font = `220px ${FONT}`; x.fillText(window.RLG_RULES.TYPE_EMOJI[res.type], W / 2, 450);
+    mark(x, W / 2, 30, 80); x.font = `700 40px ${FONT}`; x.fillText('REDEFINE LIFE GAME', W / 2, 160);
+    x.font = `500 38px ${FONT}`; x.globalAlpha = 0.9; x.fillText(t('myMoneyType'), W / 2, 225); x.globalAlpha = 1;
+    x.font = `220px ${FONT}`; x.fillText(window.RLG_RULES.TYPE_EMOJI[res.type], W / 2, 465);
     x.font = `800 96px ${FONT}`; wrap(x, t('t_' + res.type), W / 2, 590, W - 140, 104, 2);
     x.font = `italic 500 42px ${FONT}`; let y = wrap(x, '“' + t('tl_' + res.type) + '”', W / 2, 700, W - 180, 54, 3);
     // white panel with strength / watch out
@@ -50,8 +52,9 @@
     const R = window.RLG_RULES, W = 1080, H = 2400, c = document.createElement('canvas'); c.width = W; c.height = H;
     const x = c.getContext('2d'); x.fillStyle = '#FFF8EE'; x.fillRect(0, 0, W, H);
     x.fillStyle = '#14213D'; x.fillRect(0, 0, W, 210);
-    x.fillStyle = '#FFC93C'; x.font = `800 52px ${FONT}`; x.fillText('REDEFINE ' + t('appShort'), 60, 95);
-    x.fillStyle = '#fff'; x.font = `500 34px ${FONT}`; x.fillText(t('summaryTitle'), 60, 150);
+    const lx = mark(x, 105, 45, 120) ? 180 : 60;
+    x.fillStyle = '#FFC93C'; x.font = `800 52px ${FONT}`; x.fillText('REDEFINE ' + t('appShort'), lx, 95);
+    x.fillStyle = '#fff'; x.font = `500 34px ${FONT}`; x.fillText(t('summaryTitle'), lx, 150);
     x.textAlign = 'right'; x.font = `700 36px ${FONT}`; x.fillText(G.p.name || t('player'), W - 60, 95);
     x.font = `400 28px ${FONT}`; x.fillText(new Date().toLocaleDateString(lang === 'zh' ? 'zh-CN' : 'en-MY'), W - 60, 145); x.textAlign = 'left';
     let y = 280;

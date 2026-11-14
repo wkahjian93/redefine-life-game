@@ -25,7 +25,7 @@
   /* ---------- shell ---------- */
   function topbar() {
     return `<header class="top"><button class="ic" data-act="home" aria-label="${t('home')}">⌂</button>
-      <div class="brand">REDEFINE <b>${t('appShort')}</b></div>
+      <div class="brand"><img class="mark" src="logo-mark.png" alt="REDEFINE"/><span class="rdf">REDEFINE</span> <b>${t('appShort')}</b></div>
       <button class="ic pill" data-act="lang">${lang === 'en' ? '中文' : 'EN'}</button>
       <button class="ic ${S.musicOn && !S.muted ? '' : 'off'}" data-act="musicBar" aria-label="${t('music')}">🎵</button><button class="ic" data-act="mute" aria-label="${t('sound')}">${S.muted ? '🔇' : '🔊'}</button></header>`;
   }
@@ -58,6 +58,7 @@
   const SCREENS = {}, AFTER = {};
   SCREENS.home = () => `
     <div class="hero">
+      <img class="hero-logo" src="logo.png" alt="REDEFINE"/>
       <div class="logo bounce">🎲</div>
       <h1>${t('title')}</h1>
       <p class="tag">${t('tagline')}</p>
@@ -341,7 +342,7 @@
     const r = results(), b = r.before, okB = r.dB.filter(d => d.ok).length, okA = r.dA.filter(d => d.ok).length;
     const date = new Date().toLocaleDateString(lang === 'zh' ? 'zh-CN' : 'en-MY', { day: 'numeric', month: 'short', year: 'numeric' });
     return `<div id="report" class="report">
-      <div class="rhead"><div><b>REDEFINE ${t('appShort')}</b><small>${t('summaryTitle')}</small></div><div class="rd">${esc(G.p.name || t('player'))}<small>${date}</small></div></div>
+      <div class="rhead"><img class="rmark" src="logo-mark.png" alt="REDEFINE"/><div class="rt"><b>REDEFINE ${t('appShort')}</b><small>${t('summaryTitle')}</small></div><div class="rd">${esc(G.p.name || t('player'))}<small>${date}</small></div></div>
       <div class="rsec"><h3>${t('workingFor')}</h3><div class="rdreams">${r.dB.map((d, i) => `<span>${R.DREAM_EMOJI[d.id]} ${i + 1}. ${t('d_' + d.id)} · ${rmShort(d.target)}</span>`).join('')}</div></div>
       <div class="rsec"><h3>${t('profile')}</h3><div class="rgrid">
         <span>${t('p_age')}: <b>${G.p.age}</b></span><span>${t('income')}: <b>${rm(G.p.income)}</b></span><span>${t('spend')}: <b>${rm(r.p.spend)}</b></span>
