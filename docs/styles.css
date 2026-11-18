@@ -179,3 +179,12 @@ a.btn{text-decoration:none;text-align:center;display:flex;align-items:center;jus
 .hero-logo{display:block;width:150px;max-width:45%;height:auto;margin:6px auto 2px}.hero .logo{font-size:44px;line-height:1.1}
 @media (max-width:430px){.top .brand .rdf{display:none}}
 .rhead{align-items:center;gap:12px}.rhead .rmark{height:40px;width:auto;flex:none}.rhead .rt{flex:1}
+/* Quick game: second language under the main line */
+.bi{display:block;font-size:.72em;font-weight:500;opacity:.75;margin-top:2px;line-height:1.25}
+.btn .bi{font-size:.68em;opacity:.85}
+.hl-vs .bi{font-size:.8em}
+.ring.done{background:conic-gradient(var(--coral) 0 100%,transparent 0)}.ring.done span{font-size:22px}
+.hl-hint.late{color:var(--coral);font-weight:800;font-size:16px;opacity:1;animation:nudge 1s infinite}
+@keyframes nudge{50%{transform:scale(1.05)}}
+.rline{font-weight:600}
+[hidden]{display:none!important}

@@ -17,7 +17,7 @@ R.QUICK.forEach(q => {
   ok((q.val > q.cmpVal) === (q.answer === 'hi') && q.val !== q.cmpVal, 'answer matches the figures ' + q.id);
   ok(R.FOLLOW[q.grp], 'round has a follow-up ' + q.id);
 });
-ok(R.scoreRound(10, 1, true) === 150 && R.scoreRound(0, 1, true) === 100 && R.scoreRound(8, 3, false) === 150, 'scoring');
+ok(R.scoreRound(15, 1, true) === 150 && R.scoreRound(7.5, 1, true) === 125 && R.scoreRound(20, 1, true) === 150 && R.scoreRound(0, 1, true) === 100 && R.scoreRound(8, 3, false) === 150, 'scoring');
 const Qd = id => R.QUICK.find(x => x.id === id), mk = (id, guess, follow) => ({ q: Qd(id), guess, correct: guess === Qd(id).answer, follow });
 ok(R.personality([mk('bypass', 'hi', 3), mk('months', 'hi', 0), mk('family', 'hi', 0)]).type === 'yolo', 'YOLO');
 const pl = R.personality([mk('bypass', 'lo', 1), mk('months', 'lo', 3), mk('cancer', 'hi', 0)]);

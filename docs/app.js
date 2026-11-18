@@ -72,7 +72,10 @@
 
   /* ---------- QUICK MODE: Higher or Lower ---------- */
   let tick = null;
-  const ROUND_MS = 10000;
+  const ROUND_MS = R.ROUND_SECS * 1000;
+  // Quick game shows both languages: main language big, the other one small underneath (people in a rush read whichever is faster)
+  const t2 = (k, v) => { const o = lang === 'en' ? 'zh' : 'en', d = window.RLG_I18N[o]; let s = d[k] != null ? d[k] : ''; if (v) for (const q in v) s = s.split('{' + q + '}').join(v[q]); return s; };
+  const bi = (k, v) => `${t(k, v)}<small class="bi">${esc(t2(k, v))}</small>`;
   function startQuick() { Q = { qs: R.pickQuick(), i: 0, phase: 'guess', answers: [], score: 0, streak: 0, deadline: Date.now() + ROUND_MS + 400 }; S.play('drum'); go('quick'); }
   const qFmt = (q, v) => q.unit === 'pct' ? Math.round(v) + '%' : rm(v);
   function answer(g) {   // g = 'hi' | 'lo' | null (time ran out)
@@ -80,7 +83,7 @@
     const q = Q.qs[Q.i], correct = g === q.answer, left = settings.timer ? Math.max(0, Q.deadline - Date.now()) / 1000 : 0;
     Q.streak = correct ? Q.streak + 1 : 0;
     const pts = correct ? R.scoreRound(left, Q.streak, settings.timer) : 0; Q.score += pts;
-    Q.answers[Q.i] = { q, guess: g, correct, pts }; Q.phase = 'reveal';
+    Q.answers[Q.i] = { q, guess: g, correct, pts }; Q.phase = 'reveal'; Q.late = false;
     S.play(correct ? 'good' : 'bad'); render(); if (correct) confetti(20);
   }
   SCREENS.quick = () => {
@@ -89,26 +92,26 @@
     let body = `<div class="qbar"><div class="dots">${dots}</div><div class="score">⭐ <b>${Q.score}</b>${Q.streak > 1 ? ` <span class="streak">🔥×${Q.streak}</span>` : ''}</div></div>`;
     if (Q.phase === 'guess') {
       body += `<div class="hl-wrap"><div id="hlcard" class="hlcard pop">
-        ${settings.timer ? '<div class="ring" id="ring"><span id="ringn">10</span></div>' : ''}
-        <div class="hl-a"><span>${q.ea}</span><b>${t('qa_' + q.id)}</b></div>
-        <div class="hl-vs">${t(q.unit === 'pct' ? 'hlThanPct' : 'hlThan')}</div>
-        <div class="hl-b"><span>${q.eb}</span><b>${t('qb_' + q.id)}</b></div>
-        <div class="hl-hint">↕ ${t('swipeHint')}</div></div></div>
-        <div class="row2 hlbtns"><button class="btn hi" data-act="guess" data-g="hi">⬆️ ${t('higher')}</button><button class="btn lo" data-act="guess" data-g="lo">⬇️ ${t('lower')}</button></div>`;
+        ${settings.timer ? '<div class="ring" id="ring"><span id="ringn">${ROUND_MS / 1000}</span></div>' : ''}
+        <div class="hl-a"><span>${q.ea}</span><b>${bi('qa_' + q.id)}</b></div>
+        <div class="hl-vs">${bi(q.unit === 'pct' ? 'hlThanPct' : 'hlThan')}</div>
+        <div class="hl-b"><span>${q.eb}</span><b>${bi('qb_' + q.id)}</b></div>
+        <div class="hl-hint" id="hlhint">↕ ${t('swipeHint')}</div></div></div>
+        <div class="row2 hlbtns"><button class="btn hi" data-act="guess" data-g="hi">⬆️ ${bi('higher')}</button><button class="btn lo" data-act="guess" data-g="lo">⬇️ ${bi('lower')}</button></div>`;
     } else if (Q.phase === 'reveal') {
       const ok = a.correct, mx = Math.max(q.val, q.cmpVal);
       const src = [F[q.fig], q.cmp ? F[q.cmp] : null, q.id === 'bypass' ? F.F10 : null].filter(Boolean).map(f => esc(fsrc(f)) + ' (' + esc(fdate(f)) + ')').join('; ');
       body += `<div class="reveal pop ${ok ? 'ok' : 'miss'}"><div class="react">${ok ? '🎯' : a.guess ? '😮' : '⏰'}</div>
-        <div class="rtitle">${t(q.answer === 'hi' ? 'itsHigher' : 'itsLower')}</div>
+        <div class="rtitle">${bi(q.answer === 'hi' ? 'itsHigher' : 'itsLower')}</div>
         <div class="meter"><div class="mrow"><span>${q.ea}</span><div class="bar"><i id="barA" data-w="${Math.max(3, q.val / mx * 100)}" style="width:0"></i></div><b id="valA">…</b></div>
           <div class="mrow"><span>${q.eb}</span><div class="bar cmpbar"><i style="width:${Math.max(3, q.cmpVal / mx * 100)}%"></i></div><b>${q.cs}</b></div></div>
-        <div class="pts ${ok ? '' : 'zero'}">${ok ? '+' + a.pts + ' ' + t('points') : t(a.guess ? 'noPoints' : 'timeUp')}</div>
-        <p>${t('r_' + q.id)}</p><div class="src">${t('source')}: ${src}</div></div>
+        <div class="pts ${ok ? '' : 'zero'}">${ok ? '+' + a.pts + ' ' + t('points') : t('noPoints')}</div>
+        <p class="rline">${bi('r_' + q.id)}</p><div class="src">${t('source')}: ${src}</div></div>
         <button class="btn wide hot" data-act="next">${t('next')} →</button>`;
     } else {
       const f = R.FOLLOW[q.grp];
-      body += `<h2 class="q pop">${t(f.q)}</h2><div class="opts">` +
-        f.opts.map((o, k) => `<button class="btn opt" data-act="follow" data-k="${k}">${t(o[1])}</button>`).join('') + '</div>';
+      body += `<h2 class="q pop">${bi(f.q)}</h2><div class="opts">` +
+        f.opts.map((o, k) => `<button class="btn opt" data-act="follow" data-k="${k}">${bi(o[1])}</button>`).join('') + '</div>';
     }
     return body;
   };
@@ -126,8 +129,8 @@
         const ring = document.getElementById('ring'), n = document.getElementById('ringn');
         const upd = () => { const left = Math.max(0, Q.deadline - Date.now());
           n.textContent = Math.min(ROUND_MS / 1000, Math.ceil(left / 1000)); ring.style.setProperty('--p', Math.min(100, left / ROUND_MS * 100) + '%'); ring.classList.toggle('hurry', left <= 3000);
-          if (!left) answer(null); };
-        upd(); if (Q.phase === 'guess') tick = setInterval(upd, 100);
+          if (!left && !Q.late) { Q.late = true; clearInterval(tick); tick = null; ring.classList.add('done'); n.textContent = '⏰'; const h = document.getElementById('hlhint'); if (h) { h.innerHTML = bi('timeUp'); h.classList.add('late'); } S.play('bad'); } };
+        upd(); if (Q.phase === 'guess' && !Q.late) tick = setInterval(upd, 100);
       }
     } else if (Q.phase === 'reveal') {
       const bar = document.getElementById('barA'), val = document.getElementById('valA'), t0 = Date.now(), ms = 900;

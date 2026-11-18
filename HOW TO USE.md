@@ -28,8 +28,8 @@ Top bar, on every screen: **⌂** home · **中文 / EN** switch language at any
 
 **How it runs (Higher or Lower):**
 1. Tap **Quick Game** and hand them the phone (it works one-handed).
-2. 3 cards. Each card puts a real cost next to something everyday (a Myvi, an iPhone, a typical family's monthly income). They **swipe up for Higher, down for Lower**, or tap the big buttons.
-3. Each card has a **10-second timer**. A right answer scores 100 points, plus up to 50 for speed and a bonus for a 🔥 streak. Not every answer is "Higher": every game has at least one "Lower".
+2. 3 cards. Each card puts a real cost next to something everyday (a Myvi, an iPhone, a typical family's monthly income). They **swipe up for MORE, down for LESS**, or tap the big buttons.
+3. Each card has a **15-second timer**. A right answer scores 100 points, plus up to 50 for speed and a bonus for a 🔥 streak. When time is up, the game **waits** ("Time’s up! Still guess") and only moves on after the prospect answers (a late right answer still gets 100 points). Every game has at least one "LESS" answer. Each line shows English with Chinese underneath (or the other way round in 中文 mode).
 4. After each card the real figure is revealed with its source, then one quick "what would you do?" tap.
 5. They get a **money personality card with their score**. Ask them to **Save image** or **Share**: the share message says "Can you beat me?" with the game link.
 6. Hand the iPad back to the form under the card: **they type their first name and WhatsApp number and tick the consent box** themselves. Tap **WhatsApp my result**: *your* WhatsApp opens a chat to *their* number with their personality, score and an invitation to a free 5-minute check. **You press send.**

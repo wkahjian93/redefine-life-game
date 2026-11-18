@@ -36,9 +36,10 @@
     return [lo, ...rest].sort(() => rnd() - 0.5);
   }
 
-  // Points for a correct answer: 100 + up to 50 for speed (timer on) + 25 for each answer already in the streak.
+  // Points for a correct answer: 100 + up to 50 for speed (15 s timer) + 25 for each answer already in the streak.
+  const ROUND_SECS = 15;
   function scoreRound(secsLeft, streak, timerOn) {
-    return 100 + (timerOn ? Math.round(Math.min(10, Math.max(0, secsLeft)) * 5) : 0) + Math.max(0, streak - 1) * 25;
+    return 100 + (timerOn ? Math.round(Math.min(ROUND_SECS, Math.max(0, secsLeft)) / ROUND_SECS * 50) : 0) + Math.max(0, streak - 1) * 25;
   }
 
   // answers: [{q, guess:'hi'|'lo'|null, correct, follow}] → { type, scores, right }
@@ -179,6 +180,6 @@
     return { card: rnd() < pStage ? 'ci' : 'smooth', chance: pStage };
   }
 
-  const api = { prospectNumber, QUICK, FOLLOW, scoreRound, TYPES, TYPE_EMOJI, pickQuick, personality, waNumber, DREAMS, DREAM_EMOJI, CARDS, CARD_EMOJI, stages, simulate, fundDreams, needs, realOddsCard };
+  const api = { ROUND_SECS, prospectNumber, QUICK, FOLLOW, scoreRound, TYPES, TYPE_EMOJI, pickQuick, personality, waNumber, DREAMS, DREAM_EMOJI, CARDS, CARD_EMOJI, stages, simulate, fundDreams, needs, realOddsCard };
   if (typeof module !== 'undefined') module.exports = api; else root.RLG_RULES = api;
 })(this);
