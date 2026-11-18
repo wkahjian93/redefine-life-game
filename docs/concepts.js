@@ -199,6 +199,43 @@
       l1_close: '如果留给孩子的已经安排好了，你第一个想花在什么上？'
     }
   };
+  // Live movie subtitles and controls
+  Object.assign(TX.en, {
+    mv_hint: 'Live movie: the customer controls the character. ⏭ skips.', mv_drag: 'Drag to move', mv_hold: 'Hold the screen to walk →', mv_tapJump: 'Tap to jump!', mv_tapFast: 'Tap fast!', mv_dragCloud: 'Drag the cloud ☁️',
+    mv1_a: 'This is you. Life drops bills on you.', mv1_b: 'Catch the small bills. You can pay these yourself.', mv1_warn: 'Rare… but HUGE!',
+    mv1_hit: 'Too big to dodge. Savings gone!', mv1_r2: 'Same life again. Now you have an umbrella ☂️ for HUGE bills only.', mv1_small2: 'Small bills? Still pay yourself.',
+    mv1_cov: 'Covered ✅ Your savings are safe.', mv1_savings: 'Savings', mv1_caught: 'Paid myself: {n}',
+    mv2_walk: 'Night time. You walk home alone…', mv2_run: 'RUN! He is coming!', mv2_caught: 'He caught you. Sickness and accidents don’t ask first.',
+    mv3_work: 'Work! Each tap = 1 year of salary.', mv3_btn: 'WORK 💪', mv3_done: 'Your earning power until retirement: {a}', mv3_age: 'Age {a}',
+    mv3_tpd: 'Mr. TPD walks in…', mv3_bid: 'I buy your ability to work, forever: {a}', mv3_back: 'He comes back with more money…',
+    mv3_take: 'But Mr. TPD doesn’t need your permission. He can take it anyway.',
+    mv4_grow: 'Salary rain grows your tree. Move the cloud over it!', mv4_tree: 'Tree', mv4_stop: 'Agent: what stops the rain?', mv4_month: 'Month {n}',
+    mv4_out: 'Savings lasted {n} months. Recovery needs {m} months.', mv4_ok: 'Savings last {n} months. Recovery needs {m}. You’re OK ✅',
+    mv5_r1: 'Round 1: ATM jar, lid open. Run 10 years!', mv5_r2: 'Round 2: locked jar 🔒. Save first, spend later.', mv5_hit: 'Spent! −6 months',
+    mv5_end1: 'ATM jar after 10 years: {a}', mv5_end2: 'Locked jar after 10 years: {a}', mv5_spent: 'Temptations that got you in round 1: {n}',
+    mv6_a: 'Every day, both monks fetch water from the river.', mv6_dig: 'Monk B (you!): tap fast to DIG ⛏️', mv6_btn: 'DIG ⛏️', mv6_enough: 'Enough for today. Back tomorrow!', mv6_day: 'Day {n}', mv6_well: 'Well',
+    mv7_walk: 'Your life road. Each stall is a dream.', mv7_stall: '{d} · {c}. Do it?', mv7_kidsSad: 'That money comes out of the kids’ bag…',
+    mv7_plan: 'With a legacy plan: a small amount goes into a gift box for the kids 🎁', mv7_free: 'Now you can say YES to your dreams!',
+    mv7_yes: '{d} · {c}. YES! ✅', mv7_me: 'Me', mv7_kids: 'Kids', mv7_ready: 'Play again with a plan'
+  });
+  Object.assign(TX.zh, {
+    mv_hint: '互动小电影：由客户控制角色。⏭ 可跳过。', mv_drag: '拖动来移动', mv_hold: '按住屏幕往前走 →', mv_tapJump: '点一下跳！', mv_tapFast: '快点点！', mv_dragCloud: '拖动云朵 ☁️',
+    mv1_a: '这是你。人生不停丢账单给你。', mv1_b: '接住小账单，这些你自己付得起。', mv1_warn: '很少发生……但很大！',
+    mv1_hit: '太大了，躲不开。储蓄没了！', mv1_r2: '同样的人生再来一次。现在你有一把伞 ☂️，只挡大账单。', mv1_small2: '小账单？还是自己付。',
+    mv1_cov: '挡住了 ✅ 你的储蓄安全。', mv1_savings: '储蓄', mv1_caught: '自己付了：{n}',
+    mv2_walk: '晚上，你一个人走路回家……', mv2_run: '快跑！他追来了！', mv2_caught: '他抓到你了。疾病和意外不会先问你。',
+    mv3_work: '工作！每点一下 = 1 年薪水。', mv3_btn: '工作 💪', mv3_done: '你到退休的赚钱能力：{a}', mv3_age: '{a} 岁',
+    mv3_tpd: '残废先生走进来了……', mv3_bid: '我买你的工作能力，永久的：{a}', mv3_back: '他带着更多钱回来了……',
+    mv3_take: '可是残废先生不需要你同意，他可以直接拿走。',
+    mv4_grow: '薪水雨让你的树长大。把云移到树上面！', mv4_tree: '树', mv4_stop: '代理：是什么让雨停了？', mv4_month: '第 {n} 个月',
+    mv4_out: '储蓄撑了 {n} 个月。康复要 {m} 个月。', mv4_ok: '储蓄撑 {n} 个月，康复要 {m} 个月。你撑得过 ✅',
+    mv5_r1: '第 1 回合：ATM 罐，盖子开着。跑 10 年！', mv5_r2: '第 2 回合：上锁的罐 🔒。先存，后花。', mv5_hit: '花掉了！−6 个月',
+    mv5_end1: '10 年后的 ATM 罐：{a}', mv5_end2: '10 年后的上锁罐：{a}', mv5_spent: '第 1 回合被诱惑抓到：{n} 次',
+    mv6_a: '每天，两个和尚都下山到河边打水。', mv6_dig: '和尚 B（就是你！）：快点点来挖井 ⛏️', mv6_btn: '挖 ⛏️', mv6_enough: '今天挖够了，明天继续！', mv6_day: '第 {n} 天', mv6_well: '井',
+    mv7_walk: '你的人生路。每个摊位是一个梦想。', mv7_stall: '{d} · {c}。要去做吗？', mv7_kidsSad: '这笔钱是从孩子的袋子里拿的……',
+    mv7_plan: '有传承规划：拿一小笔钱放进给孩子的礼物盒 🎁', mv7_free: '现在你可以对梦想说「好」！',
+    mv7_yes: '{d} · {c}。去做！✅', mv7_me: '我', mv7_kids: '孩子', mv7_ready: '有规划，再玩一次'
+  });
   // Agent scripts (from the REDEFINE portal lessons; shown when the agent taps 🎤)
   const SCRIPT = {
     m1: { zh: ['不是因为发生的可能性很高才买保险，而是因为后果很严重。', '灭火器：这间店以前有火灾过吗？（没有）以后会吗？（不大会）那为什么还要准备灭火器？因为火灾的时候，我们输不起性命，输不起钱财，输不起辛苦打拼回来的一切。', '栏杆理论：人们建栏杆不是因为对走路没信心，而是万一失足掉下去，那个状况输不起。', '保险，是一个方案来解决那个不大会发生的问题，但是如果发生的时候，你却输不起。'],
@@ -245,41 +282,32 @@
       `<h3 class="cgth">${t('th_' + th)}</h3><div class="cgtiles">${gs.map(g => `<button class="cgtile t-${th}" data-act="cgGo" data-g="${g}"><span>${EMO[g]}</span><b>${t('g_' + g)}</b><small>${t('gs_' + g)}</small></button>`).join('')}</div>`).join('') +
       `<p class="small">🔒 ${t('cgNote')}</p>`; };
 
-    /* ---- per-game step renderers ---- */
+    /* ---- per-game steps: intro → live movie (customer controls the hero) → numbers + feeling → closing question ---- */
     const G = {};
+    const movie = (key) => `<div class="mvhost" id="mvhost" data-mv="${key}"></div><p class="small center">🎬 ${t('mv_hint')}</p>`;
     // M1 Insure it or not?
     const M1CARDS = [['flu', '🤧', 1, 0], ['phone', '📱', 1, 0], ['scratch', '🚗', 1, 0], ['stroke', '🧠', 0, 1], ['bypass', '🫀', 0, 1], ['cancer', '🎗️', 0, 1], ['fire', '🔥', 0, 1]];
     G.m1 = {
-      init: () => ({ cards: shuffle(M1CARDS), i: 0, pick: {} }),
+      init: () => ({}),
       steps: [
-        () => `<p class="cgintro">${t('m1_intro')}</p>` + nextBtn(t('cgStart')),
-        () => { const c = C.cards[C.i]; return `<div class="qnum">${t('m1_of', { n: C.i + 1, of: C.cards.length })}</div>
-          <div id="swc" class="hlcard bigcard pop"><span class="bige">${c[1]}</span><b>${t('m1c_' + c[0])}</b><small>${t('m1h_' + c[0])}</small><div class="hl-hint">← → ${t('swipeHint')}</div></div>
-          <div class="row2 hlbtns"><button class="btn hi" data-act="m1Pick" data-v="pay">${t('m1_pay')}</button><button class="btn lo" data-act="m1Pick" data-v="lose">${t('m1_lose')}</button></div>`; },
-        () => { const cell = (lk, big) => C.cards.filter(c => c[2] === lk && c[3] === big).map(c => `<span class="chipe ${C.pick[c[0]]}" title="${t('m1c_' + c[0])}">${c[1]}</span>`).join('');
+        () => `<p class="cgintro">${t('m1_intro')}</p>` + nextBtn('🎬 ' + t('cgStart')),
+        () => movie('m1'),
+        () => { const cell = (lk, big) => M1CARDS.filter(c => c[2] === lk && c[3] === big).map(c => `<span class="chipe" title="${t('m1c_' + c[0])}">${c[1]}</span>`).join('');
           return `<h3>${t('m1_board')}</h3><div class="board"><div class="ax y">${t('m1_likely')} ↑</div>
             <div class="q q1">${cell(1, 0)}<small>${t('m1_likely')} · ${t('m1_small')}</small></div><div class="q q2">${cell(1, 1)}<small>${t('m1_likely')} · ${t('m1_huge')}</small></div>
             <div class="q q3">${cell(0, 0)}<small>${t('m1_rare')} · ${t('m1_small')}</small></div><div class="q q4 hot">${cell(0, 1)}<small>${t('m1_rare')} · ${t('m1_huge')}</small></div>
-            <div class="ax x">${t('m1_huge')} →</div></div><p class="small legend"><i class="pay"></i>${t('m1_pay')} <i class="lose"></i>${t('m1_lose')}</p>` +
+            <div class="ax x">${t('m1_huge')} →</div></div><p class="small">💪 ${t('m1_pay')} → ${t('m1_likely')} · ${t('m1_small')}<br/>🧯 ${t('m1_lose')} → ${t('m1_rare')} · ${t('m1_huge')}</p>` +
             feel(t('m1_feel'), t('m1_feel2')) + `<p class="src">${t('source')}: ${esc(fsrc(F.F1))}; ${esc(fsrc(F.F7))}; ${esc(fsrc(F.F8))}; ${esc(fsrc(F.F9))}</p>` + nextBtn(); },
         end
       ]
     };
-    actions.m1Pick = b => { const c = C.cards[C.i]; C.pick[c[0]] = b.dataset.v; S.play(b.dataset.v === 'lose' ? 'flip' : 'coin');
-      const el = document.getElementById('swc'); if (el) el.classList.add(b.dataset.v === 'pay' ? 'fly-r' : 'fly-l');
-      setTimeout(() => { if (C.i < C.cards.length - 1) C.i++; else C.step++; render(); }, 280); };
 
     // M2 Organ Robber
     const bills = () => [['m1c_stroke', F.F8.rm], ['m1c_bypass', F.F1.max], ['m1c_cancer', F.F7.rm]];
     G.m2 = {
-      init: () => ({ bid: 0, said: [], bonus: null }),
+      init: () => ({ bonus: null }),
       steps: [
-        () => { const organ = C.bid === 0 ? t('m2_liver') : t('m2_eyes'), price = C.bid === 0 ? 'RM1,000,000' : 'RM4,000,000 (RM2,000,000 ×2)';
-          const last = C.said[C.bid - 1];
-          return `${last ? `<div class="note pop">${last === 'deal' ? t('m2_dealR') : t('m2_noR')}</div>` : ''}<div class="robber"><span class="bige shake">🦹</span><div class="bubble pop">${t('m2_bid', { organ, price })}</div></div>
-            <div class="row2 hlbtns"><button class="btn hi" data-act="m2Say" data-v="deal">${t('m2_deal')}</button><button class="btn lo" data-act="m2Say" data-v="no">${t('m2_no')}</button></div>`; },
-        () => `<div class="robber"><span class="bige">🦹💨</span><div class="bubble pop">${t('m2_steal')}</div></div><div class="feel pop"><p>${t('m2_sell', { a: 'RM1,000,000', b: 'RM4,000,000', c: 'RM5,000,000' })}</p></div>
-          <button class="btn wide hot" data-act="cgStep">${t('m2_yes')}</button>`,
+        () => movie('m2'),
         () => `<p class="cgintro">${t('m2_real')}</p><div class="card">${field('med')}<button class="btn" data-act="cgRefresh">${t('update')}</button></div>
           <div class="card"><h3>${t('m2_bills')}</h3>${bills().map(([k, v]) => { const gap = Math.max(0, v - cust.med);
             return `<div class="ln"><span>${t(k)}<small> ${k === 'm1c_stroke' ? t('cgAvg') : t('cgUpTo')} ${rm(v)}</small></span><b class="${gap ? 'bad' : 'good'}">${gap ? t('m2_cardShort', { a: rm(gap) }) : t('m2_cardOk')}</b></div>`; }).join('')}
@@ -289,102 +317,72 @@
         end
       ]
     };
-    actions.m2Say = b => { C.said[C.bid] = b.dataset.v; S.play(b.dataset.v === 'no' ? 'bad' : 'coin'); if (C.bid === 0) { C.bid = 1; render(); } else { S.play('drum'); setTimeout(() => { C.step++; render(); }, 300); } };
     actions.m2Btn = b => { if (b.dataset.v === 'red') { C.bonus = 'red'; S.play('good'); } else { S.play('drum'); C.bonus = Math.random() < 0.5 ? 'win' : 'lose'; setTimeout(() => S.play(C.bonus === 'win' ? 'cheer' : 'bad'), 400); } render(); };
 
     // I1 Sell your earning power
-    const BIDS = [100000, 300000, 500000, 1000000, 3000000, 10000000];
     G.i1 = {
-      init: () => ({ b: 0, sold: null, price: 0 }),
+      init: () => ({ sold: null }),
       steps: [
-        () => `<p class="cgintro">${t('i1_intro')}</p><div class="card">${field('age')}${field('income')}</div>` + nextBtn(t('cgStart')),
-        () => C.sold === null && C.b < BIDS.length ? `<div class="auction"><span class="bige">🧑‍⚖️🔨</span><div class="sub">${t('i1_bid')}</div><div class="bid pop">${rm(BIDS[C.b])}</div></div>
-            <div class="row2 hlbtns"><button class="btn lo" data-act="i1Bid" data-v="sell">${t('i1_sell')}</button><button class="btn hi" data-act="i1Bid" data-v="no">${t('i1_no')}</button></div>`
-          : `<div class="feel pop"><span>${C.sold ? '🤝' : '💎'}</span><p>${C.sold ? t('i1_sold', { a: rm(C.sold) }) : t('i1_never')}</p></div>` + nextBtn(),
-        () => { const A = sh().A, v = M.earningValue(cust.income, cust.age, A.retireAge);
-          return `<div class="center"><div class="sub">${t('i1_value')}</div><div class="bigval" id="i1v">${rm(0)}</div><p class="calc">${t('i1_formula', { inc: rm(cust.income), yrs: Math.max(0, A.retireAge - cust.age), ret: A.retireAge })}</p></div>` + nextBtn(); },
+        () => `<p class="cgintro">${t('i1_intro')}</p><div class="card">${field('age')}${field('income')}</div>` + nextBtn('🎬 ' + t('cgStart')),
+        () => movie('i1'),
         () => { const A = sh().A, v = M.earningValue(cust.income, cust.age, A.retireAge), tag = M.saleTag(cust.sa, v);
-          return `<p class="cgintro">${t('i1_sa')}</p><div class="card">${field('sa')}<button class="btn" data-act="cgRefresh">${t('update')}</button></div>
+          return `<div class="center"><div class="sub">${t('i1_value')}</div><div class="bigval">${rm(v)}</div><p class="calc">${t('i1_formula', { inc: rm(cust.income), yrs: Math.max(0, A.retireAge - cust.age), ret: A.retireAge })}</p></div>
+            <p class="cgintro">${t('i1_sa')}</p><div class="card">${field('sa')}<button class="btn" data-act="cgRefresh">${t('update')}</button></div>
             <div class="pricetag ${tag.kind} pop"><b>${tag.kind === 'free' ? t('i1_free') : tag.kind === 'fair' ? t('i1_fair') : t('i1_sale', { off: tag.off })}</b>
             <small>${tag.kind === 'free' ? t('i1_freeT') : tag.kind === 'fair' ? t('i1_fairT') : t('i1_saleT', { v: rm(v), sa: rm(cust.sa) })}</small></div>` +
             (tag.kind !== 'fair' ? feel(t('i1_feel', { a: C.sold ? rm(C.sold) : (L() === 'zh' ? '一千万' : 'RM10 million'), b: rm(cust.sa) })) : '') + nextBtn(); },
         end
       ]
     };
-    actions.i1Bid = b => { S.play('drum'); if (b.dataset.v === 'sell') { C.sold = BIDS[C.b]; } else { C.b++; } render(); };
-    after.i1v = () => { const el = document.getElementById('i1v'); if (el) countUp(el, M.earningValue(cust.income, cust.age, sh().A.retireAge), 1400); };
 
     // I2 Money Tree
-    const FRUITS = ['🏠', '🚗', '🎓', '👵', '✈️', '💍', '🎁', '🏖️'];
     G.i2 = {
-      init: () => ({ w: [], rain: 0, cause: null }),
+      init: () => ({ w: [], cause: null }),
       steps: [
         () => { const qs = ['i2_w1', 'i2_w2', 'i2_w3'], k = C.w.length;
           return `<h3>${t('i2_warm')}</h3>` + (k < 3 ? `<h2 class="q pop">${t(qs[k])}</h2><div class="row2"><button class="btn" data-act="i2W" data-v="1">${t('i2_wYes')}</button><button class="btn" data-act="i2W" data-v="0">${t('i2_wNo')}</button></div>`
-            : `${feel(t('i2_wHint'))}<div class="card">${field('income')}${field('spend')}${field('savings')}</div>` + nextBtn(t('cgStart'))); },
-        () => `<p class="cgintro">${C.rain < 8 ? t('i2_grow') : t('i2_full')}</p><div class="tree t${Math.min(8, C.rain)}"><div class="cloud ${C.rain < 8 ? 'shake' : ''}">☁️${C.rain ? '<i class="drops">💧💧💧</i>' : ''}</div>
-          <div class="crown">${FRUITS.slice(0, C.rain).map(f => `<span class="fruit pop">${f}</span>`).join('')}</div><div class="trunk">🌳</div></div>
-          ${C.rain ? `<div class="small center">${t('i2_year', { n: C.rain, a: rm(cust.income * 12) })}</div>` : ''}
-          ${C.rain < 8 ? `<button class="btn wide hot" data-act="i2Rain">${t('i2_rain')}</button>` : `<h3>${t('i2_stop')}</h3><div class="row2"><button class="btn lo" data-act="i2Stop" data-v="ci">${t('i2_ci')}</button><button class="btn lo" data-act="i2Stop" data-v="tpd">${t('i2_tpd')}</button></div>`}`,
-        () => { const n = M.monthsLast(cust.savings, 0, cust.spend), need = sh().A.ciYears * 12, keep = Math.max(0, Math.round(8 * Math.min(1, n / need)));
-          return `<p class="cgintro">${t('i2_drought', { a: rm(cust.spend) })}</p><div class="tree dry"><div class="cloud">🌫️</div><div class="crown">${FRUITS.map((f, i) => `<span class="fruit ${i >= keep ? 'fall' : ''}" style="animation-delay:${i * 0.25}s">${f}</span>`).join('')}</div><div class="trunk">🌳</div></div>
-            <div class="center"><div class="sub">${t('i2_months')}</div><div class="bigval bad">${t('i2_mo', { n })}</div><p class="small">${t('i2_need', { n: need })}</p></div>` + nextBtn(t('i2_tank')); },
+            : `${feel(t('i2_wHint'))}<div class="card">${field('income')}${field('spend')}${field('savings')}</div>` + nextBtn('🎬 ' + t('cgStart'))); },
+        () => movie('i2'),
         () => { const need = sh().A.ciYears * 12, n0 = M.monthsLast(cust.savings, 0, cust.spend), n1 = M.monthsLast(cust.savings, cust.cover, cust.spend), mx = Math.max(need, n0, n1, 1);
           const gap = Math.max(0, need * cust.spend - cust.savings - cust.cover);
           return `<p class="cgintro">${t('i2_tank')}</p><div class="card">${field('cover')}<button class="btn" data-act="cgRefresh">${t('update')}</button></div>
-            <div class="card"><div class="mrow"><span>💧</span><div class="bar"><i style="width:${n0 / mx * 100}%"></i></div><b>${t('i2_mo', { n: n0 })}</b></div><small>${t('i2_without')}</small>
-            <div class="mrow"><span>🛢️</span><div class="bar ok"><i style="width:${n1 / mx * 100}%"></i></div><b>${t('i2_mo', { n: n1 })}</b></div><small>${t('i2_withTank')}</small>
-            <div class="needline" style="left:${need / mx * 100}%"></div></div>
+            <div class="card"><div class="mrow"><span>💧</span><div class="bar"><i style="width:${Math.min(100, n0 / mx * 100)}%"></i></div><b>${t('i2_mo', { n: n0 })}</b></div><small>${t('i2_without')}</small>
+            <div class="mrow"><span>🛢️</span><div class="bar ok"><i style="width:${Math.min(100, n1 / mx * 100)}%"></i></div><b>${t('i2_mo', { n: n1 })}</b></div><small>${t('i2_withTank')}</small>
+            <p class="small">${t('i2_need', { n: need })}</p></div>
             ${n1 >= need ? `<div class="okbox">${t('i2_okTank')}</div>` : `<div class="warn">${t('i2_noTank', { n: need, a: rm(gap) })}</div>`}` + feel(t('i2_feel')) + nextBtn(); },
         end
       ]
     };
     actions.i2W = b => { C.w.push(b.dataset.v); S.play('tap'); render(); };
-    actions.i2Rain = () => { readCust(); C.rain++; S.play('coin'); render(); if (C.rain === 8) { S.play('cheer'); confetti(25); } };
-    actions.i2Stop = b => { C.cause = b.dataset.v; S.play('bad'); C.step++; render(); };
 
     // S1 Temptation Jar
     G.s1 = {
-      init: () => ({ round: 'A', k: 0, spent: 0, list: shuffle(TL('s1_t')).slice(0, 8), last: null }),
+      init: () => ({ spent: 0, list: shuffle(TL('s1_t')) }),
       steps: [
-        () => `<p class="cgintro">${t('s1_intro')}</p><div class="card">${field('monthly')}</div><p class="small">${t('s1_roundA')}</p>` + nextBtn(t('cgStart')),
-        () => { const j = M.jar(cust.monthly, Math.min(10, Math.round((C.k + 1) * 10 / C.list.length)), C.spent);
-          if (C.k >= C.list.length) return `<div class="jars"><div class="jar open"><span>🫙</span><b>${rm(M.jar(cust.monthly, 10, C.spent).open)}</b><small>${t('s1_jarA')}</small></div></div>` + nextBtn(t('s1_roundB').split(':')[0]);
-          return `<div class="qnum">${t('s1_roundA')} · ${t('s1_yearN', { n: Math.min(10, Math.ceil((C.k + 1) * 10 / C.list.length)) })}</div>
-            ${C.last ? `<div class="note pop">${C.last === 'spend' ? '😩 ' + t('s1_took') : t('s1_saved')}</div>` : ''}
-            <div class="tempt pop"><span>🛍️</span><b>${esc(C.list[C.k])}</b><div class="tbar"><i id="tbar"></i></div></div>
-            <div class="jars"><div class="jar open"><span>🫙</span><b>${rm(j.open)}</b></div></div>
-            <div class="row2 hlbtns"><button class="btn hi" data-act="s1Pick" data-v="resist">${t('s1_resist')}</button><button class="btn lo" data-act="s1Pick" data-v="spend">${t('s1_spend')}</button></div>`; },
+        () => `<p class="cgintro">${t('s1_intro')}</p><div class="card">${field('monthly')}</div>` + nextBtn('🎬 ' + t('cgStart')),
+        () => movie('s1'),
         () => { const j = M.jar(cust.monthly, 10, C.spent);
-          return `<p class="cgintro">${t('s1_roundB')}</p><div class="note">🔒 ${t('s1_bounce')}</div>
-            <div class="jars"><div class="jar open"><span>🫙</span><b>${rm(j.open)}</b><small>${t('s1_jarA')}</small></div><div class="jar locked pop"><span>🔒🫙</span><b id="s1lock">${rm(0)}</b><small>${t('s1_jarB')}</small></div></div>
-            <p class="cgintro">${t('s1_mum')}</p>` + feel(t('s1_feel')) + nextBtn(); },
+          return `<div class="jars"><div class="jar open"><span>🫙</span><b>${rm(j.open)}</b><small>${t('s1_jarA')}</small></div><div class="jar locked pop"><span>🔒🫙</span><b id="s1lock">${rm(0)}</b><small>${t('s1_jarB')}</small></div></div>
+            <p class="small center">${t('mv5_spent', { n: C.spent })}</p><p class="cgintro">${t('s1_mum')}</p>` + feel(t('s1_feel')) + nextBtn(); },
         end
       ]
     };
-    actions.s1Pick = b => { stop(); C.last = b.dataset.v; if (b.dataset.v === 'spend') { C.spent++; S.play('bad'); } else S.play('good'); C.k++; render(); };
-    after.s1tick = () => { const bar = document.getElementById('tbar'); if (!bar) return; const t0 = Date.now(), ms = 3200;
-      timer = setInterval(() => { const k = Math.min(1, (Date.now() - t0) / ms); bar.style.width = (100 - k * 100) + '%'; if (k >= 1) { stop(); C.last = 'spend'; C.spent++; S.play('bad'); C.k++; render(); } }, 50); };
     after.s1lock = () => { const el = document.getElementById('s1lock'); if (el) { countUp(el, M.jar(cust.monthly, 10, C.spent).locked, 1300); S.play('cheer'); } };
 
     // S2 Monk's Well
     G.s2 = {
-      init: () => ({ dug: 0, ans: null }),
+      init: () => ({ ans: null }),
       steps: [
-        () => `<p class="cgintro">${t('s2_intro')}</p><div class="monks"><div><span class="bige">🧑‍🦲🪣</span><small>A</small></div><div><span class="bige">🧑‍🦲⛏️</span><small>B</small></div></div>
-          <div class="sub">${t('s2_depth')}</div><div class="bar well"><i style="width:${C.dug / 6 * 100}%"></i></div>
-          ${C.dug < 6 ? `<button class="btn wide hot" data-act="s2Dig">${t('s2_dig')}</button>` : `<div class="okbox">${t('s2_done')}</div>` + nextBtn()}`,
-        () => `<h3>☀️ ${t('s2_drought')}</h3><div class="monks"><div class="pop"><span class="bige">🥵🪣⛰️</span><small>${t('s2_a')}</small></div><div class="pop"><span class="bige">🧘💧</span><small>${t('s2_b')}</small></div></div>` + feel(t('s2_feel')) + nextBtn(),
+        () => movie('s2'),
         () => { const full = M.fv(1000, 6, 30);
           if (C.ans == null) return `<h3 class="q">${t('s2_quiz', { a: rm(full) })}</h3><div class="opts">${['s2_o1', 's2_o2', 's2_o3'].map((o, i) => `<button class="btn opt" data-act="s2Ans" data-v="${i}">${t(o)}</button>`).join('')}</div><p class="small">${t('s2_illus')}</p>`;
           const half = M.grow(M.fv(1000, 6, 15), 6, 15), late = M.fv(1000, 6, 15), mx = full;
           return `<div class="feel pop"><span>${C.ans === 2 ? '🎯' : '💡'}</span><p>${t(C.ans === 2 ? 's2_right' : 's2_wrong')}</p></div>
             <div class="card">${[['s2_c1', full], ['s2_c2', half], ['s2_c3', late]].map(([k, v]) => `<div class="mrow"><span>${k === 's2_c1' ? '🏆' : k === 's2_c2' ? '⏸️' : '⏰'}</span><div class="bar"><i style="width:${v / mx * 100}%"></i></div><b>${rmShort(v)}</b></div><small>${t(k)}</small>`).join('')}
-            <p class="small">${t('s2_illus')}</p></div>` + nextBtn(); },
+            <p class="small">${t('s2_illus')}</p></div>` + feel(t('s2_feel')) + nextBtn(); },
         end
       ]
     };
-    actions.s2Dig = () => { C.dug++; S.play('coin'); render(); if (C.dug === 6) { S.play('cheer'); confetti(20); } };
     actions.s2Ans = b => { C.ans = +b.dataset.v; S.play(C.ans === 2 ? 'good' : 'bad'); render(); };
 
     // L1 Spend it or leave it?
@@ -395,19 +393,20 @@
         () => `<p class="cgintro">${t('l1_intro')}</p><div class="card">${field('assets')}</div><h3>${t('l1_dreams')}</h3>` +
           LD.map(id => { const d = C.dreams.find(x => x.id === id); return `<div class="card ldream ${d ? 'on' : ''}"><button class="ldtog" data-act="l1Dream" data-id="${id}">${d ? '✅' : '⬜'} ${t('ld_' + id)}</button>
             ${d ? `<div class="chips">${LCH.map(v => `<button class="chip ${d.cost === v ? 'on' : ''}" data-act="l1Cost" data-id="${id}" data-v="${v}">${rmShort(v)}</button>`).join('')}</div>` : ''}</div>`; }).join('') +
-          (C.dreams.length ? nextBtn() : ''),
-        () => { const r = M.legacy(cust.assets, C.dreams, C.chosen, 0, 0).noPlan, tot = Math.max(1, cust.assets);
-          return `<p class="cgintro">${t('l1_scale')}</p>${scale(r.me, r.kids, tot)}` + C.dreams.map((d, i) => `<div class="ln"><span>${t('ld_' + d.id)} · ${rmShort(d.cost)}</span>
-            <span class="seg"><button class="chip ${C.chosen[i] ? 'on' : ''}" data-act="l1Do" data-i="${i}" data-v="1">${t('l1_do')}</button><button class="chip ${C.chosen[i] ? '' : 'on'}" data-act="l1Do" data-i="${i}" data-v="0">${t('l1_skip')}</button></span></div>`).join('') +
-            `<div class="note">${t('l1_guilt')}</div>` + nextBtn(); },
-        () => { const cost = Number(C.planCost) || 0, leg = Number(C.planLeg) || 0, r = M.legacy(cust.assets, C.dreams, C.chosen, cost, leg);
-          const ready = cost > 0 && leg > 0, done0 = C.chosen.filter(Boolean).length, both = ready && r.plan.kids >= r.noPlan.kids;
-          return `<p class="cgintro">${t('l1_plan')}</p><div class="card agentbox"><label class="field"><span>🧑‍💼 ${t('l1_cost')}</span><input type="number" inputmode="numeric" id="l1c" value="${esc(C.planCost)}"/></label>
+          (C.dreams.length ? nextBtn('🎬 ' + t('cgStart')) : ''),
+        () => movie('l1a'),
+        () => { const r = M.legacy(cust.assets, C.dreams, C.chosen, 0, 0).noPlan, ready = Number(C.planCost) > 0 && Number(C.planLeg) > 0;
+          return `<div class="center"><div class="sub">${t('l1_before')}</div></div>${scale(r.me, r.kids, Math.max(1, cust.assets))}<div class="note">${t('l1_guilt')}</div>
+            <p class="cgintro">${t('l1_plan')}</p><div class="card agentbox"><label class="field"><span>🧑‍💼 ${t('l1_cost')}</span><input type="number" inputmode="numeric" id="l1c" value="${esc(C.planCost)}"/></label>
             <label class="field"><span>🧑‍💼 ${t('l1_leg')}</span><input type="number" inputmode="numeric" id="l1l" value="${esc(C.planLeg)}"/></label><p class="small">${t('l1_agent')}</p><button class="btn" data-act="l1Plan">${t('update')}</button></div>` +
-            (!ready ? `<div class="warn">${t('l1_need')}</div>` : `${scale(r.plan.me, r.plan.kids, Math.max(cust.assets, r.plan.kids + r.plan.me))}
+            (ready ? nextBtn('🎬 ' + t('mv7_ready')) : `<div class="warn">${t('l1_need')}</div>`); },
+        () => movie('l1b'),
+        () => { const cost = Number(C.planCost) || 0, leg = Number(C.planLeg) || 0, r = M.legacy(cust.assets, C.dreams, C.chosen, cost, leg);
+          const done0 = C.chosen.filter(Boolean).length, both = r.plan.kids >= r.noPlan.kids;
+          return `${scale(r.plan.me, r.plan.kids, Math.max(cust.assets, r.plan.kids + r.plan.me))}
               <table class="rt"><tr><th></th><th>${t('l1_before')}</th><th>${t('l1_after')}</th></tr><tr><td>${t('l1_dreamsDone')}</td><td>${done0}/${C.dreams.length}</td><td>${C.dreams.length}/${C.dreams.length}</td></tr>
               <tr><td>${t('l1_kidsGet')}</td><td>${rm(r.noPlan.kids)}</td><td>${rm(r.plan.kids)}</td></tr></table>
-              ${both ? `<div class="okbox">${t('l1_both')}</div>` + feel(t('l1_feel'), t('l1_feel2')) : `<div class="warn">${t('l1_less')}</div>`}` + nextBtn()); },
+              ${both ? `<div class="okbox">${t('l1_both')}</div>` + feel(t('l1_feel'), t('l1_feel2')) : `<div class="warn">${t('l1_less')}</div>`}` + nextBtn(); },
         end
       ]
     };
@@ -418,24 +417,20 @@
     actions.l1Dream = b => { readCust(); const id = b.dataset.id, k = C.dreams.findIndex(x => x.id === id);
       if (k >= 0) { C.dreams.splice(k, 1); C.chosen.splice(k, 1); } else if (C.dreams.length < 4) { C.dreams.push({ id, cost: 100000 }); C.chosen.push(false); } else S.play('bad'); render(); };
     actions.l1Cost = b => { readCust(); C.dreams.find(x => x.id === b.dataset.id).cost = +b.dataset.v; render(); };
-    actions.l1Do = b => { C.chosen[+b.dataset.i] = b.dataset.v === '1'; S.play(b.dataset.v === '1' ? 'coin' : 'tap'); render(); };
-    actions.l1Plan = () => { C.planCost = Math.max(0, Number(document.getElementById('l1c').value) || 0) || ''; C.planLeg = Math.max(0, Number(document.getElementById('l1l').value) || 0) || '';
-      const r = M.legacy(cust.assets, C.dreams, C.chosen, Number(C.planCost) || 0, Number(C.planLeg) || 0); render();
-      if (C.planCost && C.planLeg && r.plan.kids >= r.noPlan.kids) { S.play('cheer'); confetti(30); } };
+    actions.l1Plan = () => { C.planCost = Math.max(0, Number(document.getElementById('l1c').value) || 0) || ''; C.planLeg = Math.max(0, Number(document.getElementById('l1l').value) || 0) || ''; render(); };
 
     /* ---- game screen + shared actions ---- */
+    const SC = window.RLG_SCENES ? window.RLG_SCENES({ t, rm, rmShort, F, M, get cust() { return cust; }, A: () => sh().A, C: () => C }) : null;
     screens.cg = () => { stop(); return head() + `<div class="cgdots">${G[C.g].steps.map((_, i) => `<i class="${i <= C.step ? 'on' : ''}"></i>`).join('')}</div>` + G[C.g].steps[C.step](); };
     after.cg = () => {
-      if (C.g === 'i1' && C.step === 2) after.i1v();
-      if (C.g === 's1' && C.step === 1) after.s1tick();
       if (C.g === 's1' && C.step === 2) after.s1lock();
-      if (C.g === 'i2' && C.step === 2) S.play('bad');
       if (C.step === G[C.g].steps.length - 1) S.play('cheer');
-      // swipe left/right on the M1 card
-      const card = document.getElementById('swc'); if (card) { let x0 = null;
-        card.addEventListener('pointerdown', e => { x0 = e.clientX; card.style.animation = 'none'; try { card.setPointerCapture(e.pointerId); } catch (x) {} });
-        card.addEventListener('pointermove', e => { if (x0 == null) return; const dx = e.clientX - x0; card.style.transform = `translateX(${dx}px) rotate(${dx / 20}deg)`; card.classList.toggle('up', dx > 40); card.classList.toggle('down', dx < -40); });
-        card.addEventListener('pointerup', e => { if (x0 == null) return; const dx = e.clientX - x0; x0 = null; if (Math.abs(dx) > 70) { S.play('swoosh'); } if (Math.abs(dx) > 70) actions.m1Pick({ dataset: { v: dx > 0 ? 'pay' : 'lose' } }); else { card.style.transform = ''; card.classList.remove('up', 'down'); } }); }
+      const host = document.getElementById('mvhost');
+      if (host && SC && window.RLG_MOVIE) {
+        const key = host.dataset.mv, mine = C;
+        window.RLG_MOVIE(host, SC[key](), { t, sfx: n => S.play(n),
+          onEnd: res => { if (C !== mine) return; Object.assign(C, res); C.step = Math.min(C.step + 1, G[C.g].steps.length - 1); render(); window.scrollTo(0, 0); } });
+      }
     };
     actions.concepts = () => { stop(); go('concepts'); };
     actions.cgGo = b => { stop(); C = { g: b.dataset.g, step: 0, ...G[b.dataset.g].init() }; S.play('drum'); go('cg'); };
