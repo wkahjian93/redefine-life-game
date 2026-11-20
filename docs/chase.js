@@ -29,6 +29,8 @@
     DECLINE_AT: 2,           // 2 or more health problems, or any after getting sick → cannot buy
     PAYOUT: 120,             // game coins paid when insured and caught
     WIN: 100, START_AGE: 25, END_AGE: 65, LIFE_SECS: 180,
+    // chaser speed (tiles per second; the player runs 4.6): very slow when young, faster from 40, very fast from 50
+    SPEED: [[25, 1.2], [40, 2.8], [50, 4.1]],
     MAX_HITS: 3              // caught 3 times by illness / accident / disability = game over
   };
   // what the agent can offer, given the player's health history
@@ -44,7 +46,10 @@
     while (q.length) { const [c, r] = q.shift(); [[1, 0], [-1, 0], [0, 1], [0, -1]].forEach(([dx, dy]) => { const nc = c + dx, nr = r + dy; if (walk(nc, nr) && d[nr][nc] === Infinity) { d[nr][nc] = d[r][c] + 1; q.push([nc, nr]); } }); }
     return d;
   }
-  const API = { MAZE, RULES, quote, walk, bfs };
+  // chaser speed at an age: the band's base speed plus a little more each year inside the band
+  function speedAt(age) { const b = RULES.SPEED.filter(x => age >= x[0]).pop() || RULES.SPEED[0]; return +(b[1] + (age - b[0]) * 0.03).toFixed(2); }
+  const bandAt = age => RULES.SPEED.filter(x => age >= x[0]).length - 1;
+  const API = { MAZE, RULES, quote, walk, bfs, speedAt, bandAt };
   if (typeof module !== 'undefined' && module.exports) { module.exports = API; return; }
 
   /* ---------- the game ---------- */
@@ -71,9 +76,9 @@
     const ent = (c, r, speed, e, tag) => ({ c, r, tc: null, tr: null, p: 0, dir: [0, 0], want: null, speed, e, tag, x: c, y: r, home: [c, r], on: true });
     const P = ent(7, 13, 4.6, '🧑');
     const chasers = [ent(1, 1, 2.2, '🤒', 'ciTag'), ent(13, 1, 2.2, '🚑', 'accTag'), ent(7, 5, 2.2, '🧑‍🦽', 'tpdTag')];
-    chasers.forEach((c, i) => { c.on = false; c.wakeAt = [2, 9, 16][i]; });
+    chasers.forEach((c, i) => { c.on = false; c.wakeAt = [6, 14, 22][i]; });
     const agent = ent(7, 15, 3.0, '🧑‍💼'); agent.on = false; agent.wakeAt = 5; agent.anim = null;
-    let coins = [], boxes = [], floats = [], parts = [], nextBox = 3, dist = null, msgT = '', msgAt = -9;
+    let coins = [], boxes = [], floats = [], parts = [], nextBox = 1.5, dist = null, msgT = '', msgAt = -9;
 
     // coins on every path tile except the start areas
     for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) if (walk(c, r) && !(r === 13 && c === 7)) coins.push({ c, r });
@@ -192,8 +197,9 @@
     /* ---- loop ---- */
     function update(dt) {
       time += dt;
-      const sp = Math.min(4.4, 2.2 + time * 0.016);                     // chasers get faster and faster
-      if (Math.floor(time) !== Math.floor(time - dt)) music('arcade', 1 + (sp - 2.2) / 2.2 * 0.4);   // and so does the music
+      const sp = speedAt(age()), band = bandAt(age());                    // slow when young, faster at 40, very fast at 50
+      if (band !== S.band) { if (S.band != null) { say(t(band === 1 ? 'chFaster40' : 'chFaster50'), false); sfx('drum'); flash = { c: '#FF6B4A', at: time }; } S.band = band; }
+      if (Math.floor(time) !== Math.floor(time - dt)) music('arcade', [1, 1.2, 1.4][band] + (sp - RULES.SPEED[band][1]) * 0.05);   // and so does the music
       chasers.forEach(c => { if (!c.on && time >= c.wakeAt) { c.on = true; say(t('chWake', { what: t(c.tag) }), false); sfx('drum'); } c.speed = sp; });
       if (!agent.on && !S.agentGone && !S.insured && time >= agent.wakeAt) { agent.on = true; if (S.offers === 0) say(t('chAgentCome')); }
       step(P, dt, playerChoose);
@@ -205,9 +211,9 @@
       const ci = coins.findIndex(k => k.c === pc && k.r === pr); if (ci >= 0) { coins.splice(ci, 1); S.money += 1; sfx('coin'); hud(); }
       if (coins.length < 25 && Math.random() < dt * 2) { const f = freeCell(); if (f && !coins.some(k => k.c === f[0] && k.r === f[1])) coins.push({ c: f[0], r: f[1] }); }
       // [?] boxes
-      if (time > nextBox && boxes.length < 4) { const f = freeCell(); if (f) { const roll = Math.random(); const kind = S.allPurpose ? 'purpose' : roll < 0.42 ? 'health' : roll < 0.55 ? 'invest' : 'purpose';
+      if (time > nextBox && boxes.length < 6) { const f = freeCell(); if (f) { const roll = Math.random(); const kind = S.allPurpose ? 'purpose' : roll < 0.42 ? 'health' : roll < 0.55 ? 'invest' : 'purpose';
         boxes.push({ c: f[0], r: f[1], kind, item: kind === 'health' ? HEALTH[Math.floor(Math.random() * HEALTH.length)] : kind === 'purpose' ? PURPOSE[Math.floor(Math.random() * PURPOSE.length)] : null, until: time + 14 }); }
-        nextBox = time + 2.6 + Math.random() * 2; }
+        nextBox = time + 1 + Math.random() * 0.8; }
       boxes = boxes.filter(b => b.until > time);
       const bx = boxes.find(b => b.c === pc && b.r === pr); if (bx) openBox(bx);
       // agent touch

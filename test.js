@@ -85,5 +85,6 @@ const CH = require('./docs/chase.js');
 ok(CH.quote([], false).kind === 'ok' && CH.quote(['bp'], false).price === CH.RULES.BASE_PRICE * 3 && CH.quote(['bp', 'chol'], false).kind === 'decline' && CH.quote([], true).kind === 'decline',
   'agent: healthy = normal price, 1 health problem = 3x, 2+ or already sick = cannot buy');
 ok(CH.RULES.MAX_HITS === 3, 'caught 3 times = game over');
+ok(CH.speedAt(25) < 2 && CH.speedAt(39) < CH.speedAt(40) && CH.speedAt(40) < CH.speedAt(50) && CH.speedAt(50) < 4.6 && CH.speedAt(64) < 4.6, 'chasers: slow young, faster at 40, very fast at 50, never faster than the player');
 
 console.log(`${pass} passed, ${fail} failed`); process.exit(fail ? 1 : 0);
