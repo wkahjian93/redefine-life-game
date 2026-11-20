@@ -29,16 +29,30 @@
   const BASS = [36, 31, 33, 29];
   const ARP = [0, 1, 2, 1, 0, 2, 1, 2];            // order of chord tones per bar
   const MELODY = [[72, 0], [74, 2], [76, 4], [74, 6], [71, 8], [67, 11], [72, 16], [76, 18], [77, 20], [76, 22], [72, 24], [69, 27]]; // [note, step] over 32 steps
-  let bus = null, timer = null, nextT = 0, step = 0;
+  /* ---- arcade track for the "Don't Wait!" maze chase: an original fast 8-bit tune in A minor (Am – F – G – E), 140 bpm, speeds up ---- */
+  const A_STEP = 60 / 140 / 2, A_ROOT = [45, 41, 43, 40];
+  const A_MEL = [[81, 0], [79, 1], [76, 2], [72, 3], [74, 4], [76, 6], [77, 8], [76, 9], [74, 10], [72, 11], [71, 12], [74, 14],
+    [76, 16], [72, 17], [69, 18], [72, 19], [71, 20], [67, 22], [68, 24], [71, 25], [74, 26], [76, 27], [80, 28], [76, 30]];
+  const A_MEL2 = [[69, 0], [72, 2], [76, 4], [72, 6], [77, 8], [72, 10], [69, 12], [72, 14], [79, 16], [74, 18], [71, 20], [74, 22], [76, 24], [80, 26], [83, 28], [80, 30]];
+  let bus = null, timer = null, nextT = 0, step = 0, track = 'main', speed = 1;
   function schedule() {
     const c = ctx; if (!c) return;
     while (nextT < c.currentTime + 0.25) {
-      const bar = Math.floor(step / 8) % 4, s = step % 8, chord = CHORDS[bar];
-      if (s === 0 || s === 4) tone(hz(BASS[bar]), 0, STEP * 3.5, 'triangle', 0.5, bus, nextT);
-      tone(hz(chord[ARP[s]] + 12), 0, STEP * 0.9, 'sine', 0.18, bus, nextT);
-      if (s % 2 === 1) tone(6000, 0, 0.03, 'square', 0.025, bus, nextT);                // soft hi-hat tick
-      const m = MELODY.find(x => x[1] === step % 32); if (m && Math.floor(step / 32) % 2 === 1) tone(hz(m[0]), 0, STEP * 1.8, 'triangle', 0.22, bus, nextT); // melody every 2nd round
-      nextT += STEP; step++;
+      if (track === 'arcade') {
+        const st = A_STEP / speed, bar = Math.floor(step / 8) % 4, root = A_ROOT[bar], s32 = step % 32, round = Math.floor(step / 32) % 2;
+        tone(hz(root + (step % 2 ? 12 : 0)), 0, st * 0.8, 'triangle', 0.45, bus, nextT);              // bouncing octave bass
+        tone(7000, 0, 0.02, 'square', step % 2 ? 0.012 : 0.03, bus, nextT);                           // fast hi-hat
+        const m = (round ? A_MEL2 : A_MEL).find(x => x[1] === s32); if (m) tone(hz(m[0]), 0, st * 0.9, 'square', 0.1, bus, nextT);
+        nextT += st;
+      } else {
+        const bar = Math.floor(step / 8) % 4, s = step % 8, chord = CHORDS[bar];
+        if (s === 0 || s === 4) tone(hz(BASS[bar]), 0, STEP * 3.5, 'triangle', 0.5, bus, nextT);
+        tone(hz(chord[ARP[s]] + 12), 0, STEP * 0.9, 'sine', 0.18, bus, nextT);
+        if (s % 2 === 1) tone(6000, 0, 0.03, 'square', 0.025, bus, nextT);                // soft hi-hat tick
+        const m = MELODY.find(x => x[1] === step % 32); if (m && Math.floor(step / 32) % 2 === 1) tone(hz(m[0]), 0, STEP * 1.8, 'triangle', 0.22, bus, nextT); // melody every 2nd round
+        nextT += STEP;
+      }
+      step++;
     }
   }
   function startMusic() {
@@ -72,6 +86,10 @@
     get musicOn() { return musicOn; },
     toggle() { muted = !muted; try { localStorage.setItem('rlg.mute', muted ? '1' : '0'); } catch (e) {} if (muted) stopMusic(); else { this.play('tap'); startMusic(); } return muted; },
     setMusic(on) { musicOn = !!on; try { localStorage.setItem('rlg.music', on ? '1' : '0'); } catch (e) {} if (on) startMusic(); else stopMusic(); },
-    get playing() { return !!timer; }
+    get playing() { return !!timer; },
+    get track() { return track; },
+    // switch between the normal loop ('main') and the maze chase tune ('arcade'); speed 1 = normal, higher = faster
+    setTrack(name) { if (name === track) return; track = name; step = 0; if (timer && ctx) nextT = ctx.currentTime + 0.15; },
+    setSpeed(x) { speed = Math.max(0.5, Math.min(2, x || 1)); }
   };
 })(this);

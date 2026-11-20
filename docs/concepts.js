@@ -452,7 +452,7 @@
       if (C.g === 's1' && C.step === 2) after.s1lock();
       if (C.step === G[C.g].steps.length - 1) S.play('cheer');
       const ch = document.getElementById('chhost');
-      if (ch && window.RLG_CHASE) { const mine = C; chase = window.RLG_CHASE(ch, { t, sfx: n => S.play(n),
+      if (ch && window.RLG_CHASE) { const mine = C; chase = window.RLG_CHASE(ch, { t, sfx: n => S.play(n), music: (tr, sp) => { if (S.setTrack) { S.setTrack(tr); S.setSpeed(sp); } },
         onEnd: res => { if (C !== mine) return; C.res = res; C.step = 2; chase = null; render(); window.scrollTo(0, 0); } }); }
       const host = document.getElementById('mvhost');
       if (host && SC && window.RLG_MOVIE) {

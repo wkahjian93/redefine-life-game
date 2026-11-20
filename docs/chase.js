@@ -55,7 +55,7 @@
   const PURPOSE = [['house', '🏠', 20], ['car', '🚗', 15], ['baby', '👶', 20], ['love', '💕', 10], ['travel', '✈️', 15], ['edu', '🎓', 20]];
 
   root.RLG_CHASE = function (host, opts) {
-    const t = opts.t, sfx = n => opts.sfx && opts.sfx(n);
+    const t = opts.t, sfx = n => opts.sfx && opts.sfx(n), music = (tr, sp) => opts.music && opts.music(tr, sp);
     host.innerHTML = `<div class="ch-hud"><span id="chLives"></span><span id="chAge"></span><span id="chMoney"></span><span id="chIns"></span><span id="chFlags"></span></div>
       <div class="ch-pbar"><i id="chP"></i><b id="chPt"></b></div>
       <div class="ch-stage"><canvas></canvas><div class="ch-pop" hidden></div></div>
@@ -193,6 +193,7 @@
     function update(dt) {
       time += dt;
       const sp = Math.min(4.4, 2.2 + time * 0.016);                     // chasers get faster and faster
+      if (Math.floor(time) !== Math.floor(time - dt)) music('arcade', 1 + (sp - 2.2) / 2.2 * 0.4);   // and so does the music
       chasers.forEach(c => { if (!c.on && time >= c.wakeAt) { c.on = true; say(t('chWake', { what: t(c.tag) }), false); sfx('drum'); } c.speed = sp; });
       if (!agent.on && !S.agentGone && !S.insured && time >= agent.wakeAt) { agent.on = true; if (S.offers === 0) say(t('chAgentCome')); }
       step(P, dt, playerChoose);
@@ -264,8 +265,8 @@
       if (!stopped) draw();
       raf = requestAnimationFrame(frame);
     }
-    function stop() { stopped = true; cancelAnimationFrame(raf); document.removeEventListener('keydown', key); window.removeEventListener('resize', size); }
-    size(); window.addEventListener('resize', size); hud(); say(t('chStart'));
+    function stop() { stopped = true; music('main', 1); cancelAnimationFrame(raf); document.removeEventListener('keydown', key); window.removeEventListener('resize', size); }
+    size(); window.addEventListener('resize', size); hud(); say(t('chStart')); music('arcade', 1);
     raf = requestAnimationFrame(frame);
     return { stop, skip: () => finish(S.purpose >= RULES.WIN) };
   };
