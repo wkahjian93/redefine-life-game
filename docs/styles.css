@@ -197,3 +197,26 @@ a.btn{text-decoration:none;text-align:center;display:flex;align-items:center;jus
 .mv-btns .btn.big{font-size:22px;padding:18px}
 .mv-sub{min-height:3.2em;margin-top:8px;padding:10px 14px;border-radius:14px;background:#14213D;color:#fff;font-size:18px;font-weight:700;line-height:1.35;text-align:center;opacity:.25;transition:opacity .2s}
 .mv-sub.on{opacity:1}
+
+/* Don't Wait maze chase */
+.chhost{display:flex;flex-direction:column;align-items:center;gap:6px;margin-top:4px}
+.ch-hud{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;width:100%}
+.ch-hud span{background:#14213D;color:#fff;border-radius:999px;padding:4px 10px;font-weight:800;font-size:14px}
+.ch-hud span.ok{background:#2A9D8F}.ch-hud span.bad{background:#E63946}.ch-hud span:empty{display:none}
+.ch-pbar{position:relative;width:100%;max-width:560px;height:22px;border-radius:999px;background:rgba(20,33,61,.12);overflow:hidden}
+.ch-pbar i{position:absolute;inset:0 auto 0 0;background:linear-gradient(90deg,#FFC93C,#FF6B4A);transition:width .3s}
+.ch-pbar b{position:relative;display:block;text-align:center;font-size:13px;line-height:22px;color:#14213D}
+.ch-stage{position:relative;border-radius:16px;overflow:hidden;box-shadow:0 8px 24px rgba(20,33,61,.18)}
+.ch-stage canvas{display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.ch-pop{position:absolute;inset:0;background:rgba(20,33,61,.82);color:#fff;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:18px;gap:8px}
+.ch-pop h3{margin:0;color:#FFC93C;font-size:20px}.ch-pop p{margin:0;font-size:17px;line-height:1.4}.ch-pop .small{font-size:12px;opacity:.75}
+.ch-pop .bad{color:#FFB4BB;font-weight:700}.ch-pop .row2{width:100%}.ch-pop .btn{font-size:20px}
+.ch-agent{font-size:56px;animation:nudge 1s infinite}
+.ch-msg{width:100%;max-width:560px;min-height:2.8em;padding:8px 12px;border-radius:12px;background:#14213D;color:#fff;font-weight:700;font-size:16px;text-align:center;opacity:.35}
+.ch-msg.on{opacity:1}.ch-msg.good{background:#2A9D8F}.ch-msg.bad{background:#E63946}
+.ch-pad{display:grid;grid-template-columns:repeat(3,64px);grid-template-rows:repeat(2,56px);gap:6px;justify-content:center}
+.ch-pad button{border:0;border-radius:14px;background:#14213D;color:#FFC93C;font-size:24px;touch-action:manipulation}
+.ch-pad button:active{transform:scale(.94);background:#FF6B4A;color:#fff}
+.ch-pad [data-d=up]{grid-column:2;grid-row:1}.ch-pad [data-d=left]{grid-column:1;grid-row:2}.ch-pad [data-d=down]{grid-column:2;grid-row:2}.ch-pad [data-d=right]{grid-column:3;grid-row:2}
+.chskip{display:block;margin:8px auto 0}
+.c1rules p{margin:6px 0;font-size:16px}

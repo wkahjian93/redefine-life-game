@@ -76,4 +76,13 @@ ok(CG.jar(500, 10, 3).open === 51000 && CG.jar(500, 10, 3).locked === 60000, 'te
 const LG = CG.legacy(1000000, [{ cost: 100000 }, { cost: 200000 }], [true, false], 150000, 1000000);
 ok(LG.noPlan.kids === 900000 && LG.plan.kids === 1550000 && LG.plan.me === 300000, 'legacy with and without a plan');
 
+// Don't Wait maze chase rules
+const CH = require('./docs/chase.js');
+{ const d = CH.bfs(7, 13); let reach = true, noDead = true;
+  CH.MAZE.forEach((row, r) => [...row].forEach((ch, c) => { if (ch === '#') return; if (d[r][c] === Infinity) reach = false;
+    if ([[1, 0], [-1, 0], [0, 1], [0, -1]].filter(([x, y]) => CH.walk(c + x, r + y)).length < 2) noDead = false; }));
+  ok(reach && noDead, 'maze: every path reachable, no dead ends'); }
+ok(CH.quote([], false).kind === 'ok' && CH.quote(['bp'], false).price === CH.RULES.BASE_PRICE * 3 && CH.quote(['bp', 'chol'], false).kind === 'decline' && CH.quote([], true).kind === 'decline',
+  'agent: healthy = normal price, 1 health problem = 3x, 2+ or already sick = cannot buy');
+
 console.log(`${pass} passed, ${fail} failed`); process.exit(fail ? 1 : 0);

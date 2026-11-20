@@ -236,8 +236,11 @@
     mv7_plan: '有传承规划：拿一小笔钱放进给孩子的礼物盒 🎁', mv7_free: '现在你可以对梦想说「好」！',
     mv7_yes: '{d} · {c}。去做！✅', mv7_me: '我', mv7_kids: '孩子', mv7_ready: '有规划，再玩一次'
   });
+  Object.assign(TX.en, {"th_delay":"⏰ Don’t wait","g_c1":"Don’t Wait!","gs_c1":"Maze chase: collect, dodge illness, meet the agent","c1_intro":"Run through life collecting money and dreams. Illness, accidents and disability are chasing you. An insurance agent is following you too.","c1_r1":"🕹️ Swipe on the maze, or use the ▲▼◀▶ buttons.","c1_r2":"🪙 Coins = money. ❓ boxes = life: dreams (⭐ purpose points), investment, or health problems.","c1_r3":"🧑‍💼 Touch the agent: the game pauses. Buy or say “not now”. Health problems first = cost 3×, or cannot buy.","c1_r4":"🤒🚑🧑‍🦽 If they catch you with no insurance: purpose points and money go to zero. With insurance: you get a big payout.","c1_r5":"🏆 Reach 100 purpose points before age 65. They get faster every year!","c1_endNow":"End game now","c1_win":"You made it! 100 purpose points 🎉","c1_lose":"Game over at age {a}","c1_rP":"Purpose points","c1_rM":"Money left","c1_rIns":"Insured","c1_atAge":"Yes, at age {a}","c1_never":"Never","c1_rRej":"Said “not now” to the agent","c1_rFlags":"Health problems before buying","c1_none":"None","c1_rDec":"Could not buy (health)","c1_rClaims":"Claims paid to you","c1_rHits":"Caught with no cover","c1_lLate":"You said “not now” {n} time(s). When you wanted it, your health had already changed the answer.","c1_lHit":"Life caught you before you were covered. Purpose and money: gone in one moment.","c1_lGood":"You bought early. When life caught you, the payout kept your dreams going.","c1_lSafe":"You bought early, while you were healthy and it was cheap. 👍","c1_lNone":"Lucky this time. But the chasers only get faster.","c1_feel":"Insurance is bought with your health, not with your money. Don’t wait until it’s too late.","c1_feel2":"The best time to buy is when you don’t need it yet.","c1_note":"Game rules are simplified, with game coins (not real prices). In real life the insurer decides after checking your health: extra cost, exclusions or decline are possible.","c1_close":"If you met an agent today, would you say “later”? What would “later” cost you?","chAge":"Age {a}","chInsured":"Insured","chNoCover":"No cover","chSick":"Can’t buy","ciTag":"Critical illness","accTag":"Accident","tpdTag":"Disability","chAgentTag":"Agent","chHow":"Swipe or use the buttons","chStart":"Go! Collect coins and ❓ boxes. Watch out behind you!","chWake":"{what} is coming for you!","chAgentCome":"🧑‍💼 An insurance agent is following you…","chOffer":"Insurance agent: “Protect yourself now?”","chPrice":"Price: {p} 💰 (game coins).","chLoading":"Because of {list}, the price is 3×: {p} 💰.","chDecline":"Sorry… because of {list}, you cannot buy insurance now.","chNoMoney":"You need {p} 💰. Collect more coins first.","chBuy":"Buy","chReject":"Not now","chOk":"OK","chGameNote":"Game coins only. Not a real price or product.","chBought":"Protected! 🛡️ The agent leaves happy.","chRejected":"You said “not now”. The agent will be back…","chDeclined":"Too late to buy. The agent has to leave.","chClaim":"{what} caught you, but you’re insured: +{p} 💰! All ❓ boxes are now dreams ⭐","chHit":"{what} caught you with no cover… Purpose points and money: gone. 😭","chInvest":"Investment paid off: +30 💰","chClaim2":"{what} caught you. Insured again: +{p} 💰","chHealth1":"{what}! ⚠️ Insurance now costs more.","chHealth2":"{what}! ⚠️ Too many health problems: you can’t buy insurance now.","chHealthCovered":"{what}, but you’re already covered ✅","chHealthSick":"{what}. Your health keeps getting worse…","hh_glucose":"High blood sugar","hh_bp":"High blood pressure","hh_cyst":"Cyst found","hh_bmi":"High BMI","hh_chol":"High cholesterol","hh_uric":"High uric acid","pp_house":"New house! +{n} ⭐","pp_car":"New car! +{n} ⭐","pp_baby":"New baby! +{n} ⭐","pp_love":"New girlfriend! +{n} ⭐","pp_travel":"Travel the world! +{n} ⭐","pp_edu":"Paid for the kids’ education! +{n} ⭐"});
+  Object.assign(TX.zh, {"th_delay":"⏰ 不要拖","g_c1":"不要等！","gs_c1":"迷宫追逐：收集、躲疾病、遇见代理","c1_intro":"在人生里跑，收集钱和梦想。疾病、意外和残废在后面追你。一位保险代理也在跟着你。","c1_r1":"🕹️ 在迷宫上滑动，或用 ▲▼◀▶ 按钮。","c1_r2":"🪙 金币 = 钱。❓ 箱子 = 人生：梦想（⭐ 目标分）、投资，或健康问题。","c1_r3":"🧑‍💼 碰到代理：游戏暂停，选择买或「以后再说」。先有健康问题 = 价钱 3 倍，或买不到。","c1_r4":"🤒🚑🧑‍🦽 没保险被抓到：目标分和钱归零。有保险：拿到一大笔赔偿。","c1_r5":"🏆 65 岁前拿到 100 目标分。它们每年都会越跑越快！","c1_endNow":"现在结束","c1_win":"你做到了！100 目标分 🎉","c1_lose":"{a} 岁：游戏结束","c1_rP":"目标分","c1_rM":"剩下的钱","c1_rIns":"有买保险","c1_atAge":"有，{a} 岁时","c1_never":"从来没有","c1_rRej":"对代理说「以后再说」","c1_rFlags":"买保险前的健康问题","c1_none":"没有","c1_rDec":"买不到（健康问题）","c1_rClaims":"拿到的赔偿次数","c1_rHits":"没保障时被抓到","c1_lLate":"你说了 {n} 次「以后再说」。等你想买的时候，健康已经替你做了决定。","c1_lHit":"还没保障，人生就抓到你了。目标和钱，一瞬间全没了。","c1_lGood":"你很早就买了。人生抓到你的时候，赔偿让你的梦想继续。","c1_lSafe":"你在健康、便宜的时候就买了。👍","c1_lNone":"这次运气好。但追你的只会越来越快。","c1_feel":"保险是用健康买的，不是用钱买的。不要等到太迟。","c1_feel2":"最好的购买时间，是你还不需要它的时候。","c1_note":"游戏规则已简化，用的是游戏金币（不是真实价格）。现实中，保险公司会检查你的健康再决定：可能加价、不保某些病，或拒保。","c1_close":"如果今天遇到代理，你会说「以后再说」吗？「以后」会让你付出什么？","chAge":"{a} 岁","chInsured":"有保障","chNoCover":"没保障","chSick":"买不到","ciTag":"危疾","accTag":"意外","tpdTag":"残废","chAgentTag":"代理","chHow":"滑动或用按钮","chStart":"出发！收集金币和 ❓ 箱子。小心后面！","chWake":"{what}来追你了！","chAgentCome":"🧑‍💼 一位保险代理在跟着你……","chOffer":"保险代理：「现在保护自己吗？」","chPrice":"价钱：{p} 💰（游戏金币）。","chLoading":"因为{list}，价钱变 3 倍：{p} 💰。","chDecline":"对不起……因为{list}，你现在买不到保险。","chNoMoney":"你需要 {p} 💰，先收集多点金币。","chBuy":"买","chReject":"以后再说","chOk":"好","chGameNote":"只是游戏金币，不是真实价格或产品。","chBought":"有保障了！🛡️ 代理开心地离开。","chRejected":"你说「以后再说」。代理会再回来……","chDeclined":"太迟买不到了，代理只好离开。","chClaim":"{what}抓到你，但你有保险：+{p} 💰！所有 ❓ 箱子都变成梦想 ⭐","chHit":"{what}抓到没保障的你……目标分和钱：全没了。😭","chInvest":"投资赚了：+30 💰","chClaim2":"{what}抓到你。有保险：+{p} 💰","chHealth1":"{what}！⚠️ 保险现在更贵了。","chHealth2":"{what}！⚠️ 健康问题太多：你现在买不到保险。","chHealthCovered":"{what}，但你已经有保障 ✅","chHealthSick":"{what}。你的健康越来越差……","hh_glucose":"血糖高","hh_bp":"血压高","hh_cyst":"身体有肿瘤/囊肿","hh_bmi":"BMI 太高","hh_chol":"胆固醇高","hh_uric":"尿酸高","pp_house":"买新房子！+{n} ⭐","pp_car":"买新车！+{n} ⭐","pp_baby":"新宝宝！+{n} ⭐","pp_love":"有女朋友了！+{n} ⭐","pp_travel":"环游世界！+{n} ⭐","pp_edu":"付了孩子的教育费！+{n} ⭐"});
   // Agent scripts (from the REDEFINE portal lessons; shown when the agent taps 🎤)
   const SCRIPT = {
+    c1: {"zh":["保险不是用钱买的，是用健康买的。","很多人说「以后再说」。可是以后，血糖、血压、身体检查出来的问题，会让保费变贵，甚至买不到。","疾病和意外不会等你准备好，它们只会越来越近。","最好的购买时间，是你还不需要它的时候。今天健康，就是你最便宜、最容易的一天。"],"en":["Insurance is bought with your health, not your money.","Many people say “later”. But later, high sugar, high blood pressure or a check-up finding can make it cost more, or impossible to buy.","Illness and accidents don’t wait until you are ready. They only get closer.","The best time to buy is when you don’t need it yet. Today, while you are healthy, is your cheapest and easiest day."]},
     m1: { zh: ['不是因为发生的可能性很高才买保险，而是因为后果很严重。', '灭火器：这间店以前有火灾过吗？（没有）以后会吗？（不大会）那为什么还要准备灭火器？因为火灾的时候，我们输不起性命，输不起钱财，输不起辛苦打拼回来的一切。', '栏杆理论：人们建栏杆不是因为对走路没信心，而是万一失足掉下去，那个状况输不起。', '保险，是一个方案来解决那个不大会发生的问题，但是如果发生的时候，你却输不起。'],
       en: ['We don’t insure because it’s likely; we insure because the result is serious.', 'Fire extinguisher: has this shop ever burned? (No.) Will it? (Probably not.) So why keep one? Because in a fire we can’t afford to lose our lives, our money, everything we built.', 'Railings on a bridge aren’t there because we can’t walk. They’re there because if we fall, we can’t afford it.', 'Insurance is a solution for something unlikely that you can’t afford if it happens.'] },
     m2: { zh: ['假设有个强盗要买你的肝，一个一百万，你会卖吗？眼睛一粒两百万呢？', '如果你不卖，他向你抢，然后卖回给你。你会不会想尽办法找钱赎回？', '现实生活里真的有这个强盗，就是疾病和意外。我们不知道几时被盯上。你有准备好这笔钱吗？', '红白键：我们不选白键，是因为这个选择的风险我们承担不起。我宁愿拿每个月输得起的钱，化解那个我输不起的医药费。'],
@@ -265,8 +268,8 @@
     let C = null, timer = null;
     const shuffle = a => a.map(x => [Math.random(), x]).sort((p, q) => p[0] - q[0]).map(p => p[1]);
     const TL = k => TX[L()][k] || TX.en[k];
-    const GAMES = [['med', ['m1', 'm2']], ['inc', ['i1', 'i2']], ['sav', ['s1', 's2']], ['leg', ['l1']]];
-    const EMO = { m1: '🧯', m2: '🦹', i1: '🔨', i2: '🌳', s1: '🫙', s2: '⛏️', l1: '🎁' };
+    const GAMES = [['delay', ['c1']], ['med', ['m1', 'm2']], ['inc', ['i1', 'i2']], ['sav', ['s1', 's2']], ['leg', ['l1']]];
+    const EMO = { c1: '🏃', m1: '🧯', m2: '🦹', i1: '🔨', i2: '🌳', s1: '🫙', s2: '⛏️', l1: '🎁' };
     const stop = () => { clearInterval(timer); clearTimeout(timer); timer = null; };
     const field = (k) => `<label class="field"><span>${t('c_' + k)}</span><input type="number" inputmode="numeric" data-c="${k}" value="${cust[k]}"/></label>`;
     const readCust = () => document.querySelectorAll('[data-c]').forEach(el => { cust[el.dataset.c] = Math.max(0, Number(el.value) || 0); });
@@ -419,12 +422,38 @@
     actions.l1Cost = b => { readCust(); C.dreams.find(x => x.id === b.dataset.id).cost = +b.dataset.v; render(); };
     actions.l1Plan = () => { C.planCost = Math.max(0, Number(document.getElementById('l1c').value) || 0) || ''; C.planLeg = Math.max(0, Number(document.getElementById('l1l').value) || 0) || ''; render(); };
 
+    // C1 Don't Wait: maze chase (illness, accident and disability chase you; the agent follows you)
+    G.c1 = {
+      init: () => ({ res: null }),
+      steps: [
+        () => `<p class="cgintro">${t('c1_intro')}</p><div class="card c1rules">${['c1_r1', 'c1_r2', 'c1_r3', 'c1_r4', 'c1_r5'].map(k => `<p>${t(k)}</p>`).join('')}</div>` + nextBtn('🎮 ' + t('cgStart')),
+        () => `<div class="chhost" id="chhost"></div><button class="chip chskip" data-act="c1End">⏭ ${t('c1_endNow')}</button>`,
+        () => { const r = C.res || {};
+          const lesson = r.insured && r.claims ? 'c1_lGood' : r.insured ? 'c1_lSafe' : (r.declined || (r.flags || []).length) && r.rejects ? 'c1_lLate' : r.hitsNoCover ? 'c1_lHit' : 'c1_lNone';
+          const row = (k, v, cls = '') => `<div class="ln"><span>${t(k)}</span><b class="${cls}">${v}</b></div>`;
+          const fl = r.flags || [];
+          return `<div class="center"><div class="bige">${r.win ? '🏆' : '⏳'}</div><h2>${t(r.win ? 'c1_win' : 'c1_lose', { a: r.age })}</h2></div>
+            <div class="card">${row('c1_rP', '⭐ ' + (r.purpose || 0) + ' / 100', r.win ? 'good' : '')}${row('c1_rM', '💰 ' + (r.money || 0))}
+            ${row('c1_rIns', r.insured ? t('c1_atAge', { a: r.insuredAge }) : t('c1_never'), r.insured ? 'good' : 'bad')}
+            ${row('c1_rRej', (r.rejects || 0) + ' / ' + (r.offers || 0))}
+            ${row('c1_rFlags', fl.length ? fl.map(f => t('hh_' + f)).join(', ') : t('c1_none'), fl.length ? 'bad' : 'good')}
+            ${r.declined ? row('c1_rDec', '🚫', 'bad') : ''}${row('c1_rClaims', r.claims || 0, r.claims ? 'good' : '')}${row('c1_rHits', r.hitsNoCover || 0, r.hitsNoCover ? 'bad' : '')}</div>
+            <div class="note pop">${t(lesson, { n: r.rejects || 0 })}</div>` + feel(t('c1_feel'), t('c1_feel2')) + `<p class="small">${t('c1_note')}</p>` + nextBtn(); },
+        end
+      ]
+    };
+    let chase = null;
+    actions.c1End = () => { if (chase) chase.skip(); };
+
     /* ---- game screen + shared actions ---- */
     const SC = window.RLG_SCENES ? window.RLG_SCENES({ t, rm, rmShort, F, M, get cust() { return cust; }, A: () => sh().A, C: () => C }) : null;
     screens.cg = () => { stop(); return head() + `<div class="cgdots">${G[C.g].steps.map((_, i) => `<i class="${i <= C.step ? 'on' : ''}"></i>`).join('')}</div>` + G[C.g].steps[C.step](); };
     after.cg = () => {
       if (C.g === 's1' && C.step === 2) after.s1lock();
       if (C.step === G[C.g].steps.length - 1) S.play('cheer');
+      const ch = document.getElementById('chhost');
+      if (ch && window.RLG_CHASE) { const mine = C; chase = window.RLG_CHASE(ch, { t, sfx: n => S.play(n),
+        onEnd: res => { if (C !== mine) return; C.res = res; C.step = 2; chase = null; render(); window.scrollTo(0, 0); } }); }
       const host = document.getElementById('mvhost');
       if (host && SC && window.RLG_MOVIE) {
         const key = host.dataset.mv, mine = C;
