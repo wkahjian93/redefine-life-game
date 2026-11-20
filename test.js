@@ -84,5 +84,6 @@ const CH = require('./docs/chase.js');
   ok(reach && noDead, 'maze: every path reachable, no dead ends'); }
 ok(CH.quote([], false).kind === 'ok' && CH.quote(['bp'], false).price === CH.RULES.BASE_PRICE * 3 && CH.quote(['bp', 'chol'], false).kind === 'decline' && CH.quote([], true).kind === 'decline',
   'agent: healthy = normal price, 1 health problem = 3x, 2+ or already sick = cannot buy');
+ok(CH.RULES.MAX_HITS === 3, 'caught 3 times = game over');
 
 console.log(`${pass} passed, ${fail} failed`); process.exit(fail ? 1 : 0);

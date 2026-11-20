@@ -28,7 +28,8 @@
     LOADING: 3,              // price × 3 after 1 health problem
     DECLINE_AT: 2,           // 2 or more health problems, or any after getting sick → cannot buy
     PAYOUT: 120,             // game coins paid when insured and caught
-    WIN: 100, START_AGE: 25, END_AGE: 65, LIFE_SECS: 180
+    WIN: 100, START_AGE: 25, END_AGE: 65, LIFE_SECS: 180,
+    MAX_HITS: 3              // caught 3 times by illness / accident / disability = game over
   };
   // what the agent can offer, given the player's health history
   function quote(flags, sick) {
@@ -55,7 +56,7 @@
 
   root.RLG_CHASE = function (host, opts) {
     const t = opts.t, sfx = n => opts.sfx && opts.sfx(n);
-    host.innerHTML = `<div class="ch-hud"><span id="chAge"></span><span id="chMoney"></span><span id="chIns"></span><span id="chFlags"></span></div>
+    host.innerHTML = `<div class="ch-hud"><span id="chLives"></span><span id="chAge"></span><span id="chMoney"></span><span id="chIns"></span><span id="chFlags"></span></div>
       <div class="ch-pbar"><i id="chP"></i><b id="chPt"></b></div>
       <div class="ch-stage"><canvas></canvas><div class="ch-pop" hidden></div></div>
       <div class="ch-msg" id="chMsg"></div>
@@ -64,7 +65,7 @@
     let raf = 0, last = 0, stopped = false, paused = false, time = 0, dpr = 1;
 
     const S = {
-      money: 20, purpose: 0, insured: false, insuredAge: null, sick: false, flags: [], rejects: 0, offers: 0, claims: 0, hitsNoCover: 0, declined: false,
+      money: 20, purpose: 0, insured: false, insuredAge: null, sick: false, flags: [], rejects: 0, offers: 0, claims: 0, hitsNoCover: 0, hits: 0, outAt: 0, declined: false,
       agentGone: false, allPurpose: false, safeUntil: 0, won: false, events: []
     };
     const ent = (c, r, speed, e, tag) => ({ c, r, tc: null, tr: null, p: 0, dir: [0, 0], want: null, speed, e, tag, x: c, y: r, home: [c, r], on: true });
@@ -86,6 +87,7 @@
     const flagNames = () => S.flags.map(f => t('hh_' + f)).join(', ');
 
     function hud() {
+      $('chLives').textContent = '❤️'.repeat(Math.max(0, RULES.MAX_HITS - S.hits)) + '🖤'.repeat(Math.min(RULES.MAX_HITS, S.hits));
       $('chAge').textContent = '🎂 ' + t('chAge', { a: age() });
       $('chMoney').textContent = '💰 ' + Math.round(S.money);
       $('chIns').textContent = S.insured ? '🛡️ ' + t('chInsured') : S.sick ? '🚫 ' + t('chSick') : '⚠️ ' + t('chNoCover');
@@ -154,6 +156,8 @@
     function caught(ch) {
       S.safeUntil = time + 2.5; sfx('bad'); flash = { c: S.insured ? '#2EC4B6' : '#E63946', at: time }; shake = time + 0.6;
       const what = t(ch.tag);
+      S.hits++;
+      if (S.hits >= RULES.MAX_HITS) { S.outAt = time + 2.2; S.safeUntil = time + 99; }
       if (S.insured) {
         S.claims++; S.money += RULES.PAYOUT; S.allPurpose = true; boxes.forEach(b => { b.kind = 'purpose'; b.item = PURPOSE[Math.floor(Math.random() * PURPOSE.length)]; });
         burst('💰', P.c, P.r, 18); float('+' + RULES.PAYOUT + ' 💰', P.c, P.r, '#2A9D8F'); say(t(S.claims > 1 ? 'chClaim2' : 'chClaim', { what, p: RULES.PAYOUT }), true); setTimeout(() => sfx('cheer'), 300);
@@ -214,13 +218,14 @@
       // agent animations
       if (agent.anim && time - agent.anim.at > 2) { agent.on = false; agent.anim = null; }
       // end
-      if (S.purpose >= RULES.WIN && !S.won) { S.won = true; finish(true); }
+      if (S.outAt) { if (time >= S.outAt - 1.2) say(t('chOut', { n: RULES.MAX_HITS }), false); if (time >= S.outAt) finish(false, true); }
+      else if (S.purpose >= RULES.WIN && !S.won) { S.won = true; finish(true); }
       else if (age() >= RULES.END_AGE) finish(false);
     }
-    function finish(win) {
+    function finish(win, out) {
       if (stopped) return; stop(); sfx(win ? 'cheer' : 'bad');
       opts.onEnd && setTimeout(() => opts.onEnd({ win, age: age(), purpose: Math.round(S.purpose), money: Math.round(S.money), insured: S.insured, insuredAge: S.insuredAge,
-        rejects: S.rejects, offers: S.offers, flags: S.flags.slice(), declined: S.declined, claims: S.claims, hitsNoCover: S.hitsNoCover, events: S.events }), 900);
+        rejects: S.rejects, offers: S.offers, flags: S.flags.slice(), declined: S.declined, claims: S.claims, hitsNoCover: S.hitsNoCover, hits: S.hits, out: !!out, events: S.events }), 900);
     }
 
     function draw() {
