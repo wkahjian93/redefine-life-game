@@ -220,3 +220,7 @@ a.btn{text-decoration:none;text-align:center;display:flex;align-items:center;jus
 .ch-pad [data-d=up]{grid-column:2;grid-row:1}.ch-pad [data-d=left]{grid-column:1;grid-row:2}.ch-pad [data-d=down]{grid-column:2;grid-row:2}.ch-pad [data-d=right]{grid-column:3;grid-row:2}
 .chskip{display:block;margin:8px auto 0}
 .c1rules p{margin:6px 0;font-size:16px}
+/* No zoom on fast taps (iPad / iPhone): no double-tap zoom anywhere; game canvases keep their own touch handling */
+html,body,*{touch-action:manipulation}
+.stage canvas,.ch-stage canvas,#hlcard,#swc{touch-action:none}
+button,.btn,.chip,.cgtile,.ch-pad button{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}

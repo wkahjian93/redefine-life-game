@@ -76,6 +76,14 @@
     if (c.state === 'running') ['pointerdown', 'touchend', 'click'].forEach(ev => document.removeEventListener(ev, unlock, true));
   }
   ['pointerdown', 'touchend', 'click'].forEach(ev => document.addEventListener(ev, unlock, true));
+  // iPad / iPhone: never zoom during the game — block pinch (Safari gesture events) and double-tap zoom on empty areas
+  ['gesturestart', 'gesturechange', 'gestureend'].forEach(ev => document.addEventListener(ev, e => e.preventDefault(), { passive: false }));
+  document.addEventListener('dblclick', e => e.preventDefault(), { passive: false });
+  let lastTouch = 0;
+  document.addEventListener('touchend', e => { const now = Date.now(), el = e.target;
+    if (now - lastTouch < 350 && !(el.closest && el.closest('input,textarea,select,button,a,label,canvas,[data-act]'))) e.preventDefault();
+    lastTouch = now; }, { passive: false });
+  document.addEventListener('touchmove', e => { if (e.touches && e.touches.length > 1) e.preventDefault(); }, { passive: false });
   // tap sound for buttons that are not game actions (pop-up buttons, checkboxes)
   document.addEventListener('click', e => { const el = e.target.closest('button:not([data-act]), input[type=checkbox], .chip'); if (el && !el.closest('[data-act]')) root.SFX.play('tap'); }, true);
   document.addEventListener('visibilitychange', () => { if (document.hidden) stopMusic(); else if (ctx) { if (ctx.state !== 'running') ctx.resume(); startMusic(); } });

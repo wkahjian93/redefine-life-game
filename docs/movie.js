@@ -25,7 +25,10 @@
       burst(x, y, e, n = 8, spd = 90) { for (let i = 0; i < n; i++) { const a = Math.random() * Math.PI * 2, v = spd * (0.4 + Math.random()); parts.push({ x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 60, e, life: 1.1, s: 12 + Math.random() * 8 }); } },
       buttons(list, cb) {
         btns.innerHTML = list.map((b, i) => `<button type="button" class="btn ${b.cls || ''}" data-i="${i}">${b.label}</button>`).join('');
-        btns.querySelectorAll('button').forEach(el => el.addEventListener('click', ev => { ev.stopPropagation(); const b = list[+el.dataset.i]; if (b.keep !== true) btns.innerHTML = ''; cb(b.v); }));
+        // buttons that are mashed fast (WORK, DIG) react on touch-down, so fast tapping never turns into a zoom or a lost tap
+        btns.querySelectorAll('button').forEach(el => { const b = list[+el.dataset.i];
+          if (b.keep === true) el.addEventListener('pointerdown', ev => { ev.preventDefault(); ev.stopPropagation(); cb(b.v); });
+          else el.addEventListener('click', ev => { ev.stopPropagation(); btns.innerHTML = ''; cb(b.v); }); });
       },
       clearButtons() { btns.innerHTML = ''; },
       end(result) { if (stopped) return; stop(); opts.onEnd && opts.onEnd(result || {}); },
