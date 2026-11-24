@@ -6,11 +6,25 @@
   const TFONT = '-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif';
 
   root.RLG_MOVIE = function (host, scene, opts) {
-    host.innerHTML = '<div class="stage"><canvas></canvas><button class="mv-skip" type="button">⏭</button></div><div class="mv-sub"></div><div class="mv-btns"></div>';
+    host.innerHTML = '<div class="stage"><canvas></canvas><button class="mv-skip" type="button">⏭</button><button class="mv-voice" type="button" hidden>🗣️</button></div><div class="mv-sub"></div><div class="mv-btns"></div>';
     const stage = host.querySelector('.stage'), cv = host.querySelector('canvas'), btns = host.querySelector('.mv-btns'), subEl = host.querySelector('.mv-sub');
     const ctx = cv.getContext('2d');
     let dpr = 1, raf = 0, last = 0, stopped = false, subT = '', subAt = 0, titleT = '', titleAt = -9, shakeUntil = 0, flashC = null, flashAt = -9;
     const parts = [];
+    // ---- narration (旁白): subtitle + the device's own voice (free, offline). 🗣️ on the stage turns the voice on/off.
+    const synth = window.speechSynthesis, lang = opts.lang || 'en';
+    let voiceOn = true, speaking = false, narrEnd = 0, narrMax = 0;
+    try { voiceOn = localStorage.getItem('rlg.voice') !== '0'; } catch (e) {}
+    const pickVoice = () => { if (!synth) return null; const vs = synth.getVoices(), want = lang === 'zh' ? /^zh[-_](CN|SG|MY)/i : /^en[-_](GB|SG|MY|AU|US)/i;
+      return vs.find(v => want.test(v.lang)) || vs.find(v => v.lang.toLowerCase().startsWith(lang === 'zh' ? 'zh' : 'en')) || null; };
+    const estimate = s => Math.max(2.4, lang === 'zh' ? [...s].length * 0.24 : s.split(/\s+/).length * 0.38);
+    function speak(text) {
+      if (!synth || !voiceOn || (opts.muted && opts.muted())) { speaking = false; opts.duck && opts.duck(false); return; }
+      try { synth.cancel(); const u = new SpeechSynthesisUtterance(text.replace(/[🌀-🫿☀-➿]/gu, ''));
+        u.lang = lang === 'zh' ? 'zh-CN' : 'en-GB'; const v = pickVoice(); if (v) u.voice = v; u.rate = lang === 'zh' ? 1 : 0.98;
+        u.onend = u.onerror = () => { speaking = false; opts.duck && opts.duck(false); };
+        speaking = true; opts.duck && opts.duck(true); synth.speak(u); } catch (e) { speaking = false; }
+    }
     const M = {
       W, H, t: 0, dt: 0, ctx, px: null, py: null, down: false, taps: [], data: opts.data || {}, sfx: n => opts.sfx && opts.sfx(n), tr: opts.t,
       // ---- timing helpers ----
@@ -20,6 +34,8 @@
       // ---- story ----
       sub(text) { if (text !== subT) { subT = text || ''; subAt = M.t; } },
       title(text) { titleT = text; titleAt = M.t; },
+      narrate(text) { M.sub(text); const e = estimate(text); narrEnd = M.t + e; narrMax = M.t + e * 2 + 1.5; speak(text); },
+      talking: () => M.t < narrEnd || (speaking && M.t < narrMax),
       shake(ms = 400) { shakeUntil = M.t + ms / 1000; },
       flash(c = '#fff') { flashC = c; flashAt = M.t; },
       burst(x, y, e, n = 8, spd = 90) { for (let i = 0; i < n; i++) { const a = Math.random() * Math.PI * 2, v = spd * (0.4 + Math.random()); parts.push({ x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 60, e, life: 1.1, s: 12 + Math.random() * 8 }); } },
@@ -63,10 +79,14 @@
     const up = () => { M.down = false; };
     cv.addEventListener('pointerup', up); cv.addEventListener('pointercancel', up);
     host.querySelector('.mv-skip').addEventListener('click', () => M.end(scene.skip ? scene.skip(M) : {}));
+    const vb = host.querySelector('.mv-voice');
+    if (scene.voice && synth) { vb.hidden = false; vb.classList.toggle('off', !voiceOn);
+      vb.addEventListener('click', () => { voiceOn = !voiceOn; try { localStorage.setItem('rlg.voice', voiceOn ? '1' : '0'); } catch (e) {} vb.classList.toggle('off', !voiceOn);
+        if (!voiceOn) { synth.cancel(); speaking = false; opts.duck && opts.duck(false); } else if (subT) speak(subT); }); }
 
     function size() { const w = stage.clientWidth || 340; dpr = Math.min(2, window.devicePixelRatio || 1); cv.width = Math.round(w * dpr); cv.height = Math.round(w * H / W * dpr); cv.style.height = Math.round(w * H / W) + 'px'; }
     size(); window.addEventListener('resize', size);
-    function stop() { stopped = true; cancelAnimationFrame(raf); window.removeEventListener('resize', size); }
+    function stop() { stopped = true; cancelAnimationFrame(raf); window.removeEventListener('resize', size); if (synth && speaking) synth.cancel(); speaking = false; opts.duck && opts.duck(false); }
 
     function frame(now) {
       if (stopped) return;

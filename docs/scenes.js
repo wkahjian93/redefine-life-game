@@ -352,6 +352,139 @@
       };
     }
 
-    return { m1, m2, i1, i2, s1, s2, l1a: () => l1(false), l1b: () => l1(true) };
+    /* ---------- G1 Kelvin's story (critical care): a cartoon movie with narration; the customer controls Kelvin ---------- */
+    function g1() {
+      const C = X.C(), amt = Number(C.g1amt) || 0, SAL = 8000, LIGHT = 4000;
+      const lump = () => amt ? rm(amt) : t('g1_lumpGeneric');
+      const TASKS = ['g1_task1', 'g1_task2', 'g1_task3', 'g1_task4', 'g1_task5', 'g1_task6', 'g1_task7'];
+      const s = { x: 40, salary: SAL, prog: 0, fly: null, fight: 0, day: 0, walk: 0, tasks: [], spawned: 0, caught: 0, lost: 0, savings: 1, pay: 0, top: 0, rain: [] };
+      const say = (M, k, v) => { if (M.first(s, 'n' + k)) M.narrate(t(k, v)); };
+      const next = (M, ph) => { M.clearButtons(); M.go(s, ph); };
+      return {
+        voice: true,
+        init: M => M.go(s, 'office'),
+        skip: () => ({}),
+        update(M) {
+          const k = M.since(s), tap = M.taps.length > 0;
+          switch (s.ph) {
+            case 'office':     // 1. a skilled young engineer with a bright future: tap to work
+              say(M, 'g1_n1');
+              if (tap) { s.prog = Math.min(1, s.prog + 0.13); M.sfx('coin'); M.burst(120, 120, '⚙️', 3, 60); }
+              if (k > 7) s.prog = Math.min(1, s.prog + M.dt * 0.15);
+              if (s.prog >= 1 && M.first(s, 'star')) { M.sfx('cheer'); M.burst(90, 110, '⭐', 10); M.title(t('g1_great')); }
+              if (s.prog >= 1 && !M.talking() && k > 3) next(M, 'walk');
+              break;
+            case 'walk':       // 2. walking home: hold to walk to the crossing
+              say(M, 'g1_n2');
+              if (M.down || k > 7) s.x += 55 * M.dt;
+              if (s.x >= 182) { s.x = 182; next(M, 'green'); }
+              break;
+            case 'green':      // 3. green light: tap to cross
+              say(M, 'g1_n3');
+              if ((tap || k > 6) && k > 0.6) next(M, 'cross');
+              break;
+            case 'cross':      // 4. a car runs the red light
+              if (!s.fly) s.x += 45 * M.dt; s.car = -60 + k * 260;
+              if (!s.fly && s.car >= s.x - 20) { s.fly = { t: M.t }; M.flash('#fff'); M.shake(800); M.sfx('bad'); M.burst(s.x, 170, '💥', 8, 120); }
+              if (s.fly) { const f = Math.min(1.1, M.t - s.fly.t); s.fx = s.x + f * 95; s.fy = 176 - Math.sin(f / 1.1 * Math.PI) * 90 + (f >= 1.1 ? 8 : 0); s.rot = f / 1.1 * Math.PI * 3.5; say(M, 'g1_n4'); if (f > 1.1 && M.first(s, 'land')) { M.shake(500); M.burst(s.fx, 180, '💫', 6); } }
+              if (s.fly && M.t - s.fly.t > 2 && !M.talking()) next(M, 'icu');
+              break;
+            case 'icu':        // 5. ICU for 2 weeks: tap with the heartbeat to keep fighting
+              say(M, 'g1_n5');
+              if (tap) { s.fight++; M.sfx('flip'); M.burst(250, 120, '❤️', 3, 50); }
+              s.day = Math.min(14, Math.max(s.day, Math.floor(k * 0.9), Math.floor(s.fight * 1.4)));
+              if (s.day >= 14 && k > 3 && M.first(s, 'ok')) { M.sfx('good'); M.narrate(t('g1_n6')); }
+              if (s.day >= 14 && s.once.ok && !M.talking()) next(M, 'physio');
+              break;
+            case 'physio':     // 6. 5 months of physiotherapy: hold to walk
+              say(M, 'g1_n7');
+              if (M.down || k > 9) s.walk = Math.min(1, s.walk + M.dt * 0.14);
+              if (s.walk >= 1 && M.first(s, 'done')) { M.sfx('cheer'); M.burst(300, 150, '🎉', 12); M.narrate(t('g1_n8')); }
+              if (s.walk >= 1 && s.once.done && !M.talking()) next(M, 'work2');
+              break;
+            case 'work2':      // 7. back at work: tap the tasks before he forgets them
+              say(M, 'g1_n9');
+              if (s.spawned < TASKS.length && k > 1.5 + s.spawned * 1.3) { s.tasks.push({ k: TASKS[s.spawned], x: 70 + Math.random() * 220, y: 50 + Math.random() * 80, t: M.t }); s.spawned++; }
+              M.taps.forEach(p => { const hit = s.tasks.find(q => !q.gone && Math.abs(q.x - p.x) < 50 && Math.abs(q.y - p.y) < 16 && M.t - q.t > 0.25); if (hit) { hit.gone = 'got'; s.caught++; M.sfx('coin'); } });
+              s.tasks.forEach(q => { if (!q.gone && M.t - q.t > 1.1) { q.gone = 'lost'; s.lost++; M.sfx('bad'); } });
+              if (s.spawned >= TASKS.length && s.tasks.every(q => q.gone) && k > 3) { M.narrate(t('g1_n10')); next(M, 'fired'); }
+              break;
+            case 'fired':      // 8. he can't do the high-pressure job any more: fired
+              if (!M.talking() && M.first(s, 'f')) { M.narrate(t('g1_n11')); M.sfx('bad'); M.shake(300); }
+              if (s.once.f) s.salary = Math.max(0, s.salary - M.dt * 6000);
+              if (s.once.f && s.salary <= 0 && !M.talking()) next(M, 'dark');
+              break;
+            case 'dark':       // 9. depression: life falls apart
+              say(M, 'g1_n12'); s.savings = Math.max(0, s.savings - M.dt * 0.12);
+              if (Math.random() < 0.5) s.rain.push({ x: Math.random() * 360, y: 16 });
+              if (k > 4 && !M.talking()) { M.title(t('g1_rewind')); M.sfx('swoosh'); next(M, 'rewind'); }
+              break;
+            case 'rewind':     // 10. rewind: same story with a critical care plan
+              say(M, 'g1_n13'); s.rain = [];
+              if (k > 2.4 && !M.talking()) { Object.assign(s, { x: 200, fly: null, salary: SAL, savings: 1 }); next(M, 'bcrash'); }
+              break;
+            case 'bcrash':     // 11. same accident, same ICU
+              say(M, 'g1_n14'); s.car = -60 + k * 260;
+              if (!s.fly && s.car >= s.x - 20) { s.fly = { t: M.t }; M.flash('#fff'); M.shake(600); M.sfx('bad'); }
+              if (s.fly) { const f = Math.min(1.1, M.t - s.fly.t); s.fx = s.x + f * 95; s.fy = 176 - Math.sin(f / 1.1 * Math.PI) * 90 + (f >= 1.1 ? 8 : 0); s.rot = f / 1.1 * Math.PI * 3.5; }
+              if (s.fly && M.t - s.fly.t > 1.6 && !M.talking()) next(M, 'bpay');
+              break;
+            case 'bpay':       // 12. this time the plan pays a lump sum: tap to collect
+              say(M, 'g1_n15', { a: lump() });
+              if (tap) { s.pay = Math.min(1, s.pay + 0.12); M.sfx('coin'); M.burst(250, 150, '💰', 4, 90); }
+              if (k > 6) s.pay = Math.min(1, s.pay + M.dt * 0.2);
+              if (s.pay >= 1 && M.first(s, 'p')) { M.sfx('cheer'); M.title('🛡️ ' + lump()); }
+              if (s.pay >= 1 && !M.talking() && k > 3) next(M, 'bjob');
+              break;
+            case 'bjob':       // 13. lighter job + the payout tops up his income
+              say(M, 'g1_n16');
+              s.salary = LIGHT;
+              if (tap) { s.top = Math.min(1, s.top + 0.15); M.sfx('coin'); M.burst(90, 150, '🪙', 4, 80); }
+              if (k > 7) s.top = Math.min(1, s.top + M.dt * 0.2);
+              if (s.top >= 1 && !M.talking() && k > 3) next(M, 'happy');
+              break;
+            case 'happy':      // 14. same accident, a different life
+              if (M.first(s, 'h')) { M.narrate(t('g1_n17')); M.sfx('cheer'); M.burst(180, 120, '🎉', 16); }
+              if (k > 3 && !M.talking()) M.end({});
+              break;
+          }
+          s.rain.forEach(r => { r.y += 220 * M.dt; }); s.rain = s.rain.filter(r => r.y < 224);
+          s.tasks = s.tasks.filter(q => !q.gone || M.t - q.t < 2.2);
+        },
+        draw(M) {
+          const ph = s.ph, street = ['walk', 'green', 'cross', 'bcrash'].includes(ph), office = ['office', 'work2', 'fired', 'bjob'].includes(ph), hosp = ['icu', 'bpay'].includes(ph);
+          if (office) { M.sky('#DDE7F2', '#F4F8FC'); M.rect(0, 206, 360, 18, '#B8C4D6'); M.rect(230, 40, 100, 70, '#9AD0FF', 6); M.emoji('🏙️', 280, 80, 46, { alpha: 0.6 }); M.rect(70, 168, 110, 10, '#8B6B4A', 3); M.emoji('💻', 125, 154, 28); }
+          else if (street) { M.sky('#FFB36B', '#FFE0B8'); for (let i = 0; i < 5; i++) M.emoji('🏢', 30 + i * 80, 150, 54, { alpha: 0.45 }); M.rect(0, 196, 360, 28, '#555A66'); for (let i = 0; i < 6; i++) M.rect(190 + i * 14, 198, 8, 24, '#fff'); M.emoji('🚦', 176, 150, 30); M.text(ph === 'green' ? '🟢' : '', 176, 120, { size: 14 }); }
+          else if (hosp) { M.sky('#E6F7F5', '#FFFFFF'); M.rect(0, 206, 360, 18, '#CFE9E5'); M.rect(220, 70, 110, 60, '#14213D', 8);
+            M.ctx.save(); M.ctx.strokeStyle = '#2EF2A0'; M.ctx.lineWidth = 2; M.ctx.beginPath(); for (let x = 0; x < 100; x++) { const ph2 = (x + M.t * 60) % 50, y = ph2 > 20 && ph2 < 24 ? -18 : ph2 >= 24 && ph2 < 27 ? 10 : 0; M.ctx.lineTo(225 + x, 100 + y); } M.ctx.stroke(); M.ctx.restore();
+            M.text('ICU', 240, 80, { size: 10, color: '#2EF2A0' }); M.emoji('🛏️', 120, 178, 70); }
+          else if (ph === 'physio') { M.sky('#FFF4D6', '#FFFDF5'); M.rect(0, 206, 360, 18, '#E8D9B0'); M.rect(40, 150, 280, 5, '#999', 2); M.rect(40, 176, 280, 5, '#999', 2); }
+          else if (ph === 'dark') { M.sky('#2B2D3A', '#4A4D5E'); M.rect(0, 206, 360, 18, '#3A3C48'); M.emoji('🌧️', 180, 50, 50); s.rain.forEach(r => M.rect(r.x, r.y, 2, 8, '#8FB3FF')); }
+          else if (ph === 'rewind') { M.sky('#14213D', '#2A3A6B'); for (let y = 20; y < 220; y += 6) M.rect(0, y, 360, 1, 'rgba(255,255,255,.08)'); M.emoji('⏪', 180, 110, 70, { alpha: 0.7 + Math.sin(M.t * 8) * 0.3 }); }
+          else if (ph === 'happy') { M.sky('#9AD0FF', '#FFF8E1'); M.rect(0, 200, 360, 24, '#7BC67E'); M.emoji('☀️', 310, 46, 40); M.emoji('🌳', 50, 160, 60); }
+
+          // Kelvin
+          if (ph === 'office') { M.emoji('🧑‍💻', 90, 160, 40); M.bar(20, 24, 140, 14, s.prog, '#2EC4B6', t('g1_project')); }
+          if (street) { if (s.fly) { M.emoji('😵', s.fx, s.fy, 34, { rot: s.rot }); if (M.t - s.fly.t > 1.1) M.emoji('💫', s.fx, s.fy - 24, 18, { rot: M.t * 4 }); } else M.emoji('🚶', s.x, 176 + (M.down || ph === 'cross' ? -Math.abs(Math.sin(M.t * 10)) * 3 : 0), 34, { flip: true });
+            if (s.car != null && (ph === 'cross' || ph === 'bcrash')) M.emoji('🚗', s.car, 196, 46, { flip: true }); }
+          if (hosp) { M.emoji('🤕', 110, 160, 34, { rot: -1.4 }); M.hud(t('g1_day', { n: ph === 'icu' ? Math.max(1, s.day) : 14 }), ''); }
+          if (ph === 'icu') M.emoji('❤️', 250, 140, 18 + Math.abs(Math.sin(M.t * 5)) * 8);
+          if (ph === 'bpay') { M.emoji('🛡️', 290, 160, 40); M.bar(200, 196, 140, 14, s.pay, '#FFC93C', lump()); }
+          if (ph === 'physio') { const x = 50 + s.walk * 250; M.emoji('🧑‍🦯', x, 168 - Math.abs(Math.sin(M.t * 6)) * (M.down ? 3 : 0), 36, { flip: true }); M.hud(t('g1_month', { n: Math.max(1, Math.ceil(s.walk * 5)) }), ''); }
+          if (ph === 'work2' || ph === 'fired') { M.emoji(ph === 'fired' && s.once.f ? '😰' : '🤔', 90, 160, 40);
+            s.tasks.forEach(q => { const a = q.gone ? Math.max(0, 1 - (M.t - q.t - 1.1) * 2) : Math.max(0.15, 1 - (M.t - q.t) / 1.3); M.text(q.gone === 'lost' ? '❓' : q.gone === 'got' ? '✅' : t(q.k), q.x, q.y, { size: 11, bg: `rgba(255,255,255,${a})`, color: `rgba(20,33,61,${Math.max(0.2, a)})` }); });
+            if (ph === 'fired') { M.emoji('🧔', 280, 160, 40); if (s.once.f) { M.text(t('g1_boss'), 270, 118, { size: 11, bg: '#fff', tail: 'r', maxW: 150 }); M.emoji('📦', 120, 196, 22); } } }
+          if (office || ph === 'dark') M.hud(t('g1_salary'), rm(Math.round(s.salary)) + '/mo');
+          if (ph === 'bjob') { M.emoji('🙂', 90, 160, 40); M.emoji('🛡️', 300, 120, 36); M.bar(20, 196, 200, 14, 0.5 + s.top * 0.5, '#2EC4B6', rm(LIGHT) + ' + 🛡️'); }
+          if (ph === 'dark') { M.emoji('😞', 150, 180, 40); M.emoji('👨‍👩‍👧', 270, 182, 34, { alpha: 0.8 }); M.bar(20, 196, 140, 14, s.savings, '#E63946', t('g1_savings')); }
+          if (ph === 'happy') { M.emoji('😊', 150, 176, 40); M.emoji('👨‍👩‍👧', 230, 178, 38); M.emoji('🛡️', 190, 140, 22); }
+          // what to do now
+          const hint = { office: 'g1_hWork', walk: 'mv_hold', green: 'g1_hCross', icu: 'g1_hHeart', physio: 'mv_hold', work2: 'g1_hTask', bpay: 'g1_hCollect', bjob: 'g1_hTop' }[ph];
+          if (hint && M.since(s) < 4) M.text('👆 ' + t(hint), M.W / 2, 56, { size: 12, bg: '#FFC93C' });
+        }
+      };
+    }
+
+    return { m1, m2, i1, i2, s1, s2, g1, l1a: () => l1(false), l1b: () => l1(true) };
   };
 })(this);

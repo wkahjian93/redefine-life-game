@@ -224,3 +224,4 @@ a.btn{text-decoration:none;text-align:center;display:flex;align-items:center;jus
 html,body,*{touch-action:manipulation}
 .stage canvas,.ch-stage canvas,#hlcard,#swc{touch-action:none}
 button,.btn,.chip,.cgtile,.ch-pad button{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}
+.mv-voice{position:absolute;left:8px;bottom:20px;border:0;border-radius:10px;background:rgba(255,255,255,.3);color:#fff;font-size:16px;padding:4px 8px}.mv-voice.off{opacity:.4;text-decoration:line-through}

@@ -98,6 +98,8 @@
     get track() { return track; },
     // switch between the normal loop ('main') and the maze chase tune ('arcade'); speed 1 = normal, higher = faster
     setTrack(name) { if (name === track) return; track = name; step = 0; if (timer && ctx) nextT = ctx.currentTime + 0.15; },
-    setSpeed(x) { speed = Math.max(0.5, Math.min(2, x || 1)); }
+    setSpeed(x) { speed = Math.max(0.5, Math.min(2, x || 1)); },
+    // lower the music while the narrator (旁白) speaks
+    duck(on) { if (!bus || !ctx || !timer) return; const g = bus.gain; g.cancelScheduledValues(ctx.currentTime); g.setValueAtTime(Math.max(0.0001, g.value), ctx.currentTime); g.linearRampToValueAtTime(on ? 0.025 : 0.09, ctx.currentTime + 0.3); }
   };
 })(this);
