@@ -15,16 +15,32 @@
     const synth = window.speechSynthesis, lang = opts.lang || 'en';
     let voiceOn = true, speaking = false, narrEnd = 0, narrMax = 0;
     try { voiceOn = localStorage.getItem('rlg.voice') !== '0'; } catch (e) {}
-    const pickVoice = () => { if (!synth) return null; const vs = synth.getVoices(), want = lang === 'zh' ? /^zh[-_](CN|SG|MY)/i : /^en[-_](GB|SG|MY|AU|US)/i;
-      return vs.find(v => want.test(v.lang)) || vs.find(v => v.lang.toLowerCase().startsWith(lang === 'zh' ? 'zh' : 'en')) || null; };
-    const estimate = s => Math.max(2.4, lang === 'zh' ? [...s].length * 0.24 : s.split(/\s+/).length * 0.38);
+    // pick the most natural-sounding voice on this device: Premium / Enhanced / neural voices first, then well-known good ones
+    const pickVoice = () => {
+      if (!synth) return null; const vs = synth.getVoices().filter(v => v.lang.toLowerCase().replace('_', '-').startsWith(lang === 'zh' ? 'zh' : 'en'));
+      const score = v => { const n = (v.name + ' ' + v.voiceURI).toLowerCase(), l = v.lang.toLowerCase().replace('_', '-'); let s = 0;
+        if (/premium/.test(n)) s += 60; if (/enhanced|neural|natural|online/.test(n)) s += 40;
+        if (lang === 'zh') { if (/zh-cn|zh-sg|zh-my/.test(l)) s += 20; if (/lili|tingting|yue|xiaoxiao|xiaoyi|yunxi|meijia/.test(n)) s += 10; if (/hk|yue|cantonese/.test(l + n)) s -= 15; }
+        else { if (/en-gb|en-au|en-sg|en-my|en-ie/.test(l)) s += 12; if (/en-us/.test(l)) s += 8; if (/serena|daniel|karen|moira|samantha|ava|zoe|libby|sonia|ryan|aria|jenny|guy/.test(n)) s += 10; }
+        if (/compact|eloquence|grandma|grandpa|bad news|bells|boing|bubbles|cellos|jester|organ|trinoids|whisper|zarvox|albert|fred|junior|kathy|ralph|superstar|wobble|novelty/.test(n)) s -= 80;
+        return s; };
+      return vs.sort((a, b) => score(b) - score(a))[0] || null; };
+    const estimate = s => Math.max(2.4, lang === 'zh' ? [...s].length * 0.26 : s.split(/\s+/).length * 0.42);
+    // read like a storyteller: one sentence at a time (natural pause between), a little slower, emoji removed
     function speak(text) {
       if (!synth || !voiceOn || (opts.muted && opts.muted())) { speaking = false; opts.duck && opts.duck(false); return; }
-      try { synth.cancel(); const u = new SpeechSynthesisUtterance(text.replace(/[🌀-🫿☀-➿]/gu, ''));
-        u.lang = lang === 'zh' ? 'zh-CN' : 'en-GB'; const v = pickVoice(); if (v) u.voice = v; u.rate = lang === 'zh' ? 1 : 0.98;
-        u.onend = u.onerror = () => { speaking = false; opts.duck && opts.duck(false); };
-        speaking = true; opts.duck && opts.duck(true); synth.speak(u); } catch (e) { speaking = false; }
+      try {
+        synth.cancel(); const v = pickVoice();
+        const parts = text.replace(/[🌀-🫿☀-➿⭐]/gu, '').replace(/([.!?。！？…])\s*/g, '$1|').split('|').map(x => x.trim()).filter(x => /[A-Za-z0-9一-鿿]/.test(x));
+        speaking = true; opts.duck && opts.duck(true);
+        parts.forEach((p, i) => { const u = new SpeechSynthesisUtterance(p);
+          u.lang = v ? v.lang : (lang === 'zh' ? 'zh-CN' : 'en-GB'); if (v) u.voice = v;
+          u.rate = lang === 'zh' ? 0.92 : 0.9; u.pitch = 1.02; u.volume = 1;
+          if (i === parts.length - 1) u.onend = u.onerror = () => { speaking = false; opts.duck && opts.duck(false); };
+          synth.speak(u); });
+      } catch (e) { speaking = false; }
     }
+    if (synth && synth.onvoiceschanged === null) synth.onvoiceschanged = () => {};   // some browsers load voices late
     const M = {
       W, H, t: 0, dt: 0, ctx, px: null, py: null, down: false, taps: [], data: opts.data || {}, sfx: n => opts.sfx && opts.sfx(n), tr: opts.t,
       // ---- timing helpers ----
