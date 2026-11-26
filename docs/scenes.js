@@ -358,7 +358,7 @@
       const lump = () => amt ? rm(amt) : t('g1_lumpGeneric');
       const TASKS = ['g1_task1', 'g1_task2', 'g1_task3', 'g1_task4', 'g1_task5', 'g1_task6', 'g1_task7'];
       const s = { x: 40, salary: SAL, prog: 0, fly: null, fight: 0, day: 0, walk: 0, tasks: [], spawned: 0, caught: 0, lost: 0, savings: 1, pay: 0, top: 0, rain: [] };
-      const say = (M, k, v) => { if (M.first(s, 'n' + k)) M.narrate(t(k, v)); };
+      const say = (M, k, v) => { if (M.first(s, 'n' + k)) M.narrate(t(k, v), k); };
       const next = (M, ph) => { M.clearButtons(); M.go(s, ph); };
       return {
         voice: true,
@@ -393,13 +393,13 @@
               say(M, 'g1_n5');
               if (tap) { s.fight++; M.sfx('flip'); M.burst(250, 120, '❤️', 3, 50); }
               s.day = Math.min(14, Math.max(s.day, Math.floor(k * 0.9), Math.floor(s.fight * 1.4)));
-              if (s.day >= 14 && k > 3 && M.first(s, 'ok')) { M.sfx('good'); M.narrate(t('g1_n6')); }
+              if (s.day >= 14 && k > 3 && M.first(s, 'ok')) { M.sfx('good'); M.narrate(t('g1_n6'), 'g1_n6'); }
               if (s.day >= 14 && s.once.ok && !M.talking()) next(M, 'physio');
               break;
             case 'physio':     // 6. 5 months of physiotherapy: hold to walk
               say(M, 'g1_n7');
               if (M.down || k > 9) s.walk = Math.min(1, s.walk + M.dt * 0.14);
-              if (s.walk >= 1 && M.first(s, 'done')) { M.sfx('cheer'); M.burst(300, 150, '🎉', 12); M.narrate(t('g1_n8')); }
+              if (s.walk >= 1 && M.first(s, 'done')) { M.sfx('cheer'); M.burst(300, 150, '🎉', 12); M.narrate(t('g1_n8'), 'g1_n8'); }
               if (s.walk >= 1 && s.once.done && !M.talking()) next(M, 'work2');
               break;
             case 'work2':      // 7. back at work: tap the tasks before he forgets them
@@ -407,10 +407,10 @@
               if (s.spawned < TASKS.length && k > 1.5 + s.spawned * 1.3) { s.tasks.push({ k: TASKS[s.spawned], x: 70 + Math.random() * 220, y: 50 + Math.random() * 80, t: M.t }); s.spawned++; }
               M.taps.forEach(p => { const hit = s.tasks.find(q => !q.gone && Math.abs(q.x - p.x) < 50 && Math.abs(q.y - p.y) < 16 && M.t - q.t > 0.25); if (hit) { hit.gone = 'got'; s.caught++; M.sfx('coin'); } });
               s.tasks.forEach(q => { if (!q.gone && M.t - q.t > 1.1) { q.gone = 'lost'; s.lost++; M.sfx('bad'); } });
-              if (s.spawned >= TASKS.length && s.tasks.every(q => q.gone) && k > 3) { M.narrate(t('g1_n10')); next(M, 'fired'); }
+              if (s.spawned >= TASKS.length && s.tasks.every(q => q.gone) && k > 3) { M.narrate(t('g1_n10'), 'g1_n10'); next(M, 'fired'); }
               break;
             case 'fired':      // 8. he can't do the high-pressure job any more: fired
-              if (!M.talking() && M.first(s, 'f')) { M.narrate(t('g1_n11')); M.sfx('bad'); M.shake(300); }
+              if (!M.talking() && M.first(s, 'f')) { M.narrate(t('g1_n11'), 'g1_n11'); M.sfx('bad'); M.shake(300); }
               if (s.once.f) s.salary = Math.max(0, s.salary - M.dt * 6000);
               if (s.once.f && s.salary <= 0 && !M.talking()) next(M, 'dark');
               break;
@@ -444,7 +444,7 @@
               if (s.top >= 1 && !M.talking() && k > 3) next(M, 'happy');
               break;
             case 'happy':      // 14. same accident, a different life
-              if (M.first(s, 'h')) { M.narrate(t('g1_n17')); M.sfx('cheer'); M.burst(180, 120, '🎉', 16); }
+              if (M.first(s, 'h')) { M.narrate(t('g1_n17'), 'g1_n17'); M.sfx('cheer'); M.burst(180, 120, '🎉', 16); }
               if (k > 3 && !M.talking()) M.end({});
               break;
           }

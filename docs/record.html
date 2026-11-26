@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="robots" content="noindex"/>
+<title>Record Narration</title>
+<style>
+  :root{--navy:#14213D;--coral:#FF6B4A;--sun:#FFC93C;--teal:#2A9D8F;--cream:#FFF8EE;--ink:#14213D;--muted:#5b6478;--red:#E63946}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--cream);color:var(--ink);font:17px/1.45 -apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+  header{background:var(--navy);color:#fff;padding:12px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  header b{color:var(--sun)} header .sp{flex:1}
+  main{max-width:760px;margin:0 auto;padding:16px}
+  button{font:inherit;border:0;border-radius:14px;padding:12px 16px;font-weight:800;cursor:pointer;background:#fff;color:var(--ink);box-shadow:0 2px 0 rgba(20,33,61,.15)}
+  button:disabled{opacity:.4;cursor:default}
+  .lang button.on{background:var(--sun)}
+  .tips{background:#fff;border-radius:16px;padding:12px 16px;margin-bottom:14px;font-size:15px;color:var(--muted)}
+  .tips b{color:var(--ink)}
+  .card{background:#fff;border-radius:20px;padding:18px;box-shadow:0 8px 24px rgba(20,33,61,.08)}
+  .num{color:var(--muted);font-weight:700}
+  .line{font-size:28px;font-weight:800;line-height:1.35;margin:10px 0 6px}
+  .mood{display:inline-block;background:#FFF1D0;border-radius:999px;padding:3px 12px;font-size:14px;font-weight:700;margin-bottom:12px}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+  .rec{background:var(--red);color:#fff;font-size:22px;padding:16px 22px}
+  .rec.on{animation:pulse 1s infinite}
+  @keyframes pulse{50%{transform:scale(1.05);box-shadow:0 0 0 8px rgba(230,57,70,.2)}}
+  .keep{background:var(--teal);color:#fff}
+  .meter{height:10px;border-radius:999px;background:#eee;overflow:hidden;margin-top:12px}.meter i{display:block;height:100%;width:0;background:var(--teal)}
+  .status{margin-top:10px;font-weight:700;min-height:1.4em}.status.bad{color:var(--red)}.status.good{color:var(--teal)}
+  .list{display:grid;grid-template-columns:repeat(auto-fill,minmax(46px,1fr));gap:6px;margin-top:16px}
+  .list button{padding:10px 0;font-size:15px}.list button.done{background:#D7F2EE}.list button.cur{outline:3px solid var(--coral)}
+  .progress{font-weight:800}
+  .warn{background:#FFE3E3;color:var(--red);border-radius:12px;padding:10px 14px;margin-bottom:12px;font-weight:700}
+</style>
+</head>
+<body>
+<header><span>🎙️ <b>Record narration</b> · Kelvin’s Story</span><span class="sp"></span>
+  <span class="lang"><button data-lang="en">English</button> <button data-lang="zh">中文</button></span>
+  <span class="progress" id="prog"></span></header>
+<main>
+  <div class="warn" id="where" hidden></div>
+  <div class="tips">
+    <b>How:</b> ● Record → read the line → ■ Stop → ▶ Listen → ✅ Keep (or record again). It moves to the next line by itself.<br/>
+    <b>Tips:</b> quiet room · phone or laptop about one hand from your mouth · read slowly, like telling a story to a friend · follow the mood tag · pause 1 second before you start.<br/>
+    Saved lines play in the game in your voice. Lines you skip use the iPad voice.
+  </div>
+  <div class="card">
+    <div class="num" id="num"></div>
+    <div class="line" id="line"></div>
+    <span class="mood" id="mood"></span>
+    <div class="row">
+      <button class="rec" id="rec">● Record</button>
+      <button id="play" disabled>▶ Listen</button>
+      <button class="keep" id="keep" disabled>✅ Keep</button>
+      <button id="dl" disabled hidden>⬇️ Download</button>
+    </div>
+    <div class="meter"><i id="lvl"></i></div>
+    <div class="status" id="status"></div>
+    <div class="row">
+      <button id="prev">← Back</button><button id="next">Next →</button>
+      <button id="saved" disabled>▶ Saved take</button><button id="del" disabled>🗑 Delete saved</button>
+    </div>
+  </div>
+  <div class="list" id="list"></div>
+</main>
+<script src="i18n.js"></script>
+<script src="concepts.js"></script>
+<script>
+(function () {
+  const KEYS = Array.from({ length: 17 }, (_, i) => 'g1_n' + (i + 1));
+  // mood for each line, so the reading carries feeling
+  const MOOD = { en: ['🙂 warm, proud', '🙂 calm', '🙂 light', '😨 sudden, tense', '🙏 serious, slow', '😌 relief', '💪 encouraging', '🙂 hopeful… then a doubt', '🙂 normal', '😟 worried, slow', '😔 heavy', '😢 sad, quiet', '⏪ curious, a new start', '🙂 calm', '😊 relief, warm', '🙂 steady, hopeful', '😊 warm, happy ending'],
+               zh: ['🙂 温暖、骄傲', '🙂 平静', '🙂 轻松', '😨 突然、紧张', '🙏 严肃、慢', '😌 松一口气', '💪 鼓励', '🙂 有希望……然后疑问', '🙂 普通', '😟 担心、慢', '😔 沉重', '😢 难过、小声', '⏪ 好奇、重新开始', '🙂 平静', '😊 放心、温暖', '🙂 稳定、有希望', '😊 温暖、快乐结局'] };
+  const I = window.RLG_I18N, $ = id => document.getElementById(id);
+  let lang = new URLSearchParams(location.search).get('lang') === 'zh' ? 'zh' : 'en', i = 0, index = { en: {}, zh: {} }, take = null, rec = null, stream = null, chunks = [], meterRaf = 0, ac = null;
+  // the amount line is recorded without the amount (the subtitle still shows it)
+  const textOf = k => (k === 'g1_n15' ? I[lang].g1_n15r : I[lang][k]) || k;
+  const local = ['localhost', '127.0.0.1'].includes(location.hostname);
+  if (!local) { $('where').hidden = false; $('where').textContent = 'Saving only works on the laptop preview (localhost). Here you can still record and ⬇️ Download each line.'; }
+
+  const status = (t, cls) => { $('status').textContent = t; $('status').className = 'status ' + (cls || ''); };
+  async function loadIndex() { try { const r = await fetch('voice/index.json?' + Date.now()); if (r.ok) index = await r.json(); } catch (e) {} if (!index.en) index = { en: {}, zh: {} }; }
+  function show() {
+    const k = KEYS[i];
+    $('num').textContent = (lang === 'zh' ? '第 ' : 'Line ') + (i + 1) + ' / ' + KEYS.length;
+    $('line').textContent = textOf(k); $('mood').textContent = MOOD[lang][i];
+    const has = !!index[lang][k]; $('saved').disabled = !has; $('del').disabled = !has || !local;
+    $('play').disabled = $('keep').disabled = $('dl').disabled = !take; $('dl').hidden = local;
+    document.querySelectorAll('[data-lang]').forEach(b => b.classList.toggle('on', b.dataset.lang === lang));
+    $('list').innerHTML = KEYS.map((x, n) => `<button class="${index[lang][x] ? 'done' : ''} ${n === i ? 'cur' : ''}" data-i="${n}">${n + 1}</button>`).join('');
+    $('prog').textContent = KEYS.filter(x => index[lang][x]).length + ' / ' + KEYS.length + ' ✅';
+  }
+
+  /* ---- recording ---- */
+  async function start() {
+    try { stream = stream || await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true } }); }
+    catch (e) { status('Microphone blocked. Allow the microphone for this page, then try again.', 'bad'); return; }
+    ac = ac || new (window.AudioContext || window.webkitAudioContext)(); if (ac.state === 'suspended') await ac.resume();
+    const an = ac.createAnalyser(); an.fftSize = 512; ac.createMediaStreamSource(stream).connect(an); const buf = new Uint8Array(an.fftSize);
+    const tick = () => { an.getByteTimeDomainData(buf); let m = 0; for (const v of buf) m = Math.max(m, Math.abs(v - 128)); $('lvl').style.width = Math.min(100, m / 64 * 100) + '%'; meterRaf = requestAnimationFrame(tick); }; tick();
+    chunks = []; rec = new MediaRecorder(stream); rec.ondataavailable = e => e.data.size && chunks.push(e.data); rec.onstop = finish; rec.start();
+    take = null; $('rec').textContent = '■ Stop'; $('rec').classList.add('on'); status(lang === 'zh' ? '录音中……读完按停止。' : 'Recording… press Stop when you finish.'); show();
+  }
+  function stopRec() { if (rec && rec.state === 'recording') rec.stop(); cancelAnimationFrame(meterRaf); $('lvl').style.width = '0'; $('rec').textContent = '● Record'; $('rec').classList.remove('on'); }
+  async function finish() {
+    try {
+      const raw = await new Blob(chunks).arrayBuffer(), audio = await ac.decodeAudioData(raw);
+      take = await toWav(audio); status(lang === 'zh' ? '录好了。按 ▶ 听一听，满意就按 ✅。' : 'Done. ▶ Listen, then ✅ Keep if you like it.', 'good');
+    } catch (e) { status('Could not process the recording: ' + e.message, 'bad'); }
+    show();
+  }
+  // mono → trim silence at both ends → even out the volume → 22.05 kHz 16-bit WAV (plays on every iPad / phone)
+  async function toWav(audio) {
+    const n = audio.length, ch = audio.numberOfChannels, mono = new Float32Array(n);
+    for (let c = 0; c < ch; c++) { const d = audio.getChannelData(c); for (let k = 0; k < n; k++) mono[k] += d[k] / ch; }
+    let peak = 0; for (const v of mono) peak = Math.max(peak, Math.abs(v));
+    const thr = Math.max(0.01, peak * 0.06), pad = Math.round(audio.sampleRate * 0.18);
+    let a = 0, b = n - 1; while (a < n && Math.abs(mono[a]) < thr) a++; while (b > a && Math.abs(mono[b]) < thr) b--;
+    a = Math.max(0, a - pad); b = Math.min(n - 1, b + pad);
+    const len = Math.max(1, b - a + 1), rate = 22050, gain = peak > 0 ? 0.89 / peak : 1;
+    const off = new OfflineAudioContext(1, Math.ceil(len / audio.sampleRate * rate), rate);
+    const src = off.createBuffer(1, len, audio.sampleRate); const d = src.getChannelData(0);
+    for (let k = 0; k < len; k++) d[k] = mono[a + k] * gain;
+    const fadeN = Math.min(len, Math.round(audio.sampleRate * 0.04)); for (let k = 0; k < fadeN; k++) { d[k] *= k / fadeN; d[len - 1 - k] *= k / fadeN; }
+    const node = off.createBufferSource(); node.buffer = src; node.connect(off.destination); node.start();
+    const out = (await off.startRendering()).getChannelData(0);
+    const bytes = new ArrayBuffer(44 + out.length * 2), v = new DataView(bytes), w = (o, s) => [...s].forEach((c, j) => v.setUint8(o + j, c.charCodeAt(0)));
+    w(0, 'RIFF'); v.setUint32(4, 36 + out.length * 2, true); w(8, 'WAVE'); w(12, 'fmt '); v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true);
+    v.setUint32(24, rate, true); v.setUint32(28, rate * 2, true); v.setUint16(32, 2, true); v.setUint16(34, 16, true); w(36, 'data'); v.setUint32(40, out.length * 2, true);
+    for (let k = 0; k < out.length; k++) v.setInt16(44 + k * 2, Math.max(-1, Math.min(1, out[k])) * 0x7FFF, true);
+    return new Blob([bytes], { type: 'audio/wav' });
+  }
+  const player = new Audio();
+  const play = url => { player.pause(); player.src = url; player.play().catch(() => {}); };
+
+  /* ---- buttons ---- */
+  $('rec').onclick = () => (rec && rec.state === 'recording') ? stopRec() : start();
+  $('play').onclick = () => take && play(URL.createObjectURL(take));
+  $('saved').onclick = () => { const f = index[lang][KEYS[i]]; if (f) play('voice/' + lang + '/' + f); };
+  $('keep').onclick = async () => {
+    if (!take) return; const k = KEYS[i];
+    try { const r = await fetch(`/__voice?lang=${lang}&key=${k}`, { method: 'POST', body: take }); if (!r.ok) throw new Error(await r.text());
+      await loadIndex(); take = null; status((lang === 'zh' ? '已保存第 ' : 'Saved line ') + (i + 1) + ' ✅', 'good'); if (i < KEYS.length - 1) i++; show(); }
+    catch (e) { status('Could not save here (' + e.message + '). Use ⬇️ Download instead.', 'bad'); $('dl').hidden = false; }
+  };
+  $('dl').onclick = () => { if (!take) return; const a = document.createElement('a'); a.href = URL.createObjectURL(take); a.download = lang + '_' + KEYS[i] + '.wav'; a.click(); };
+  $('del').onclick = async () => { if (!confirm(lang === 'zh' ? '删除这句的录音？' : 'Delete this saved line?')) return; await fetch(`/__voice?lang=${lang}&key=${KEYS[i]}`, { method: 'DELETE' }); await loadIndex(); show(); };
+  $('prev').onclick = () => { stopRec(); take = null; i = Math.max(0, i - 1); status(''); show(); };
+  $('next').onclick = () => { stopRec(); take = null; i = Math.min(KEYS.length - 1, i + 1); status(''); show(); };
+  $('list').onclick = e => { const b = e.target.closest('[data-i]'); if (!b) return; stopRec(); take = null; i = +b.dataset.i; status(''); show(); };
+  document.querySelectorAll('[data-lang]').forEach(b => b.onclick = () => { stopRec(); take = null; lang = b.dataset.lang; i = 0; status(''); show(); });
+  document.addEventListener('keydown', e => { if (e.code === 'Space' && e.target === document.body) { e.preventDefault(); $('rec').click(); } });
+  loadIndex().then(show);
+})();
+</script>
+</body>
+</html>

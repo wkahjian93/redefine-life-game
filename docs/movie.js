@@ -5,7 +5,17 @@
   const W = 360, H = 240, FONT = '"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';
   const TFONT = '-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif';
 
+  // Recorded narration (the agent's own voice, made with record.html): voice/index.json lists the files per language.
+  // A line with a recording plays it; a line without one falls back to the device voice.
+  let VOICES = { en: {}, zh: {} };
+  try { fetch('voice/index.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : null).then(j => { if (j && j.en) VOICES = j; }).catch(() => {}); } catch (e) {}
+  const vo = typeof Audio !== 'undefined' ? new Audio() : null;
+  const SILENT = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAESsAABErAAABAAgAZGF0YQAAAAA=';
+  root.RLG_VOICES = () => VOICES;
+
   root.RLG_MOVIE = function (host, scene, opts) {
+    // iPad/iPhone only let a page play audio it started from a tap: "unlock" the shared player now (the movie starts from a tap)
+    if (vo && scene.voice) { try { vo.muted = true; vo.src = SILENT; const p = vo.play(); if (p && p.then) p.then(() => { vo.pause(); vo.muted = false; }).catch(() => { vo.muted = false; }); else vo.muted = false; } catch (e) { vo.muted = false; } }
     host.innerHTML = '<div class="stage"><canvas></canvas><button class="mv-skip" type="button">⏭</button><button class="mv-voice" type="button" hidden>🗣️</button></div><div class="mv-sub"></div><div class="mv-btns"></div>';
     const stage = host.querySelector('.stage'), cv = host.querySelector('canvas'), btns = host.querySelector('.mv-btns'), subEl = host.querySelector('.mv-sub');
     const ctx = cv.getContext('2d');
@@ -13,7 +23,7 @@
     const parts = [];
     // ---- narration (旁白): subtitle + the device's own voice (free, offline). 🗣️ on the stage turns the voice on/off.
     const synth = window.speechSynthesis, lang = opts.lang || 'en';
-    let voiceOn = true, speaking = false, narrEnd = 0, narrMax = 0;
+    let voiceOn = true, speaking = false, narrEnd = 0, narrMax = 0, lastKey = null;
     try { voiceOn = localStorage.getItem('rlg.voice') !== '0'; } catch (e) {}
     // pick the most natural-sounding voice on this device: Premium / Enhanced / neural voices first, then well-known good ones
     const pickVoice = () => {
@@ -41,6 +51,20 @@
       } catch (e) { speaking = false; }
     }
     if (synth && synth.onvoiceschanged === null) synth.onvoiceschanged = () => {};   // some browsers load voices late
+    const recFor = key => key && VOICES[lang] && VOICES[lang][key];
+    function playRec(file, text) {
+      try { if (synth) synth.cancel(); } catch (e) {}
+      const done = () => { speaking = false; opts.duck && opts.duck(false); };
+      vo.onended = done; vo.onerror = () => { done(); speak(text); };
+      vo.muted = false; vo.src = 'voice/' + lang + '/' + file; speaking = true; opts.duck && opts.duck(true);
+      const p = vo.play(); if (p && p.catch) p.catch(() => { done(); speak(text); });
+    }
+    function voice(text, key) {
+      lastKey = key;
+      if (!voiceOn || (opts.muted && opts.muted())) { speaking = false; opts.duck && opts.duck(false); return; }
+      const f = recFor(key);
+      if (f && vo) playRec(f, text); else speak(text);
+    }
     const M = {
       W, H, t: 0, dt: 0, ctx, px: null, py: null, down: false, taps: [], data: opts.data || {}, sfx: n => opts.sfx && opts.sfx(n), tr: opts.t,
       // ---- timing helpers ----
@@ -50,7 +74,8 @@
       // ---- story ----
       sub(text) { if (text !== subT) { subT = text || ''; subAt = M.t; } },
       title(text) { titleT = text; titleAt = M.t; },
-      narrate(text) { M.sub(text); const e = estimate(text); narrEnd = M.t + e; narrMax = M.t + e * 2 + 1.5; speak(text); },
+      narrate(text, key) { M.sub(text); const rec = !!(recFor(key) && vo && voiceOn), e = estimate(text);
+        narrEnd = M.t + (rec ? 0.8 : e); narrMax = M.t + (rec ? 45 : e * 2 + 1.5); voice(text, key); },
       talking: () => M.t < narrEnd || (speaking && M.t < narrMax),
       shake(ms = 400) { shakeUntil = M.t + ms / 1000; },
       flash(c = '#fff') { flashC = c; flashAt = M.t; },
@@ -96,13 +121,13 @@
     cv.addEventListener('pointerup', up); cv.addEventListener('pointercancel', up);
     host.querySelector('.mv-skip').addEventListener('click', () => M.end(scene.skip ? scene.skip(M) : {}));
     const vb = host.querySelector('.mv-voice');
-    if (scene.voice && synth) { vb.hidden = false; vb.classList.toggle('off', !voiceOn);
+    if (scene.voice && (synth || vo)) { vb.hidden = false; vb.classList.toggle('off', !voiceOn);
       vb.addEventListener('click', () => { voiceOn = !voiceOn; try { localStorage.setItem('rlg.voice', voiceOn ? '1' : '0'); } catch (e) {} vb.classList.toggle('off', !voiceOn);
-        if (!voiceOn) { synth.cancel(); speaking = false; opts.duck && opts.duck(false); } else if (subT) speak(subT); }); }
+        if (!voiceOn) { try { synth.cancel(); } catch (e) {} if (vo) vo.pause(); speaking = false; opts.duck && opts.duck(false); } else if (subT) voice(subT, lastKey); }); }
 
     function size() { const w = stage.clientWidth || 340; dpr = Math.min(2, window.devicePixelRatio || 1); cv.width = Math.round(w * dpr); cv.height = Math.round(w * H / W * dpr); cv.style.height = Math.round(w * H / W) + 'px'; }
     size(); window.addEventListener('resize', size);
-    function stop() { stopped = true; cancelAnimationFrame(raf); window.removeEventListener('resize', size); if (synth && speaking) synth.cancel(); speaking = false; opts.duck && opts.duck(false); }
+    function stop() { stopped = true; cancelAnimationFrame(raf); window.removeEventListener('resize', size); if (synth && speaking) synth.cancel(); if (vo) { try { vo.pause(); } catch (e) {} } speaking = false; opts.duck && opts.duck(false); }
 
     function frame(now) {
       if (stopped) return;
