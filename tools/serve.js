@@ -20,7 +20,7 @@ http.createServer((req, res) => {
     if (!/^(en|zh)$/.test(lang || '') || !/^[a-z0-9_]{2,40}$/.test(key || '')) { res.writeHead(400); return res.end('bad lang/key'); }
     const vdir = path.join(DOCS, 'voice'), idx = path.join(vdir, 'index.json');
     const index = fs.existsSync(idx) ? JSON.parse(fs.readFileSync(idx, 'utf8')) : { en: {}, zh: {} };
-    if (req.method === 'DELETE') { const f = index[lang][key]; if (f) { try { fs.unlinkSync(path.join(vdir, lang, f)); } catch (e) {} delete index[lang][key]; fs.writeFileSync(idx, JSON.stringify(index, null, 1)); } return res.end('ok'); }
+    if (req.method === 'DELETE') { const f = index[lang][key]; if (f || fs.existsSync(path.join(vdir, lang, key + '.wav'))) { try { fs.unlinkSync(path.join(vdir, lang, (f || key + '.wav').split('?')[0])); } catch (e) {} delete index[lang][key]; fs.writeFileSync(idx, JSON.stringify(index, null, 1)); } return res.end('ok'); }
     if (req.method !== 'POST') { res.writeHead(405); return res.end(); }
     return readBody(req, b => {
       if (b.length < 1000 || b.slice(0, 4).toString() !== 'RIFF') { res.writeHead(400); return res.end('not a wav'); }
